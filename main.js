@@ -1,8 +1,7 @@
 "use strict";
 const telegram = require('node-telegram-bot-api'), dateformat = require('dateformat'),
     readline = require('readline'), log4js = require('log4js'),
-    async = require('async'), modules = require('./src/modules'),
-    logger = log4js.getLogger();
+    modules = require('./src/modules'), logger = log4js.getLogger();
 
 global.config = require('./config.json');
 
