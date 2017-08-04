@@ -18,7 +18,7 @@ module.exports = (bot, logger, modules) => {
                 try {
                     await bot.answerInlineQuery(q.id, [{type: 'article', title: '@'+global.botinfo.username+' (photo|image|img|짤|사진) (검색어)', id: 'help', input_message_content: {
                         message_text: '@'+global.botinfo.username+' (photo|image|img|짤|사진) (검색어)', parse_mode: 'HTML', disable_web_page_preview: true
-                        }}], {cache_time: 3})
+                        }}], {cache_time: 3});
                     logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid, response: help');
                 } catch(e) {
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
@@ -61,11 +61,9 @@ module.exports = (bot, logger, modules) => {
                             logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
                         } catch(e) {
                             try {
-                                await(async(q, temp) => {
-                                    return bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content:{
+                                await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content:{
                                         message_text: temp.group('inline.img.error'), parse_mode: 'HTML', disable_web_page_prefiew: true
                                         }}], {cache_time: 0});
-                                })(q, temp);
                                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                                 logger.debug(e.stack);
                             } catch(e) {
@@ -76,11 +74,9 @@ module.exports = (bot, logger, modules) => {
                     }
                 } catch(e) {
                     try{
-                        await(async(q, temp) => {
-                            return bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
+                        await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
                                 message_text: temp.group('inline.img.error'), parse_mode: 'HTML', disable_web_page_preview: true
                             }}], {cache_time: 3});
-                        })(q, temp);
                         logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                         logger.debug(e.stack);
                     } catch(e) {
@@ -96,7 +92,7 @@ module.exports = (bot, logger, modules) => {
                 try {
                     await bot.answerInlineQuery(q.id, [{type: 'article', title: '@'+global.botinfo.username+' [search|google|query|검색|구글] (검색어)', id: 'help', input_message_content: {
                         message_text: '@'+global.botinfo.username+' [search|google|query|검색|구글] (검색어)', parse_mode: 'HTML', disable_web_page_preview: true
-                        }}], {cache_time: 3})
+                        }}], {cache_time: 3});
                     logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid, response: help');
                 } catch(e) {
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
@@ -159,11 +155,9 @@ module.exports = (bot, logger, modules) => {
                             logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
                         } catch(e) {
                             try {
-                                await(async(q, temp) => {
-                                    return bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
+                                await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
                                         message_text: temp.group('inline.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                                         }}], {cache_time: 3});
-                                })(q, temp);
                                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                                 logger.debug(e.stack);
                             } catch(e) {
@@ -173,11 +167,9 @@ module.exports = (bot, logger, modules) => {
                         }
                     }
                 } catch(e) {
-                    await(async(q, temp) => {
-                        return bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
+                    await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
                             message_text: temp.group('inline.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                             }}], {cache_time: 3});
-                    })(q, temp);
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                     logger.debug(e.stack);
                 }
