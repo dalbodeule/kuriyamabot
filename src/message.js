@@ -5,7 +5,7 @@ module.exports = (bot, logger, modules) => {
 	bot.on('message', async (msg) => {
         if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
             if(typeof msg.text != 'undefined') {
-                logger.debug('chatid: '+msg.chat.id+', text: '+msg.text);
+                logger.debug('chatid: '+msg.chat.id+', text: '+msg.text+(typeof msg.chat.username != 'undefined' ? ', username: '+msg.chat.username : ', username: none'));
             }
             const chatid = msg.chat.id;
             let tcom;
@@ -272,7 +272,7 @@ module.exports = (bot, logger, modules) => {
                 }
             } //chat command
         } else {
-            logger.debug('chatid: '+msg.chat.id+', text: '+msg.text);
+            logger.debug('chatid: '+msg.chat.id+', text: '+msg.text+(typeof msg.chat.username != 'undefined' ? ', username: '+msg.chat.username : ', username: none'));
         } //testcase time
     });
 }
