@@ -1,6 +1,6 @@
 "use strict";
 const objectPath = require('object-path'), language = require('languages'),
-	sqlite = require('sqlite3'), async = require('async');
+	sqlite = require('sqlite3');
 const langs = {
     Korean: require('./lang_ko'),
     English: require('./lang_en')

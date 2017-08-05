@@ -1,12 +1,21 @@
 {
-  "name": "trusty_imgbot",
+  "name": "gjmoribot",
   "version": "1.0.0",
   "description": "텔레그램 이미지 검색봇",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "trusty_people",
+  "bugs": "https://github.com/small-sunshines/gjmoribot/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/small-sunshines/gjmoribot.git"
+  },
+  "engines": {
+    "node": "<= 8.0.0"
+  },
+  "private": true,
+  "author": "small_sunshine",
   "license": "MIT",
   "dependencies": {
     "dateformat": "^2.0.0",

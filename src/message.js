@@ -75,6 +75,8 @@ module.exports = (bot, logger, modules) => {
                                 }});
                                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: search success');
                             } catch(e) {
+                                logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
+                                logger.debug(e.stack)
                                 try {
                                     await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error').replace(/{arg1}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
                                         text: '@'+global.botinfo.username+' search '+msg.text,
@@ -87,14 +89,14 @@ module.exports = (bot, logger, modules) => {
                             }
                         }
                     } catch(e) {
+                        logger.error('chatid: '+chatid+', command: '+msg.text+', type: valid, response: search error');
+                        logger.debug(e.stack);
                         try {
                             await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error')
                                 .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
                                     text: '@'+global.botinfo.username+' search '+msg.text,
                                     switch_inline_query_current_chat: 'search '+msg.text
                                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                            logger.error('chatid: '+chatid+', command: '+msg.text+', type: valid, response: search error');
-                            logger.debug(e.stack);
                         } catch(e) {
                             logger.error('chatid: '+chatid+', command: '+msg.text+', type: valid, response: search error send error');
                             logger.debug(e.stack);
@@ -126,6 +128,8 @@ module.exports = (bot, logger, modules) => {
                                     }, reply_to_message_id: msg.message_id});
                                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: image search success');
                             } catch(e) {
+                                logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
+                                logger.debug(e.stack);
                                 try {
                                     await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
                                         .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, msg.text),
@@ -133,8 +137,6 @@ module.exports = (bot, logger, modules) => {
                                                 text: '@'+global.botinfo.username+' img '+msg.text,
                                                 switch_inline_query_current_chat: 'img '+msg.text
                                             }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                                    logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
-                                    logger.debug(e.stack);
                                 } catch(e) {
                                     logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error send error');
                                     logger.debug(e.stack);
@@ -142,6 +144,8 @@ module.exports = (bot, logger, modules) => {
                             }
                         }
                     } catch(e) {
+                        logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: image search error');
+                        logger.debug(e.stack);
                         try {
                             await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
                                .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, msg.text),
@@ -149,8 +153,6 @@ module.exports = (bot, logger, modules) => {
                                     text: '@'+global.botinfo.username+' img '+msg.text,
                                     switch_inline_query_current_chat: 'img '+msg.text
                                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                            logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: image search error');
-                            logger.debug(e.stack);
                         } catch(e) {
                             logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: image search error send error');
                             logger.debug(e.stack);
@@ -186,6 +188,8 @@ module.exports = (bot, logger, modules) => {
                                     }, reply_to_message_id: msg.message_id});
                                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search success');
                             } catch(e) {
+                                logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: message send error');
+                                logger.debug(e.stack);
                                 try {
                                     await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
                                         .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, tcom[2]),
@@ -193,8 +197,6 @@ module.exports = (bot, logger, modules) => {
                                                 text: '@'+global.botinfo.username+' img '+tcom[2],
                                                 switch_inline_query_current_chat: 'img '+tcom[2]
                                         }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                                    logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: message send error');
-                                    logger.debug(e.stack);
                                 } catch(e) {
                                     logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: message send error send error');
                                     logger.debug(e.stack);
@@ -202,6 +204,8 @@ module.exports = (bot, logger, modules) => {
                             }
                         }
                     } catch(e) {
+                        logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search error');
+                        logger.debug(e.stack);
                         try {
                             await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
                                 .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, tcom[2]),
@@ -209,8 +213,6 @@ module.exports = (bot, logger, modules) => {
                                         text: '@'+global.botinfo.username+' img '+tcom[2],
                                         switch_inline_query_current_chat: 'img '+tcom[2]
                                     }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                            logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search error');
-                            logger.debug(e.stack);
                         } catch(e) {
                             logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search error send error');
                             logger.debug(e.stack);
@@ -239,14 +241,14 @@ module.exports = (bot, logger, modules) => {
                                         }]]}});
                                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: search success');
                             } catch(e) {
+                                logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+msg.text+', type: valid, response: message send error');
+                                logger.debug(e.stack);
                                 try {
                                     await bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.error')
                                         .replace([/{arg1}/g], global.botinfo.username).replace(/{arg2}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
                                         text: '@'+global.botinfo.username+' search '+tcom[2],
                                         switch_inline_query_current_chat: 'search '+tcom[2]
                                     }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                                    logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+msg.text+', type: valid, response: message send error');
-                                    logger.debug(e.stack);
                                 } catch(e) {
                                     logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+msg.text+', type: valid, response: message send error send error');
                                     logger.debug(e.stack);
@@ -254,14 +256,14 @@ module.exports = (bot, logger, modules) => {
                             }
                         }
                     } catch(e) {
+                        logger.error('chatid: '+chatid+', chat command: '+tcom[0]+', type: valid, response: search error');
+                        logger.debug(e.stack);
                         try {
                             await bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.error')
                                 .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
                                     text: '@'+global.botinfo.username+' search '+tcom[2],
                                     switch_inline_query_current_chat: 'search '+tcom[2]
                                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
-                            logger.error('chatid: '+chatid+', chat command: '+tcom[0]+', type: valid, response: search error');
-                            logger.debug(e.stack);
                         } catch(e) {
                             logger.error('chatid: '+chatid+', chat command: '+tcom[0]+', type: valid, response: search error send error');
                             logger.debug(e.stack);
