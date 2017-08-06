@@ -11,7 +11,7 @@ module.exports = (bot, logger, modules) => {
             let tcom;
 
             if(typeof msg.text == 'string') {
-                tcom = msg.text.match(/{(img|사진|이미지|짤|gg|문서|검색|구글|google) (.*)}/);
+                tcom = msg.text.match(/(?:\{|\()(img|사진|이미지|짤|gg|문서|검색|구글|google) (.*)(?:\{|\(|\)|\})/);
             } //chatCommand testcase
 
             if(typeof msg.new_chat_member != 'undefined') {
