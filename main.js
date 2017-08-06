@@ -24,10 +24,10 @@ logger.info('Bot is activated!');
     try {
         let res = await bot.getMe();
         global.botinfo = res;
-        const command_module = require('./src/command')(bot, logger, modules);
-        const message_module = require('./src/message')(bot, logger, modules);
-        const inline_module = require('./src/inline')(bot, logger, modules);
-        const callback_module = require('./src/callback')(bot, logger, modules);
+        const module_command = require('./src/module_command')(bot, logger, modules);
+        const module_message = require('./src/module_message')(bot, logger, modules);
+        const module_inline = require('./src/module_inline')(bot, logger, modules);
+        const module_callback = require('./src/module_callback')(bot, logger, modules);
         
         logger.info('Ready!');
     } catch(e) {
