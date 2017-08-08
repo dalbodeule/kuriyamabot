@@ -25,7 +25,9 @@ module.exports = (bot, logger, modules) => {
                 require('./chatCommand.js')(bot, logger, modules, msg, tcom); //chatCommand
             }
         } else { //testcase time
-            logger.debug('chatid: '+msg.chat.id+', text: '+msg.text.replace(/\n/g, '\\n')+(typeof msg.chat.username != 'undefined' ? ', username: '+msg.chat.username : ', username: none'));
+            if(typeof msg.text != 'undefined') {
+                logger.debug('chatid: '+msg.chat.id+', text: '+msg.text.replace(/\n/g, '\\n')+(typeof msg.chat.username != 'undefined' ? ', username: '+msg.chat.username : ', username: none'));
+            }
         } //testcase time
     });
 }
