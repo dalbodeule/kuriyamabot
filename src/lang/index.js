@@ -1,10 +1,8 @@
 "use strict";
 const objectPath = require('object-path'), language = require('languages'),
-	sqlite = require('sqlite3');
-const langs = {
-    Korean: require('./lang_ko'),
-    English: require('./lang_en')
-}
+	sqlite = require('sqlite3'), glob = require('glob-promise'),
+	path = require('path');
+const langs = {};
 
 module.exports = class {
 	constructor() {
@@ -15,6 +13,18 @@ module.exports = class {
 	
 	async set(msg, logger) {
 		return new Promise(async(resolve, reject) => {
+			if(Object.keys(langs).length == 0) {
+				logger.info('Language: Language not loaded');
+				await(async() => {
+					let items = await glob(path.join(__dirname, 'lang_*.json'));
+					for(let i of items) {
+						let temp = require(i);
+						langs[temp.lang.langname] = temp;
+						logger.info('Language: \"'+temp.lang.langname+'\" Load complete');
+					}
+				})();
+				logger.info('Language: Language load complete');
+			}
 			if(typeof msg.from.language_code == 'undefined') {
 				resolve(undefined);
 			} else {
@@ -122,19 +132,19 @@ module.exports = class {
 			' ('+objectPath.get(langs.English, code+'.name')+")\n\n"+
 			objectPath.get(langs.Korean, code+'.description')+
 			"\n"+objectPath.get(langs.English, code+'.description')+"\n\n"+
-			objectPath.get(langs.Korean, code+'.how').replace(/{arg1}/g, '@'+global.botinfo.username)+
-			' ( '+objectPath.get(langs.English, code+'.how').replace(/{arg1}/g, '@'+global.botinfo.username)+' )';
+			objectPath.get(langs.Korean, code+'.how').replace(/{botid}/g, '@'+global.botinfo.username)+
+			' ( '+objectPath.get(langs.English, code+'.how').replace(/{botid}/g, '@'+global.botinfo.username)+' )';
 		} else if(langs[language.getLanguageInfo(this.lang).name] == 'English') {
 			return objectPath.get(langs.English, code+'.name')+"\n\n"+
 			objectPath.get(langs.English, code+'.description')+"\n\n"+
-			objectPath.get(langs.English, code+'.how').replace(/{arg1}/g, '@'+global.botinfo.username);
+			objectPath.get(langs.English, code+'.how').replace(/{botid}/g, '@'+global.botinfo.username);
 		} else {
 			return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code+'.name')+
 			' ('+objectPath.get(langs.English, code+'.name')+")\n\n"+
 			objectPath.get(langs[language.getLanguageInfo(this.lang).name], code+'.description')+
 			"\n"+objectPath.get(langs.English, code+'.description')+"\n\n"+
-			objectPath.get(langs[language.getLanguageInfo(this.lang).name], code+'.how').replace(/{arg1}/g, '@'+global.botinfo.username)+
-			' ( '+objectPath.get(langs.English, code+'.how').replace(/{arg1}/g, '@'+global.botinfo.username)+' )';
+			objectPath.get(langs[language.getLanguageInfo(this.lang).name], code+'.how').replace(/{botid}/g, '@'+global.botinfo.username)+
+			' ( '+objectPath.get(langs.English, code+'.how').replace(/{botid}/g, '@'+global.botinfo.username)+' )';
 		}
 	}
 

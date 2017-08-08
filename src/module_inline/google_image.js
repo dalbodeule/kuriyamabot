@@ -21,7 +21,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                 if(typeof res[0] == 'undefined') {
                     try {
                         await bot.answerInlineQuery(q.id, [{type: 'article', title: 'not found', id: 'not found', input_message_content: {
-                            message_text: temp.group('inline.img.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                            message_text: temp.group('command.img.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                             }}], {cache_time: 3})
                         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
                     } catch(e) {
@@ -34,10 +34,10 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                         results.push({type: 'photo', photo_url: res[i].img, thumb_url: res[i].img,
                             id: q.id+'/photo/' + i, reply_markup: {
                                 inline_keyboard: [[{
-                                    text: temp.inline('inline.img.visit_page'),
+                                    text: temp.inline('command.img.visit_page'),
                                     url: res[i].url
                                 }, {
-                                    text: temp.inline('inline.img.view_image'),
+                                    text: temp.inline('command.img.view_image'),
                                     url: res[i].img
                                 }]]
                             }});
@@ -49,7 +49,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                     } catch(e) {
                         try {
                             await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content:{
-                                    message_text: temp.group('inline.img.error'), parse_mode: 'HTML', disable_web_page_prefiew: true
+                                    message_text: temp.group('command.img.error'), parse_mode: 'HTML', disable_web_page_prefiew: true
                                     }}], {cache_time: 0});
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                             logger.debug(e.stack);
@@ -62,7 +62,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
             } catch(e) {
                 try{
                     await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
-                            message_text: temp.group('inline.img.error'), parse_mode: 'HTML', disable_web_page_preview: true
+                            message_text: temp.group('command.img.error'), parse_mode: 'HTML', disable_web_page_preview: true
                         }}], {cache_time: 3});
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                     logger.debug(e.stack);

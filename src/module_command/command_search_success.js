@@ -23,7 +23,7 @@ module.exports = async(bot, logger, modules) => {
 							reply_to_message_id: msg.message_id,
 							reply_markup: {
 								inline_keyboard: [[{
-									text: temp.inline('inline.search.another'),
+									text: temp.inline('command.search.another'),
 									url: 'https://www.google.com/search?q='+encodeURIComponent(match[1])+'&ie=UTF-8'
 								}]]
 						}});
@@ -31,7 +31,7 @@ module.exports = async(bot, logger, modules) => {
 					} catch(e) {
 						try {
 							await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
-								.replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
+								.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
 								text: '@'+global.botinfo.username+' search '+match[1],
 								switch_inline_query_current_chat: 'search '+match[1]
 							}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
@@ -46,7 +46,7 @@ module.exports = async(bot, logger, modules) => {
 			} catch(e) {
 				try {
 					await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
-						.replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
+						.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
 							text: '@'+global.botinfo.username+' search '+match[1],
 							switch_inline_query_current_chat: 'search '+match[1]
 						}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});

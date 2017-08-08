@@ -20,7 +20,7 @@ module.exports = async(bot, logger, modules, msg) => {
                     reply_to_message_id: msg.message_id,
                     reply_markup: {
                         inline_keyboard: [[{
-                            text: temp.inline('inline.search.another'),
+                            text: temp.inline('command.search.another'),
                             url: 'https://www.google.com/search?q='+encodeURIComponent(msg.text)+'&ie=UTF-8'
                         }]]
                 }});
@@ -29,10 +29,11 @@ module.exports = async(bot, logger, modules, msg) => {
                 logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
                 logger.debug(e.stack)
                 try {
-                    await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error').replace(/{arg1}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
-                        text: '@'+global.botinfo.username+' search '+msg.text,
-                        switch_inline_query_current_chat: 'search '+msg.text
-                    }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
+                    await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error')
+                        .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
+                            text: '@'+global.botinfo.username+' search '+msg.text,
+                            switch_inline_query_current_chat: 'search '+msg.text
+                        }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
                 } catch(e) {
                     logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
                     logger.debug(e.stack);
@@ -44,7 +45,7 @@ module.exports = async(bot, logger, modules, msg) => {
         logger.debug(e.stack);
         try {
             await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error')
-                .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
+                .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
                     text: '@'+global.botinfo.username+' search '+msg.text,
                     switch_inline_query_current_chat: 'search '+msg.text
                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});

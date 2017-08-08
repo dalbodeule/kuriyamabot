@@ -20,10 +20,10 @@ module.exports = async(bot, logger, modules) => {
 					try {
 						await bot.sendPhoto(chatid, response.img, {reply_markup: {
 							inline_keyboard: [[{
-								text: temp.inline('inline.img.visit_page'),
+								text: temp.inline('command.img.visit_page'),
 								url: response.url
 							}, {
-								text: temp.inline('inline.img.view_image'),
+								text: temp.inline('command.img.view_image'),
 								url: response.img
 							}]]
 							}, reply_to_message_id: msg.message_id});
@@ -31,7 +31,7 @@ module.exports = async(bot, logger, modules) => {
 					} catch(e) {
 						try {
 							await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
-								.replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, match[1]),
+								.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
 									{reply_markup:{ inline_keyboard: [[{
 										text: '@'+global.botinfo.username+' img '+match[1],
 										switch_inline_query_current_chat: 'img '+match[1]
@@ -47,7 +47,7 @@ module.exports = async(bot, logger, modules) => {
 			} catch(e) {
 				try {
 					await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
-						.replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, match[1]),
+						.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
 						{reply_markup:{ inline_keyboard: [[{
 							text: '@'+global.botinfo.username+' img '+match[1],
 							switch_inline_query_current_chat: 'img '+match[1]

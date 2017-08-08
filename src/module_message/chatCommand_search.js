@@ -18,7 +18,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                 await bot.sendMessage(chatid, response, {parse_mode: 'HTML', disable_web_page_preview: true, reply_to_message_id: msg.message_id,
                     reply_markup: {
                         inline_keyboard: [[{
-                            text: temp.inline('inline.search.another'),
+                            text: temp.inline('command.search.another'),
                             url: 'https://www.google.com/search?q='+encodeURIComponent(tcom[2])+'&ie=UTF-8'
                         }]]}});
                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: search success');
@@ -27,7 +27,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                 logger.debug(e.stack);
                 try {
                     await bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.error')
-                        .replace([/{arg1}/g], global.botinfo.username).replace(/{arg2}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
+                        .replace([/{botid}/g], global.botinfo.username).replace(/{keyword}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
                         text: '@'+global.botinfo.username+' search '+tcom[2],
                         switch_inline_query_current_chat: 'search '+tcom[2]
                     }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
@@ -42,7 +42,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
         logger.debug(e.stack);
         try {
             await bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.error')
-                .replace(/{arg1}/g, '@'+global.botinfo.username).replace(/{arg2}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
+                .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
                     text: '@'+global.botinfo.username+' search '+tcom[2],
                     switch_inline_query_current_chat: 'search '+tcom[2]
                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});

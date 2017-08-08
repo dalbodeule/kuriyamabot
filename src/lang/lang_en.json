@@ -1,0 +1,68 @@
+{
+    "lang": {
+        "langname": "English",
+        "display": "🇺🇸 English"
+    },
+    "command": {
+        "start": "Hello, I am {botname}.\nThe language you use can be seen by using /me@{botid}.\nIf you want to use another language, please use /lang@{botid}.",
+        "uptime": "This bot is currently running for {uptime}.",
+        "search": {
+            "not_found": "Hmm.. No results found!",
+            "error": "There was a problem sending your search results!\nTry <b>{botid} google {keyword}</b>!",
+            "blank": "Please enter your search words!",
+            "result": "Search results",
+            "visit_page": "Visit Page",
+            "another": "Other Search Results",
+            "desc_null": "Go to the URL for more information!"
+        }, "img": {
+            "not_found": "Hmm.. No results found!",
+            "error": "There was a problem sending the image!\nTry it with <b>{botid} img {keyword}</b>!",
+            "blank": "Please enter your search words!",
+            "visit_page": "Visit Page",
+            "view_image": "View Image"
+        }, "lang": {
+            "isgroup": "You can not change the language in Group Chat. Thank you for your personal chat.",
+            "announce": "If you would like to change the language to use, please select from the list below.",
+            "success": "🇺🇸 The language to be used in English has changed.",
+            "error": "Failed to change language. Please try again."
+        }, "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
+        "help": {
+            "help": {
+                "name": "Help",
+                "description": "Here's what this bot can do:\nClick on one of the features below to learn how to use it!",
+                "how": "/help{botid}"
+            },
+            "img": {
+                "name": "Image search",
+                "description": "You can search for images in Google.",
+                "how": "/img{botid} (search word)"
+            }, "search": {
+                "name": "Google Search",
+                "description": "You can search on Google.",
+                "how": "/google{botid} (search word)"
+            }, "start": {
+                "name": "Start",
+                "description": "This is a command to wake up the bot.\nYou can use this bot if you use this command.",
+                "how": "/start{botid}"
+            }, "uptime": {
+                "name": "Bot Uptime",
+                "description": "You can see how long this bot has been running.",
+                "how": "/uptime{botid}"
+            }, "lang": {
+                "name": "Change your language",
+                "description": "Change the language to use here.",
+                "how": "/lang{botid}"
+            }, "me": {
+                "name": "My Info",
+                "description": "You can see your own information.",
+                "how": "/me{botid}"
+            }, "twice": "Here are some tips you already have!"
+        }
+    }, "message": {
+        "except": "error. Stickers and images can not be processed.",
+        "join": "{userid}, welcome to {roomid}.",
+        "left": "{userid} has left {roomid}.",
+        "botjoin": "Hello, Thank you for allowing me to work in this room. Thank you very much.",
+        "error": "Something's wrong!"
+    },  "tobot": "Go to bot"
+}
