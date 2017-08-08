@@ -1,6 +1,7 @@
 "use strict";
 const objectPath = require('object-path'), language = require('languages'),
-	sqlite = require('sqlite3'), glob = require('glob');
+	sqlite = require('sqlite3'), glob = require('glob-promise'),
+	path = require('path');
 const langs = {};
 
 module.exports = class {
@@ -12,6 +13,19 @@ module.exports = class {
 	
 	async set(msg, logger) {
 		return new Promise(async(resolve, reject) => {
+			console.log(Object.keys(langs).length)
+			if(Object.keys(langs).length == 0) {
+				logger.info('Language: Language not loaded');
+				await(async() => {
+					let items = await glob(path.join(__dirname, 'lang_*.json'));
+					for(let i of items) {
+						let temp = require(i);
+						langs[temp.lang.langname] = temp;
+						logger.info('Language: \"'+temp.lang.langname+'\" Load complete');
+					}
+				})();
+				logger.info('Language: Language load complete');
+			}
 			if(typeof msg.from.language_code == 'undefined') {
 				resolve(undefined);
 			} else {
