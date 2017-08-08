@@ -18,7 +18,7 @@ module.exports = async(bot, logger, modules) => {
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
 				temp = await modules.getlang(msg, logger);
-				bot.sendMessage(chatid, "✅ "+temp.text(msg.chat.type, 'command.uptime').replace(/{arg1}/g, format(process.uptime())), {
+				bot.sendMessage(chatid, "✅ "+temp.text(msg.chat.type, 'command.uptime').replace(/{uptime}/g, format(process.uptime())), {
 					reply_to_message_id: msg.message_id});
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 			} catch (e) {

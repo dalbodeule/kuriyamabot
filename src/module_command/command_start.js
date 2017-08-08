@@ -9,8 +9,8 @@ module.exports = async(bot, logger, modules) => {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
 				temp = await modules.getlang(msg, logger);
 				bot.sendMessage(chatid, "👋 "+temp.group('command.start')
-					.replace(/{arg1}/g, global.botinfo.username)
-					.replace(/{arg2}/g, global.botinfo.first_name), {reply_to_message_id: msg.message_id});			
+					.replace(/{botid}/g, global.botinfo.username)
+					.replace(/{botname}/g, global.botinfo.first_name), {reply_to_message_id: msg.message_id});			
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 			} catch (e) {
 				logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');

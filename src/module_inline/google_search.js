@@ -22,7 +22,7 @@ module.exports = async(bot, logger, modules,
                 if(typeof res[0] == 'undefined') {
                     try {
                         await bot.answerInlineQuery(q.id, [{type: 'article', title: 'not found', id: 'not found', input_message_content: {
-                            message_text: temp.group('inline.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                            message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                         }}], {cache_time: 3})
                         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid, response: not found');
                     } catch(e) {
@@ -44,7 +44,7 @@ module.exports = async(bot, logger, modules,
                                 }
                             }
                         } else if(description == '') {
-                            return temp.group('inline.search.desc_null');
+                            return temp.group('command.search.desc_null');
                         } else {
                             return '<a href="'+url+'">'+title+"</a> \n\n"+description.replace('&', '&amp;')
                                 .replace('<', '&lt;').replace('>', '&gt;');
@@ -55,10 +55,10 @@ module.exports = async(bot, logger, modules,
                         results.push({type: 'article', title: res[i].title, id: q.id+'/document/' + i, input_message_content: {
                             message_text: getdesc(res[i].description, res[i].link, res[i].title, temp), parse_mode: 'HTML'},  reply_markup: {
                                 inline_keyboard: [[{
-                                    text: temp.inline('inline.search.visit_page'),
+                                    text: temp.inline('command.search.visit_page'),
                                     url: res[i].link
                                 }, {
-                                    text: temp.inline('inline.search.another'),
+                                    text: temp.inline('command.search.another'),
                                     url: 'https://www.google.com/search?q='+encodeURIComponent(regex[2])+'&ie=UTF-8'
                                 }]]
                             }});
@@ -70,7 +70,7 @@ module.exports = async(bot, logger, modules,
                     } catch(e) {
                         try {
                             await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
-                                    message_text: temp.group('inline.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                                    message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                                     }}], {cache_time: 3});
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                             logger.debug(e.stack);
@@ -82,7 +82,7 @@ module.exports = async(bot, logger, modules,
                 }
             } catch(e) {
                 await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
-                        message_text: temp.group('inline.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                        message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                         }}], {cache_time: 3});
                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                 logger.debug(e.stack);
