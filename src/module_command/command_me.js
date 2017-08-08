@@ -9,7 +9,7 @@ module.exports = async(bot, logger, modules) => {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
 				temp = await modules.getlang(msg, logger);
 				await bot.sendMessage(chatid, "📟 "+temp.group('command.me')
-					.replace(/{id}/g, msg.from.id)
+					.replace(/{userid}/g, msg.from.id)
 					.replace(/{fname}/g, (typeof msg.from.first_name == 'undefined' ? 'none' : msg.from.first_name))
 					.replace(/{lname}/g, (typeof msg.from.last_name == 'undefined' ? 'none' : msg.from.last_name))
 					.replace(/{name}/g, (typeof msg.from.username == 'undefined' ? 'none' : '@'+msg.from.username))
