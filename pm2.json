@@ -1,4 +1,4 @@
 {
-    "name": "gjmoribot-beta",
+    "name": "gjmoribot",
     "script": "./main.js"
 }
