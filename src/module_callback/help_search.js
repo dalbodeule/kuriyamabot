@@ -9,7 +9,7 @@ module.exports = async(bot, logger, modules, msg, callid, temp, answer) => {
             logger.info('callback id: '+callid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.data+', type: valid');     
         } catch(e) {
             logger.error('callback id: '+callid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.data+', type: error');
-            logger.debug(e.stack);
+            logger.debug(e.message);
         }
     } else {
         answer(msg, temp);

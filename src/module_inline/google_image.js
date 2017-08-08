@@ -13,7 +13,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                 logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid, response: help');
             } catch(e) {
                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
-                logger.debug(e.stack);
+                logger.debug(e.message);
             }
         } else {
             try {
@@ -26,7 +26,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
                     } catch(e) {
                         logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                        logger.debug(e.stack);
+                        logger.debug(e.message);
                     }
                 } else {
                     let results = [];
@@ -52,10 +52,10 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                                     message_text: temp.group('command.img.error'), parse_mode: 'HTML', disable_web_page_prefiew: true
                                     }}], {cache_time: 0});
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                            logger.debug(e.stack);
+                            logger.debug(e.message);
                         } catch(e) {
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error send error');
-                            logger.debug(e.stack);
+                            logger.debug(e.message);
                         }
                     }
                 }
@@ -65,15 +65,15 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                             message_text: temp.group('command.img.error'), parse_mode: 'HTML', disable_web_page_preview: true
                         }}], {cache_time: 3});
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                    logger.debug(e.stack);
+                    logger.debug(e.message);
                 } catch(e) {
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error send error');
-                    logger.debug(e.stack);
+                    logger.debug(e.message);
                 }
             }
         }
     } catch(e) {
         logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-        logger.debug(e.stack);
+        logger.debug(e.message);
     }
 }

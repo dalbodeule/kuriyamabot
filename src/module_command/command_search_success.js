@@ -36,10 +36,10 @@ module.exports = async(bot, logger, modules) => {
 								switch_inline_query_current_chat: 'search '+match[1]
 							}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
 							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
-							logger.debug(e.stack);
+							logger.debug(e.message);
 						} catch(e) {
 							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error send error');
-							logger.debug(e.stack);
+							logger.debug(e.message);
 						}
 					}
 				}
@@ -51,10 +51,10 @@ module.exports = async(bot, logger, modules) => {
 							switch_inline_query_current_chat: 'search '+match[1]
 						}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
 					logger.error('chatid: '+chatid+', command: '+msg.text+', type: error');
-					logger.debug(e.stack);
+					logger.debug(e.message);
 				} catch(e) {
 					logger.error('chatid: '+chatid+', command: '+msg.text+', type: error send error');
-					logger.debug(e.stack);
+					logger.debug(e.message);
 				}
 			}
 		}

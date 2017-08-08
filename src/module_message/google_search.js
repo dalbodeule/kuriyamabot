@@ -27,7 +27,7 @@ module.exports = async(bot, logger, modules, msg) => {
                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: search success');
             } catch(e) {
                 logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
-                logger.debug(e.stack)
+                logger.debug(e.message)
                 try {
                     await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error')
                         .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
@@ -36,13 +36,13 @@ module.exports = async(bot, logger, modules, msg) => {
                         }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
                 } catch(e) {
                     logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
-                    logger.debug(e.stack);
+                    logger.debug(e.message);
                 }
             }
         }
     } catch(e) {
         logger.error('chatid: '+chatid+', command: '+msg.text+', type: valid, response: search error');
-        logger.debug(e.stack);
+        logger.debug(e.message);
         try {
             await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.error')
                 .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, msg.text), {reply_markup:{ inline_keyboard: [[{
@@ -51,7 +51,7 @@ module.exports = async(bot, logger, modules, msg) => {
                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
         } catch(e) {
             logger.error('chatid: '+chatid+', command: '+msg.text+', type: valid, response: search error send error');
-            logger.debug(e.stack);
+            logger.debug(e.message);
         }
     }
 }

@@ -14,7 +14,7 @@ module.exports = async(bot, logger, modules,
                 logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid, response: help');
             } catch(e) {
                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                logger.debug(e.stack);
+                logger.debug(e.message);
             }
         } else {
             try {
@@ -27,7 +27,7 @@ module.exports = async(bot, logger, modules,
                         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid, response: not found');
                     } catch(e) {
                         logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                        logger.debug(e.stack);
+                        logger.debug(e.message);
                     }
                 } else {
                     function getdesc(description, url, title, temp) {
@@ -73,10 +73,10 @@ module.exports = async(bot, logger, modules,
                                     message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                                     }}], {cache_time: 3});
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                            logger.debug(e.stack);
+                            logger.debug(e.message);
                         } catch(e) {
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error send error');
-                            logger.debug(e.stack);
+                            logger.debug(e.message);
                         }
                     }
                 }
@@ -85,11 +85,11 @@ module.exports = async(bot, logger, modules,
                         message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                         }}], {cache_time: 3});
                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-                logger.debug(e.stack);
+                logger.debug(e.message);
             }
         }
     } catch(e) {
         logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
-        logger.debug(e.stack);
+        logger.debug(e.message);
     }
 }

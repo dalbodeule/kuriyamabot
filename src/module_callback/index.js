@@ -31,7 +31,7 @@ module.exports = (bot, logger, modules) => {
             }
         } catch(e) {
             logger.error('callback id: '+callid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
-            logger.debug(e.stack);
+            logger.debug(e.message);
         }
     });
 }
