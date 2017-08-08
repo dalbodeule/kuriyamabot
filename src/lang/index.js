@@ -13,7 +13,6 @@ module.exports = class {
 	
 	async set(msg, logger) {
 		return new Promise(async(resolve, reject) => {
-			console.log(Object.keys(langs).length)
 			if(Object.keys(langs).length == 0) {
 				logger.info('Language: Language not loaded');
 				await(async() => {
