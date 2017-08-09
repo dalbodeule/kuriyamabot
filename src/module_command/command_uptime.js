@@ -23,7 +23,7 @@ module.exports = async(bot, logger, modules) => {
 					.replace(/{uptime}/g, format(process.uptime()))
 					/*.replace(/{hour}/g, temp.person('command.uptime.hour'))
 					.replace(/{min}/g, temp.person('command.uptime.min'))
-					.replace(/{sec}/g, temp.person('command.uptime.sec')), */{
+					.replace(/{sec}/g, temp.person('command.uptime.sec'))*/, {
 					reply_to_message_id: msg.message_id});
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 			} catch (e) {
