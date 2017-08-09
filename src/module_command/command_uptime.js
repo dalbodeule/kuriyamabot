@@ -18,14 +18,16 @@ module.exports = async(bot, logger, modules) => {
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
 				temp = await modules.getlang(msg, logger);
-				bot.sendMessage(chatid, "✅ "+temp.text(msg.chat.type, 'command.uptime.message').replace(/{uptime}/g, format(process.uptime()))
-					.replace(/{hour}/g, command.uptime.hour).replace(/{min}/g, command.uptime.min)
-					.replace(/{sec}/g, command.uptime.sec), {
+				bot.sendMessage(chatid, "✅ "+temp.text(msg.chat.type, 'command.uptime.message')
+					.replace(/{uptime}/g, format(process.uptime()))
+					.replace(/{hour}/g, temp.person('command.uptime.hour'))
+					.replace(/{min}/g, temp.person('command.uptime.min'))
+					.replace(/{sec}/g, temp.person('command.uptime.sec')), {
 					reply_to_message_id: msg.message_id});
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 			} catch (e) {
 				logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
-				logger.debug(e.message);
+				logger.debug(e.stack);
 			}
 		}
 	});

@@ -24,7 +24,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                 logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: search success');
             } catch(e) {
                 logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+msg.text+', type: valid, response: message send error');
-                logger.debug(e.message);
+                logger.debug(e.stack);
                 try {
                     await bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.error')
                         .replace([/{botid}/g], global.botinfo.username).replace(/{keyword}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
@@ -33,13 +33,13 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                     }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
                 } catch(e) {
                     logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+msg.text+', type: valid, response: message send error send error');
-                    logger.debug(e.message);
+                    logger.debug(e.stack);
                 }
             }
         }
     } catch(e) {
         logger.error('chatid: '+chatid+', chat command: '+tcom[0]+', type: valid, response: search error');
-        logger.debug(e.message);
+        logger.debug(e.stack);
         try {
             await bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.error')
                 .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, tcom[2]), {reply_markup:{ inline_keyboard: [[{
@@ -48,7 +48,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
         } catch(e) {
             logger.error('chatid: '+chatid+', chat command: '+tcom[0]+', type: valid, response: search error send error');
-            logger.debug(e.message);
+            logger.debug(e.stack);
         }
     }
 }

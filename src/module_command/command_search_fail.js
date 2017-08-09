@@ -15,11 +15,11 @@ module.exports = async(bot, logger, modules) => {
 					logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 				} catch(e) {
 					logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
-					logger.debug(e.message);
+					logger.debug(e.stack);
 				}
 			} catch(e) {
 				logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error send error');
-				logger.debug(e.message);
+				logger.debug(e.stack);
 			}
 		}
 	});
