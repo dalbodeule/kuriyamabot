@@ -13,6 +13,6 @@ module.exports = async (bot, logger, modules, msg) => {
         }
     } catch(e) {
         logger.error('message: chat left, chatid: '+chatid+', userid: '+msg.new_chat_member.id+', username: '+msg.from.username+' status: error');
-        logger.debug(e.message);
+        logger.debug(e.stack);
     }
 }
