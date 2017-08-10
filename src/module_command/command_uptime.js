@@ -1,16 +1,23 @@
 "use strict";
 
 module.exports = async(bot, logger, modules) => {
-	const format = (time) => {
-        let pad = (s) => {
+	const format = class {
+		constructor(time)  {
+			this.time = time;
+			return true;
+		}
+		get hour() {
+			return this.pad(Math.floor(this.time / (60*60)));
+		}
+		get min() {
+			return this.pad(Math.floor(this.time % (60*60) / 60));
+		}
+		get sec() {
+			return this.pad(Math.floor(this.time % 60));
+		}
+		pad(s) {
             return (s < 10 ? '0' : '') + s;
         }
-        let hours = Math.floor(time / (60*60));
-        let minutes = Math.floor(time % (60*60) / 60);
-        let seconds = Math.floor(time % 60);
-
-		/*return pad(hours) + '{hour} ' + pad(minutes) + '{min} ' + pad(seconds)+'{sec}';*/
-		return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
 	}
     bot.onText(new RegExp('^\/(?:작동시간|uptime)+(?:@'+global.botinfo.username+')?'), async (msg, match) => {
 		if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
@@ -19,11 +26,11 @@ module.exports = async(bot, logger, modules) => {
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
 				temp = await modules.getlang(msg, logger);
+				let uptime = new format(process.uptime());
 				bot.sendMessage(chatid, "✅ "+temp.text(msg.chat.type, 'command.uptime.message')
-					.replace(/{uptime}/g, format(process.uptime()))
-					/*.replace(/{hour}/g, temp.person('command.uptime.hour'))
-					.replace(/{min}/g, temp.person('command.uptime.min'))
-					.replace(/{sec}/g, temp.person('command.uptime.sec'))*/, {
+					.replace(/{hour}/g, uptime.hour)
+					.replace(/{min}/g, uptime.min)
+					.replace(/{sec}/g, uptime.sec), {
 					reply_to_message_id: msg.message_id});
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 			} catch (e) {
