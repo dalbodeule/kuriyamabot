@@ -12,7 +12,7 @@ module.exports = async(bot, logger, modules) => {
 				if(ctype == 'group' || ctype == 'supergroup' || ctype == 'channel') {
 					await bot.sendMessage(chatid, "❗️ "+temp.group('command.lang.isgroup'), {reply_to_message_id: msg.message_id, parse_mode: 'HTML', reply_markup: {
 							inline_keyboard: [[{
-								text: temp.inline('inline.tobot'),
+								text: temp.inline('tobot'),
 								url: 'https://t.me/'+global.botinfo.username
 							}]]
 						}});
