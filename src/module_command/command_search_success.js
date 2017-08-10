@@ -2,7 +2,7 @@
 
 module.exports = async(bot, logger, modules) => {
     const searchModule = require('../modules/search.js');
-    bot.onText(new RegExp('^\/(?:검색|google|search|gg)+(?:@'+global.botinfo.username+')? (.+)'), async (msg, match) => {
+    bot.onText(new RegExp('^\/(?:검색|google|search|gg)+(?:@'+global.botinfo.username+')?+ (.+)'), async (msg, match) => {
 		if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
 			const chatid = msg.chat.id;
 			let temp;

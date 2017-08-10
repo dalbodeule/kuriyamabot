@@ -6,7 +6,7 @@
     "command": {
         "start": "Hello, I am {botname}.\nThe language you use can be seen by using /me@{botid}.\nIf you want to use another language, please use /lang@{botid}.",
         "uptime": {
-            "message": "This bot is currently running for {uptime}.",
+            "message": "This bot is currently running for {hour} hour {min} minutes {sec} seconds.",
             "hour": "hour",
             "min": "minutes",
             "sec": "seconds"
