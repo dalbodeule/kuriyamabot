@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = async(bot, logger, modules) => {
+module.exports = (bot, logger, modules) => {
 	const format = class {
 		constructor(time)  {
 			this.time = time;
@@ -19,7 +19,7 @@ module.exports = async(bot, logger, modules) => {
             return (s < 10 ? '0' : '') + s;
         }
 	}
-    bot.onText(new RegExp('^\/(?:작동시간|uptime)+(?:@'+global.botinfo.username+')?+'), async (msg, match) => {
+    bot.onText(new RegExp('^\/(?:작동시간|uptime)+(?:@'+global.botinfo.username+')?'), async (msg, match) => {
 		if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
 			const chatid = msg.chat.id;
 			let temp;
