@@ -45,6 +45,10 @@ module.exports = {
 			}, {
 				text: "📟 "+temp.inline('command.help.me.name'),
 				callback_data: 'help_me'
+			}],
+			[{
+				text:"😁 "+temp.inline("command.help.contact"),
+				url: "https://t.me/small_sunshine"
 			}]
 		];
 	},

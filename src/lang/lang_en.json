@@ -61,7 +61,8 @@
                 "name": "My Info",
                 "description": "You can see your own information.",
                 "how": "/me{botid}"
-            }, "twice": "Here are some tips you already have!"
+            }, "twice": "Here are some tips you already have!",
+            "contact": "Contact Developer"
         }
     }, "message": {
         "except": "error. Stickers and images can not be processed.",

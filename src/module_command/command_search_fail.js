@@ -1,7 +1,7 @@
 "use strict";
 
-module.exports = async(bot, logger, modules) => {
-    bot.onText(new RegExp('^\/(?:검색|google|search|gg)+(?:@'+global.botinfo.username+')?+ ?$'), async (msg, match) => {
+module.exports = (bot, logger, modules) => {
+    bot.onText(new RegExp('^\/(?:검색|google|search|gg)+(?:@'+global.botinfo.username+')? ?$'), async (msg, match) => {
 		if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
 			const chatid = msg.chat.id;
 			let temp;
