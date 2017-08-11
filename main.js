@@ -6,11 +6,14 @@ const telegram = require('node-telegram-bot-api'), dateformat = require('datefor
 global.config = require('./config.json');
 
 if(global.config.dev == false) {
-	logger.setLevel('INFO');
+    logger.setLevel('INFO');
+    process.env.NODE_ENV = 'production';
 } else if(global.config.dev == true) {
-	logger.setLevel('DEBUG');
+    logger.setLevel('DEBUG');
+    process.env.NODE_ENV = 'development';
 } else {
-	logger.setLevel('ALL');
+    logger.setLevel('ALL');
+    process.env.NODE_ENV = 'development';
 }
 
 logger.info('Welcome to telegram bot!');
