@@ -6,15 +6,18 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
     try {
         logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: chat command received');
         let res;
+        await bot.sendChatAction(chatid, 'upload_photo');
         [temp, res] = await Promise.all([
             modules.getlang(msg, logger),
             searchModule.image(tcom[2])
         ]);
         if(typeof(res) == 'undefined') {
+            await bot.sendChatAction(chatid, 'typing');
             bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.not_found'), {reply_to_message_id: msg.message_id});
             logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image not found');
         } else {
-            try { 
+            try {
+                await bot.sendChatAction(chatid, 'upload_photo');
                 await bot.sendPhoto(chatid, res.img, {reply_markup: {
                     inline_keyboard: [[{
                         text: temp.inline('command.img.visit_page'),
@@ -29,6 +32,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                 logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: message send error');
                 logger.debug(e.stack);
                 try {
+                    await bot.sendChatAction(chatid, 'typing');
                     await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
                         .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, tcom[2]),
                             {reply_markup:{ inline_keyboard: [[{
@@ -45,6 +49,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
         logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search error');
         logger.debug(e.stack);
         try {
+            await bot.sendChatAction(chatid, 'typing');
             await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
                 .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, tcom[2]),
                     {reply_markup:{ inline_keyboard: [[{
