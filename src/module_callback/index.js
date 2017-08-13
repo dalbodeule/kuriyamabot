@@ -8,7 +8,12 @@ module.exports = (bot, logger, modules) => {
         const callid = msg.id;
         let temp;
         try {
-            temp = await modules.getlang(msg, logger);
+            let chatAction;
+            [temp, chatAction] = await Promise.all([
+                modules.getlang(msg, logger),
+                bot.sendChatAction(msg.message.chat.id, 'typing')
+            ]);
+            let regex = msg.data.match(/changelang_([a-zA-Z]{2})/);
             logger.info('callback id: '+callid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.data+', type: callback received');
             if(msg.data == 'help_image') {
                 require('./help_image.js')(bot, logger, modules, msg, callid, temp, answer);
@@ -24,10 +29,8 @@ module.exports = (bot, logger, modules) => {
                 require('./help_lang.js')(bot, logger, modules, msg, callid, temp, answer);
             } else if(msg.data == 'help_me') {
                 require('./help_me.js')(bot, logger, modules, msg, callid, temp, answer);
-            } else if(msg.data == 'changelang_ko') {
-                require('./changeLang_ko.js')(bot, logger, modules, msg, callid, temp, answer);
-            } else if(msg.data == 'changelang_en') {
-                require('./changeLang_en.js')(bot, logger, modules, msg, callid, temp, answer);
+            } else if(regex != null) {
+                require('./changeLang.js')(bot, logger, modules, msg, callid, temp, answer, regex);
             }
         } catch(e) {
             logger.error('callback id: '+callid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');

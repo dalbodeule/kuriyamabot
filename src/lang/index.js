@@ -9,6 +9,7 @@ module.exports = class {
 		this.id = '';
 		this.lang =  '';
 		this.logger;
+		this.ready = false;
 	}
 	
 	async set(msg, logger) {
@@ -24,7 +25,11 @@ module.exports = class {
 					}
 				})();
 				logger.info('Language: Language load complete');
+				this.ready = true;
+			} else {
+				this.ready = true;
 			}
+
 			if(typeof msg.from.language_code == 'undefined') {
 				resolve(undefined);
 			} else {
@@ -65,8 +70,17 @@ module.exports = class {
 		});
 	}
 
-	async langset(lang, msg) {
+	async langset(lang) {
 		return new Promise(async(resolve, reject) => {
+			let isExist = false;
+			for(let i in Object.keys(langs)) {
+				if(langs[Object.keys(langs)[i]].lang.code == lang) {
+					isExist = true;
+				}
+			}
+			if(isExist == false) {
+				reject(Error(lang+' is not a valid value'))
+			}
 			let db = new sqlite.Database('./database.sqlite');
 			try {
 				db = await((db) => {
@@ -166,5 +180,9 @@ module.exports = class {
 				return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code);
 			}
 		}
+	}
+
+	getLangList() {
+		return langs;
 	}
 }
