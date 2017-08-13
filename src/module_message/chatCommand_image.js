@@ -6,10 +6,10 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
     try {
         logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: chat command received');
         let res;
-        await bot.sendChatAction(chatid, 'upload_photo');
         [temp, res] = await Promise.all([
             modules.getlang(msg, logger),
-            searchModule.image(tcom[2])
+            searchModule.image(tcom[2]),
+            bot.sendChatAction(chatid, 'upload_photo')
         ]);
         if(typeof(res) == 'undefined') {
             await bot.sendChatAction(chatid, 'typing');

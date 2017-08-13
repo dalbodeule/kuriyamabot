@@ -8,7 +8,8 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
         let response;
         [temp, response] = await Promise.all([
             modules.getlang(msg, logger),
-            searchModule.search(msg.text)
+            searchModule.search(msg.text),
+            bot.sendChatAction(chatid, 'typing')
         ]);
         if(response == '') {
             bot.sendMessage(chatid, temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
