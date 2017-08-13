@@ -11,31 +11,41 @@ module.exports = (bot, logger, modules) => {
 				let response;
 				[temp, response] = await Promise.all([
 					modules.getlang(msg, logger),
-					searchModule.image(match[1])
+					searchModule.image(match[1]),
+					bot.sendChatAction(chatid, 'send_photo')
 				]);
 				if(typeof(response) == 'undefined') {
-					bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.not_found'), {reply_to_message_id: msg.message_id});
+					await Promise.all([
+						bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.not_found'), {reply_to_message_id: msg.message_id}),
+						bot.sendChatAction(chatid, 'typing')
+					]);
 					logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 				} else {
 					try {
-						await bot.sendPhoto(chatid, response.img, {reply_markup: {
-							inline_keyboard: [[{
-								text: temp.inline('command.img.visit_page'),
-								url: response.url
-							}, {
-								text: temp.inline('command.img.view_image'),
-								url: response.img
-							}]]
-							}, reply_to_message_id: msg.message_id});
+						await Promise.all([
+							bot.sendPhoto(chatid, response.img, {reply_markup: {
+								inline_keyboard: [[{
+									text: temp.inline('command.img.visit_page'),
+									url: response.url
+								}, {
+									text: temp.inline('command.img.view_image'),
+									url: response.img
+								}]]
+								}, reply_to_message_id: msg.message_id}),
+								bot.sendChatAction(chatid, 'upload_photo')
+							]);
 						logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 					} catch(e) {
 						try {
-							await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
-								.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
+							await Promise.all([
+								bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
+									.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
 									{reply_markup:{ inline_keyboard: [[{
 										text: '@'+global.botinfo.username+' img '+match[1],
 										switch_inline_query_current_chat: 'img '+match[1]
-									}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
+									}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'}),
+								bot.sendChatAction(chatid, 'typing')
+							]);
 							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
 							logger.debug(e.stack);
 						} catch(e) {
@@ -46,12 +56,15 @@ module.exports = (bot, logger, modules) => {
 				}
 			} catch(e) {
 				try {
-					await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
-						.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
-						{reply_markup:{ inline_keyboard: [[{
-							text: '@'+global.botinfo.username+' img '+match[1],
-							switch_inline_query_current_chat: 'img '+match[1]
-						}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
+					await Promise.all([
+						bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
+							.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
+							{reply_markup:{ inline_keyboard: [[{
+								text: '@'+global.botinfo.username+' img '+match[1],
+								switch_inline_query_current_chat: 'img '+match[1]
+							}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'}),
+						bot.sendChatAction(chatid, 'typing')
+					]);
 					logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
 					logger.debug(e.stack);
 				} catch(e) {

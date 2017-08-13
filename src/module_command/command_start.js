@@ -7,7 +7,10 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try{
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				temp = await modules.getlang(msg, logger);
+				temp = await Promise.all([
+					modules.getlang(msg, logger),
+					bot.sendChatAction(chatid, 'typing')
+				]);
 				bot.sendMessage(chatid, "👋 "+temp.group('command.start')
 					.replace(/{botid}/g, global.botinfo.username)
 					.replace(/{botname}/g, global.botinfo.first_name), {reply_to_message_id: msg.message_id});			
