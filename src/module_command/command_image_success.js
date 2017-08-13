@@ -37,6 +37,8 @@ module.exports = (bot, logger, modules) => {
 						logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 					} catch(e) {
 						try {
+							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
+							logger.debug(e.stack);
 							await Promise.all([
 								bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
 									.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
@@ -46,8 +48,6 @@ module.exports = (bot, logger, modules) => {
 									}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'}),
 								bot.sendChatAction(chatid, 'typing')
 							]);
-							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
-							logger.debug(e.stack);
 						} catch(e) {
 							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error send error');
 							logger.debug(e.stack);
@@ -56,6 +56,8 @@ module.exports = (bot, logger, modules) => {
 				}
 			} catch(e) {
 				try {
+					logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
+					logger.debug(e.stack);
 					await Promise.all([
 						bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
 							.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
@@ -65,8 +67,6 @@ module.exports = (bot, logger, modules) => {
 							}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'}),
 						bot.sendChatAction(chatid, 'typing')
 					]);
-					logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
-					logger.debug(e.stack);
 				} catch(e) {
 					logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error send error');
 					logger.debug(e.stack);
