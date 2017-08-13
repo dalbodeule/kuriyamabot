@@ -3,10 +3,16 @@ module.exports = async (bot, logger, modules, msg) => {
     const chatid = msg.chat.id;
     let temp;
     try{
-        temp = await modules.getlang(msg, logger);
+        [temp] = await Promise.all([
+            modules.getlang(msg, logger),
+            bot.sendChatAction(chatid, 'typing')
+        ]);
         if(msg.left_chat_member.id != global.botinfo.id) {
-            bot.sendMessage(chatid, "👋 "+temp.text(msg.chat.type, 'message.left').replace(/{roomid}/g, msg.chat.title).replace(/{userid}/g, msg.left_chat_member.first_name),
-                {reply_to_message_id: msg.message_id});
+            await Promise.all([
+                bot.sendMessage(chatid, "👋 "+temp.text(msg.chat.type, 'message.left').replace(/{roomid}/g, msg.chat.title).replace(/{userid}/g, msg.left_chat_member.first_name),
+                    {reply_to_message_id: msg.message_id}),
+                bot.sendChatAction(chatid, 'typing')
+            ]);
             logger.info('message: chat left, chatid: '+chatid+', userid: '+msg.left_chat_member.id+', username: '+msg.from.username);
         } else {
             logger.info('message: chat left, chatid: '+chatid+', I\'m has left');
