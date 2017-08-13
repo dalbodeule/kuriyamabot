@@ -6,8 +6,12 @@ module.exports = (bot, logger, modules) => {
 			const chatid = msg.chat.id;
 			let temp;
 			try {
-			logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-			temp = await modules.getlang(msg, logger);
+				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
+				let chatAction;
+				[temp, chatAction] = await Promise.all([
+					modules.getlang(msg, logger),
+					bot.sendChatAction(chatid, 'typing')
+				]);
 				let ctype = msg.chat.type;
 				if(ctype == 'group' || ctype == 'supergroup' || ctype == 'channel') {
 					await bot.sendMessage(chatid, "❗️ "+temp.group('command.lang.isgroup'), {reply_to_message_id: msg.message_id, parse_mode: 'HTML', reply_markup: {
@@ -18,7 +22,7 @@ module.exports = (bot, logger, modules) => {
 						}});
 				} else {
 					await bot.sendMessage(chatid, "🔤 "+temp.group('command.lang.announce'), {reply_to_message_id: msg.message_id, parse_mode: 'HTML', reply_markup: {
-						inline_keyboard: modules.langlist()
+						inline_keyboard: modules.langlist(temp)
 					}});
 				}
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid,');
