@@ -7,10 +7,8 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				[temp] = await Promise.all([
-					modules.getlang(msg, logger),
-					bot.sendChatAction(chatid, 'typing')
-				]);
+				temp = await modules.getlang(msg, logger);
+				bot.sendChatAction(chatid, 'typing');
 				await bot.sendMessage(chatid, "📒 "+temp.help('command.help.help'), {reply_to_message_id: msg.message_id, parse_mode: 'HTML', reply_markup: {
 					inline_keyboard: modules.commandlist(temp)
 				}});

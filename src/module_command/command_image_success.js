@@ -12,7 +12,7 @@ module.exports = (bot, logger, modules) => {
 				[temp, response] = await Promise.all([
 					modules.getlang(msg, logger),
 					searchModule.image(match[1]),
-					bot.sendChatAction(chatid, 'send_photo')
+					bot.sendChatAction(chatid, 'upload_photo')
 				]);
 				if(typeof(response) == 'undefined') {
 					await Promise.all([
