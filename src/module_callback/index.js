@@ -8,11 +8,7 @@ module.exports = (bot, logger, modules) => {
         const callid = msg.id;
         let temp;
         try {
-            let chatAction;
-            [temp, chatAction] = await Promise.all([
-                modules.getlang(msg, logger),
-                bot.sendChatAction(msg.message.chat.id, 'typing')
-            ]);
+            temp = await modules.getlang(msg, logger);
             let regex = msg.data.match(/changelang_([a-zA-Z]{2})/);
             logger.info('callback id: '+callid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.data+', type: callback received');
             if(msg.data == 'help_image') {
