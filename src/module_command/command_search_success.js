@@ -8,8 +8,8 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try{
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				let response;
-				[temp, response] = await Promise.all([
+				let response, chatAction;
+				[temp, response, chatAction] = await Promise.all([
 					modules.getlang(msg, logger),
 					searchModule.search(match[1]),
 					bot.sendChatAction(chatid, 'typing')

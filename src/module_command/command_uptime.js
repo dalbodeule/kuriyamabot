@@ -25,7 +25,8 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				temp = await Promise.all([
+				let chatAction;
+				[temp, chatAction] = await Promise.all([
 					modules.getlang(msg, logger),
 					bot.sendChatAction(chatid, 'typing')
 				]);

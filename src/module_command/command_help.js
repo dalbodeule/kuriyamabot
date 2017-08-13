@@ -4,9 +4,10 @@ module.exports = (bot, logger, modules) => {
     bot.onText(new RegExp('^\/(?:help|도움말)+(?:@'+global.botinfo.username+')? ?$'), async (msg, match) => {
         if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
             const chatid = msg.chat.id;
-			let temp, chatAction;
+			let temp;
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
+				let chatAction;
 				[temp, chatAction] = await Promise.all([
 					modules.getlang(msg, logger),
 					bot.sendChatAction(chatid, 'typing')
