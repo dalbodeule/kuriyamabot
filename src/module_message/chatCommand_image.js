@@ -38,7 +38,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
                 try {
                     await Promise.all([
                         bot.sendChatAction(chatid, 'typing'),
-                        bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
+                        bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
                             .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, tcom[2]),
                                 {reply_markup:{ inline_keyboard: [[{
                                     text: '@'+global.botinfo.username+' img '+tcom[2],
@@ -57,7 +57,7 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
         try {
             await Promise.all([
                 bot.sendChatAction(chatid, 'typing'),
-                bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.error')
+                bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.img.error')
                     .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, tcom[2]),
                         {reply_markup:{ inline_keyboard: [[{
                             text: '@'+global.botinfo.username+' img '+tcom[2],
