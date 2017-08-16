@@ -39,8 +39,13 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                                 }, {
                                     text: temp.inline('command.img.view_image'),
                                     url: res[i].img
+                                }],
+                                [{
+                                    text: temp.inline('command.img.another'),
+                                    switch_inline_query_current_chat: 'img '+tcom[2]
                                 }]]
-                            }});
+                                }, 
+                            });
                     }
                     results.splice(50);
                     try {

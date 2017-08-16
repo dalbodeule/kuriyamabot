@@ -27,6 +27,10 @@ module.exports = async(bot, logger, modules, msg) => {
                         }, {
                             text: temp.inline('command.img.view_image'),
                             url: res.img
+                        }],
+                        [{
+                            text: temp.inline('command.img.another'),
+                            switch_inline_query_current_chat: 'img '+tcom[2]
                         }]]
                         }, reply_to_message_id: msg.message_id}),
                     bot.sendChatAction(chatid, 'upload_photo')

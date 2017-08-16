@@ -59,7 +59,7 @@ module.exports = async(bot, logger, modules,
                                     url: res[i].link
                                 }, {
                                     text: temp.inline('command.search.another'),
-                                    url: 'https://www.google.com/search?q='+encodeURIComponent(regex[2])+'&ie=UTF-8'
+                                    switch_inline_query_current_chat: 'search '+tcom[2]
                                 }]]
                             }});
                     }
