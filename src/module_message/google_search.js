@@ -27,7 +27,10 @@ module.exports = async(bot, logger, modules, msg) => {
                             inline_keyboard: [[{
                                 text: temp.inline('command.search.another'),
                                 url: 'https://www.google.com/search?q='+encodeURIComponent(msg.text)+'&ie=UTF-8'
-                            }]]
+                            }, {
+                                text: temp.inline('command.search.another'),
+                                switch_inline_query_current_chat: 'search '+msg.text
+                        }]]
                     }}),
                     bot.sendChatAction(chatid, 'typing')
                 ]);

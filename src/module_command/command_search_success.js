@@ -27,7 +27,10 @@ module.exports = (bot, logger, modules) => {
 									inline_keyboard: [[{
 										text: temp.inline('command.search.another'),
 										url: 'https://www.google.com/search?q='+encodeURIComponent(match[1])+'&ie=UTF-8'
-									}]]
+									}, {
+										text: temp.inline('command.search.another'),
+										switch_inline_query_current_chat: 'search '+match[1]
+								}]]
 							}}),
 							bot.sendChatAction(chatid, 'typing')
 						]);

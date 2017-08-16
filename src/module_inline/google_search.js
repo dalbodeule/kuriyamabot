@@ -59,7 +59,7 @@ module.exports = async(bot, logger, modules,
                                     url: res[i].link
                                 }, {
                                     text: temp.inline('command.search.another'),
-                                    url: 'https://www.google.com/search?q='+encodeURIComponent(regex[2])+'&ie=UTF-8'
+                                    switch_inline_query_current_chat: 'search '+regex[2]
                                 }]]
                             }});
                     }
@@ -70,7 +70,8 @@ module.exports = async(bot, logger, modules,
                     } catch(e) {
                         try {
                             await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
-                                    message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                                    message_text: temp.group('command.search.not_found')
+                                    .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, regex[2]), parse_mode: 'HTML', disable_web_page_preview: true
                                     }}], {cache_time: 3});
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                             logger.debug(e.stack);
@@ -82,7 +83,8 @@ module.exports = async(bot, logger, modules,
                 }
             } catch(e) {
                 await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
-                        message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                        message_text: temp.group('command.search.not_found')
+                        .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, regex[2]), parse_mode: 'HTML', disable_web_page_preview: true
                         }}], {cache_time: 3});
                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
                 logger.debug(e.stack);

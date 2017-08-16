@@ -25,7 +25,8 @@
             "error": "There was a problem sending the image!\nTry it with <b>{botid} img {keyword}</b>!",
             "blank": "Please enter your search words!",
             "visit_page": "Visit Page",
-            "view_image": "View Image"
+            "view_image": "View Image",
+            "another": "Other Search Results"
         }, "lang": {
             "isgroup": "You can not change the language in Group Chat. Thank you for your personal chat.",
             "announce": "If you would like to change the language to use, please select from the list below.",

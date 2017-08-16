@@ -30,6 +30,10 @@ module.exports = (bot, logger, modules) => {
 								}, {
 									text: temp.inline('command.img.view_image'),
 									url: response.img
+								}],
+								[{
+									text: temp.inline('command.img.another'),
+									switch_inline_query_current_chat: 'img '+match[1]
 								}]]
 								}, reply_to_message_id: msg.message_id}),
 								bot.sendChatAction(chatid, 'upload_photo')
