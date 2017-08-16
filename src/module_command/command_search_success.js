@@ -29,7 +29,7 @@ module.exports = (bot, logger, modules) => {
 										url: 'https://www.google.com/search?q='+encodeURIComponent(match[1])+'&ie=UTF-8'
 									}, {
 										text: temp.inline('command.search.another'),
-										switch_inline_query_current_chat: 'search '+tcom[2]
+										switch_inline_query_current_chat: 'search '+match[1]
 								}]]
 							}}),
 							bot.sendChatAction(chatid, 'typing')
