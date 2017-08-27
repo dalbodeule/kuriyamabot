@@ -1,7 +1,6 @@
 "use strict";
 
-module.exports = async(bot, logger, modules,
-     msg, q, regex) => {
+module.exports = async(bot, logger, modules, msg, q, regex) => {
     const google = require('google-parser');
     let temp;
     try {
@@ -19,7 +18,17 @@ module.exports = async(bot, logger, modules,
         } else {
             try {
                 let res = await google.search(regex[2]);
-                if(typeof res[0] == 'undefined') {
+                if(res == false) {
+                    try {
+                        await bot.answerInlineQuery(q.id, [{type: 'article', title: 'search error', id: 'google bot block', input_message_content: {
+                            message_text: temp.group('command.search.bot_blcok'), parse_mode: 'HTML', disable_web_page_preview: true
+                        }}], {cache_time: 3});
+                        logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid, response: google bot block');
+                    } catch(e) {
+                        logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');
+                        logger.debug(e.stack);
+                    }
+                } else if(typeof res[0] == 'undefined') {
                     try {
                         await bot.answerInlineQuery(q.id, [{type: 'article', title: 'not found', id: 'not found', input_message_content: {
                             message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true

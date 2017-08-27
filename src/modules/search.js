@@ -5,6 +5,9 @@ module.exports = {
         return new Promise(async(resolve, reject) => {
             try {
                 let res = await google.search(keyword+" -ilbe.com");
+                if(res == false) {
+                    resolve(false);
+                }
                 if(typeof res == 'undefined') {
                     resolve(undefined);
                 } else {
@@ -12,7 +15,8 @@ module.exports = {
                     for(let i=0; i<3; i++) {
                         if(typeof(res[i]) != 'undefined') {
                             response = response+"\n"+'<a href="'+res[i].link+'">'+res[i].title+'</a>'+"\n"+
-                                res[i].description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')+"\n\n";
+                                (res[i].description != '' ? res[i].description.replace('&', '&amp;')
+                                    .replace('<', '&lt;').replace('>', '&gt;')+"\n\n" : '');
                         }
                     }
                     resolve(response);
