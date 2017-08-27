@@ -8,43 +8,37 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try{
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				let response, chatAction;
-				[temp, response, chatAction] = await Promise.all([
-					modules.getlang(msg, logger),
-					searchModule.search(match[1]),
-					bot.sendChatAction(chatid, 'typing')
-				]);
+				await bot.sendChatAction(chatid, 'typing');
+				temp = await modules.getlang(msg, logger);
+				let response = await searchModule.search(match[1]);
 				if(response == '') {
 					bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
 					logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
+				} else if(response == false) {
+					bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id});
+					logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: google bot block');
 				} else {
 					try {
-						await Promise.all([
-							bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.result')+
-								"\n"+response, {parse_mode: 'HTML', disable_web_page_preview: true,
-								reply_to_message_id: msg.message_id,
-								reply_markup: {
-									inline_keyboard: [[{
-										text: temp.inline('command.search.another'),
-										url: 'https://www.google.com/search?q='+encodeURIComponent(match[1])+'&ie=UTF-8'
-									}, {
-										text: temp.inline('command.search.another'),
-										switch_inline_query_current_chat: 'search '+match[1]
-								}]]
-							}}),
-							bot.sendChatAction(chatid, 'typing')
-						]);
+						bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.result')+
+							"\n"+response, {parse_mode: 'HTML', disable_web_page_preview: true,
+							reply_to_message_id: msg.message_id,
+							reply_markup: {
+								inline_keyboard: [[{
+									text: temp.inline('command.search.another'),
+									url: 'https://www.google.com/search?q='+encodeURIComponent(match[1])+'&ie=UTF-8'
+								}, {
+									text: temp.inline('command.search.another'),
+									switch_inline_query_current_chat: 'search '+match[1]
+							}]]
+						}});
 						logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 					} catch(e) {
 						try {
-							await Promise.all([
-								bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
-									.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
+							await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
+								.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
 									text: '@'+global.botinfo.username+' search '+match[1],
 									switch_inline_query_current_chat: 'search '+match[1]
-								}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'}),
-								bot.sendChatAction(chatid, 'typing')
-							]);
+								}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
 							logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
 							logger.debug(e.stack);
 						} catch(e) {
@@ -55,14 +49,11 @@ module.exports = (bot, logger, modules) => {
 				}
 			} catch(e) {
 				try {
-					await Promise.all([
-						bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
-							.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
-								text: '@'+global.botinfo.username+' search '+match[1],
-								switch_inline_query_current_chat: 'search '+match[1]
-							}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'}),
-						bot.sendChatAction(chatid, 'typing')
-					]);
+					await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
+						.replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
+							text: '@'+global.botinfo.username+' search '+match[1],
+							switch_inline_query_current_chat: 'search '+match[1]
+						}]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
 					logger.error('chatid: '+chatid+', command: '+msg.text+', type: error');
 					logger.debug(e.stack);
 				} catch(e) {

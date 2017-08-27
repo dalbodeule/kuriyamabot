@@ -19,7 +19,8 @@
             "result": "Search results",
             "visit_page": "Visit Page",
             "another": "Other Search Results",
-            "desc_null": "Go to the URL for more information!"
+            "desc_null": "Go to the URL for more information!",
+            "bot_blcok": "Due to Google's anti-bot policy, it is not searchable. Please try again in a few minutes."
         }, "img": {
             "not_found": "Hmm.. No results found!",
             "error": "There was a problem sending the image!\nTry it with <b>{botid} img {keyword}</b>!",
