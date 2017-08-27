@@ -12,14 +12,14 @@ module.exports = (bot, logger, modules) => {
 				temp = await modules.getlang(msg, logger);
 				let response = await searchModule.search(match[1]);
 				if(response == '') {
-					bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
+					await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
 					logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 				} else if(response == false) {
-					bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id});
+					await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id});
 					logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: google bot block');
 				} else {
 					try {
-						bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.result')+
+						await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.result')+
 							"\n"+response, {parse_mode: 'HTML', disable_web_page_preview: true,
 							reply_to_message_id: msg.message_id,
 							reply_markup: {

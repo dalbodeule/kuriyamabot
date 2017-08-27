@@ -17,7 +17,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
             }
         } else {
             try {
-                let res = await google.jpg(regex[2]);
+                let res = await google.img(regex[2]);
                 if(typeof res[0] == 'undefined') {
                     try {
                         await bot.answerInlineQuery(q.id, [{type: 'article', title: 'not found', id: 'not found', input_message_content: {

@@ -7,11 +7,8 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				let chatAction;
-				[temp, chatAction] = await Promise.all([
-					modules.getlang(msg, logger),
-					bot.sendChatAction(chatid, 'typing')
-				]);
+				await bot.sendChatAction(chatid, 'typing')
+				temp = await modules.getlang(msg, logger);
 				try {
 					await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.blank'), {reply_to_message_id: msg.message_id, reply_markup: {
 						force_reply: true, selective: true
