@@ -7,11 +7,8 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try {
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				let chatAction;
-				[temp, chatAction] = await Promise.all([
-					modules.getlang(msg, logger),
-					bot.sendChatAction(chatid, 'typing')
-				]);
+				await bot.sendChatAction(chatid, 'typing');
+				temp = modules.getlang(msg, logger);
 				let ctype = msg.chat.type;
 				if(ctype == 'group' || ctype == 'supergroup' || ctype == 'channel') {
 					await bot.sendMessage(chatid, "❗️ "+temp.group('command.lang.isgroup'), {reply_to_message_id: msg.message_id, parse_mode: 'HTML', reply_markup: {

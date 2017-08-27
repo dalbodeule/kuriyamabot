@@ -9,10 +9,10 @@ module.exports = async(bot, logger, modules, msg, tcom) => {
         temp = await modules.getlang(msg, logger);
         let res = await searchModule.search(tcom[2]);
         if(res == '') {
-            bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
+            await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
             logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: not found');
         } else if(res == false) {
-            bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id});
+            await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id});
             logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: google bot block');
         } else {
             try {

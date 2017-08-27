@@ -7,12 +7,9 @@ module.exports = (bot, logger, modules) => {
 			let temp;
 			try{
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				let chatAction;
-				[temp, chatAction] = await Promise.all([
-					modules.getlang(msg, logger),
-					bot.sendChatAction(chatid, 'typing')
-				]);
-				bot.sendMessage(chatid, "👋 "+temp.group('command.start')
+				await bot.sendChatAction(chatid, 'typing');
+				temp = await modules.getlang(msg, logger);
+				await bot.sendMessage(chatid, "👋 "+temp.group('command.start')
 					.replace(/{botid}/g, global.botinfo.username)
 					.replace(/{botname}/g, global.botinfo.first_name), {reply_to_message_id: msg.message_id});			
 				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
