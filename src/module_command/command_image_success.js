@@ -2,7 +2,7 @@
 
 module.exports = (bot, logger, modules) => {
 	const searchModule = require('../modules/search.js');
-    bot.onText(new RegExp('^\/(?:짤|이미지|img|image|pic)+(?:@'+global.botinfo.username+')? (.*)'), async (msg, match) => {
+    bot.onText(new RegExp('^\/(?:짤|이미지|img|image|pic)+(?:@'+global.botinfo.username+')? (.*)$'), async (msg, match) => {
 		if(Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
 			const chatid = msg.chat.id;
 			let temp;
