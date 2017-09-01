@@ -7,9 +7,14 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
         temp = await modules.getlang(msg, logger);
         if(typeof regex[2] == 'undefined' || regex[2] == '') {
             try {
-                await bot.answerInlineQuery(q.id, [{type: 'article', title: '@'+global.botinfo.username+' [search|google|query|검색|구글] (검색어)', id: 'help', input_message_content: {
-                    message_text: '@'+global.botinfo.username+' [search|google|query|검색|구글] (검색어)', parse_mode: 'HTML', disable_web_page_preview: true
-                    }}], {cache_time: 3});
+                await bot.answerInlineQuery(q.id, [{type: 'article', title: '@'+global.botinfo.username+' (search|google|query) (keyword)', id: 'help', input_message_content: {
+                    message_text: '@'+global.botinfo.username+' (search|google|query) (keyword)', parse_mode: 'HTML', disable_web_page_preview: true
+                    }, reply_markup: {
+                        inline_keyboard: [[{
+                        text: "🔍",
+                        switch_inline_query_current_chat: "search "
+                    }]]
+                }}], {cache_time: 3});
                 logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid, response: help');
             } catch(e) {
                 logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error');

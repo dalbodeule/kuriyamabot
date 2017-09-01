@@ -17,6 +17,8 @@ module.exports = (bot, logger, modules) => {
         } else if(regex[1] == 'search' || regex[1] == 'google' || regex[1] == 'query' ||
             regex[1] == '검색' || regex[1] == '구글') {
             require('./google_search.js')(bot, logger, modules, msg, q, regex);
+        } else if(regex[1] == 'help') {
+            require('./help.js')(bot, logger, modules, msg, q);
         } else {
             logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid');
         }
