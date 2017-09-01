@@ -25,7 +25,7 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
 ### 인라인 커맨드
  - [x] 구글 검색
  - [x] 구글 이미지검색
- - [ ] 도움말
+ - [x] 도움말
 
 ### Callback Query
  - [x] 언어변경(개선예정)
