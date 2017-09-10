@@ -52,9 +52,9 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                                 }, 
                             });
                     }
-                    results.splice(50);
+                    results.splice(30);
                     try {
-                        await bot.answerInlineQuery(q.id, results, {cache_time: 3})
+                        await bot.answerInlineQuery(q.id, results, {cache_time: 3});
                         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
                     } catch(e) {
                         try {
@@ -62,8 +62,13 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                             logger.debug(e.stack);
                             await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content:{
                                     message_text: temp.group('command.img.error')
-                                    .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, regex[2]), parse_mode: 'HTML', disable_web_page_prefiew: true
-                                    }}], {cache_time: 0});
+                                    .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, regex[2]),
+                                    parse_mode: 'HTML', disable_web_page_prefiew: true},
+                                    reply_markup: { inline_keyboard: [[{
+                                        text: '@'+global.botinfo.username+' img '+regex[2],
+                                        switch_inline_query_current_chat: 'img '+regex[2]
+                                }]]}
+                            }], {cache_time: 0});
                         } catch(e) {
                             logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error send error');
                             logger.debug(e.stack);
@@ -76,8 +81,13 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                     logger.debug(e.stack);
                     await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
                             message_text: temp.group('command.img.error')
-                            .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, regex[2]), parse_mode: 'HTML', disable_web_page_preview: true
-                        }}], {cache_time: 3});
+                            .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, regex[2]),
+                            parse_mode: 'HTML', disable_web_page_preview: true},
+                            reply_markup: { inline_keyboard: [[{
+                            text: '@'+global.botinfo.username+' img '+regex[2],
+                            switch_inline_query_current_chat: 'img '+regex[2]
+                        }]]}
+                    }], {cache_time: 3});
                 } catch(e) {
                     logger.error('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: error send error');
                     logger.debug(e.stack);

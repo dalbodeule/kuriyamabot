@@ -8,7 +8,7 @@ module.exports = (bot, logger, modules) => {
         }
         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+q.query+', type: inline command received');
         
-        const regex = msg.query.match(/^([^\ ]+)(?: (.+)?$|$)/);
+        const regex = q.query.match(/^(?:([a-zA-Z0-9ㄱ-ㅎ가-힣]+)(?:| (.*)+))$/);
         if(regex == null) {
             logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: not valid');
         } else if(regex[1] == 'photo' || regex[1] == 'image' || regex[1] == 'img' ||

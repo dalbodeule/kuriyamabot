@@ -45,29 +45,19 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                     }
                 } else {
                     function getdesc(description, url, title, temp) {
-                        if(url.match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+.+$/) != null) {
-                            if(url.match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/channel\//) != null) {
-                                return '<a href="'+url+'">'+title+"</a> \n\n"+description.replace('&', '&amp;')
-                                    .replace('<', '&lt;').replace('>', '&gt;');
-                            } else {
-                                let shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/);
-                                if(shot == null) {
-                                    return url;
-                                } else {
-                                    return 'https://youtu.be/'+shot[1];
-                                }
-                            }
+                        let shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/);
+                        if(shot != null) {
+                            return 'https://youtu.be/'+shot[1];
                         } else if(description == '') {
                             return temp.group('command.search.desc_null');
                         } else {
-                            return '<a href="'+url+'">'+title+"</a> \n\n"+description.replace('&', '&amp;')
-                                .replace('<', '&lt;').replace('>', '&gt;');
+                            return '['+title+']('+url+')'+"\n\n"+description;
                         }
                     }
                     let results = [];
                     for(let i in res) {
                         results.push({type: 'article', title: res[i].title, id: q.id+'/document/' + i, input_message_content: {
-                            message_text: getdesc(res[i].description, res[i].link, res[i].title, temp), parse_mode: 'HTML'},  reply_markup: {
+                            message_text: getdesc(res[i].description, res[i].link, res[i].title, temp), parse_mode: 'Markdown'},  reply_markup: {
                                 inline_keyboard: [[{
                                     text: temp.inline('command.search.visit_page'),
                                     url: res[i].link
@@ -79,7 +69,7 @@ module.exports = async(bot, logger, modules, msg, q, regex) => {
                     }
                     results.splice(30);
                     try {
-                        await bot.answerInlineQuery(q.id, results)
+                        await bot.answerInlineQuery(q.id, results);
                         logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
                     } catch(e) {
                         try {
