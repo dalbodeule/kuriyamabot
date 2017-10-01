@@ -1,12 +1,10 @@
 "use strict";
 
-module.exports = async(bot, logger, modules, msg) => {
+module.exports = async(bot, logger, modules, msg, temp) => {
     const chatid = msg.chat.id, searchModule = require('../modules/search.js');
-    let temp;
     try {
         logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
         await bot.sendChatAction(chatid, 'upload_photo');
-        temp = await modules.getlang(msg, logger);
         let res = await searchModule.image(msg.text);
         if(typeof(res) == 'undefined') {
             await bot.sendChatAction(chatid, 'typing');

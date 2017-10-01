@@ -2,11 +2,9 @@
 
 module.exports = async(bot, logger, modules, msg) => {
     const chatid = msg.chat.id, searchModule = require('../modules/search.js');
-    let temp;
     try{
         logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
         await bot.sendChatAction(chatid, 'typing');
-        temp = await modules.getlang(msg, logger);
         let response = await searchModule.search(msg.text);
         if(response == '') {
             await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});

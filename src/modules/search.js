@@ -4,7 +4,7 @@ module.exports = {
     search: async(keyword) => {
         return new Promise(async(resolve, reject) => {
             try {
-                let res = await google.search(keyword+" -ilbe.com");
+                let res = await google.search(keyword+" -site:ilbe.com");
                 if(res == false) {
                     resolve(false);
                 }
@@ -32,7 +32,7 @@ module.exports = {
                 function getRandomIntInclusive(min, max) {
                     return Math.floor(Math.random() * (max - min + 1)) + min;
                 }
-                let res = await google.img(keyword+" -ilbe.com");
+                let res = await google.img(keyword+" -site:ilbe.com");
                 if(typeof res[0] == 'undefined') {
                     resolve(undefined);
                 } else {
