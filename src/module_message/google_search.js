@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = async(bot, logger, modules, msg) => {
+module.exports = async(bot, logger, modules, msg, temp) => {
     const chatid = msg.chat.id, searchModule = require('../modules/search.js');
     try{
         logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
