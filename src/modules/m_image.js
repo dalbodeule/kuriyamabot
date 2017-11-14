@@ -1,6 +1,6 @@
 module.exports = (bot, logger, helper) => {
     bot.on('message', async (msg) => {
-        if(msg.reply._to_message &&
+        if(msg.reply_to_message &&
             !msg.reply_to_message.match(/🖼❗️/) &&
             !msg.reply_to_message.from.username == global.botinfo.username &&
             !msg.reply_to_message.text) return;
