@@ -7,15 +7,15 @@ module.exports = (bot, logger, helper) => {
         const chatid = msg.chat.id;
         let temp;
         try {
-            logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
+            logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
             await bot.sendChatAction(chatid, 'typing');
             let response = await searchModule.search(msg.text);
             if(response == '') {
                 await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
-                logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: not found');
+                logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: not found');
             } else if(response == false) {
                 bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
-                logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: google bot block');
+                logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: google bot block');
             } else {
                 try {
                     await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.result')+
@@ -30,7 +30,7 @@ module.exports = (bot, logger, helper) => {
                                 switch_inline_query_current_chat: 'search '+msg.text
                         }]]
                     }});
-                    logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: search success');
+                    logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: search success');
                 } catch(e) {
                     sendError(e, chatid, temp, msg);
                 }
@@ -39,7 +39,7 @@ module.exports = (bot, logger, helper) => {
             sendError(e, chatid, temp, msg);
         }
         async function sendError(e, chatid, temp, msg) {
-            logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
+            logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
             logger.debug(e.stack)
             try {
                 await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
@@ -48,7 +48,7 @@ module.exports = (bot, logger, helper) => {
                     switch_inline_query_current_chat: 'search '+msg.text
                 }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
             } catch(e) {
-                logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
+                logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: message send error');
                 logger.debug(e.stack);
             }
         }

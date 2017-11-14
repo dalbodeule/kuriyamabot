@@ -38,7 +38,7 @@ module.exports = (bot, logger, helper) => {
                 } catch(e) {
                     try { 
                         await bot.sendChatAction(chatid, 'upload_photo');
-                        res = await searchModule.image(msg.text);
+                        res = await helper.image(msg.text);
                         await bot.sendPhoto(chatid, res.img, {reply_markup: {
                             inline_keyboard: [[{
                                 text: temp.inline('command.img.visit_page'),
