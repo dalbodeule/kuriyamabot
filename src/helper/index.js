@@ -79,5 +79,5 @@ module.exports = {
 		return result;
 	},
 	search: search.search,
-	imge: search.image
+	image: search.image
 }
