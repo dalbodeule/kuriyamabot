@@ -9,7 +9,7 @@ module.exports = async(bot, logger, helper) => {
 		for(let i in items) {
             let modules = require(items[i])(bot, logger, helper);
 		}
-		logger.debug('Command: Load complete');
+		logger.debug('Module: Load complete');
 	} catch(e) {
 		logger.error(e);
 	}
