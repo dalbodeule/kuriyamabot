@@ -90,7 +90,7 @@ module.exports = (bot, logger, helper) => {
                     helper.getlang(msg, logger)
                 ]);
 				try {
-					await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.blank'), {reply_to_message_id: msg.message_id, reply_markup: {
+					await bot.sendMessage(chatid, "🖼❗️ "+temp.text(msg.chat.type, 'command.img.blank'), {reply_to_message_id: msg.message_id, reply_markup: {
 						force_reply: true, selective: true
 					}});
 					logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
