@@ -39,7 +39,7 @@ module.exports = (bot, logger, helper) => {
 				sendError(e);
 			}
         }
-        function sendError(e) {
+        async function sendError(e) {
             try {
                 await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
                     .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{

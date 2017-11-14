@@ -1,7 +1,7 @@
 "use static";
 const google = require('google-parser');
 module.exports = {
-    search: async(keyword) => {
+    search: (keyword) => {
         return new Promise(async(resolve, reject) => {
             try {
                 let res = await google.search(keyword+" -site:ilbe.com");
@@ -26,7 +26,7 @@ module.exports = {
             }
         });
     },
-    image: async(keyword) => {
+    image: (keyword) => {
         return new Promise(async(resolve, reject) => {
             try {
                 function getRandomIntInclusive(min, max) {
