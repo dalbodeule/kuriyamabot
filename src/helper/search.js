@@ -15,7 +15,7 @@ module.exports = {
                     for(let i=0; i<3; i++) {
                         if(typeof(res[i]) != 'undefined') {
                             response = response+"\n"+'<a href="'+res[i].link+'">'+res[i].title+'</a>'+"\n"+
-                                (res[i].description != '' ? res[i].description.replace('&', '&amp;')
+                                (res[i].description != '' ? res[i].description.substr(0, 30).replace('&', '&amp;')
                                     .replace('<', '&lt;').replace('>', '&gt;')+"\n\n" : '');
                         }
                     }
