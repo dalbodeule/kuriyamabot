@@ -10,7 +10,7 @@ module.exports = (bot, logger, helper) => {
                     bot.sendChatAction(chatid, 'upload_photo'),
                     helper.getlang(msg, logger)
                 ]);
-				let response = await searchModule.image(match[1]);
+				let response = await helper.image(match[1]);
 				if(typeof(response) == 'undefined') {
 					await bot.sendChatAction(chatid, 'typing');
 					await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.not_found'), {reply_to_message_id: msg.message_id});
@@ -35,7 +35,7 @@ module.exports = (bot, logger, helper) => {
 					} catch(e) {
 						try {
 							await bot.sendChatAction(chatid, 'upload_photo');
-							response = await searchModule.image(match[1]);
+							response = await helper.image(match[1]);
 							await bot.sendPhoto(chatid, response.img, {reply_markup: {
 								inline_keyboard: [[{
 									text: temp.inline('command.img.visit_page'),
