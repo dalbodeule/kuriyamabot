@@ -1,5 +1,8 @@
 module.exports = (bot, logger, helper) => {
-    bot.onText(/🖼❗️/, async (msg, match) => {
+    bot.on('message', async (msg) => {
+        if(!msg.reply_to_message.match(/🖼❗️/) &&
+        !msg.reply_to_message.from.username == global.botinfo.username &&
+        !msg.reply_to_message.text) return;
         try {
             logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
             let send;
