@@ -4,6 +4,7 @@ module.exports = (bot, logger, helper) => {
             !msg.reply_to_message.match(/🖼❗️/) &&
             !msg.reply_to_message.from.username == global.botinfo.username &&
             !msg.reply_to_message.text) return;
+        const chatid = msg.chat.id;
         try {
             logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
             let send;
@@ -57,7 +58,7 @@ module.exports = (bot, logger, helper) => {
                 }
             }
         } catch(e) {
-            
+            sendError(e, chatid, temp, msg);
         }
         async function sendError(e, chatid, temp, msg) {
             logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: image search error');

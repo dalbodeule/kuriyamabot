@@ -4,6 +4,7 @@ module.exports = (bot, logger, helper) => {
             !msg.reply_to_message.match(/🔍❗️/) &&
             !msg.reply_to_message.from.username == global.botinfo.username &&
             !msg.reply_to_message.text) return;
+        const chatid = msg.chat.id;
         try {
             logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
             await bot.sendChatAction(chatid, 'typing');
