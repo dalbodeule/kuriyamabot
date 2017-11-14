@@ -1,9 +1,10 @@
 module.exports = (bot, logger, helper) => {
     bot.onText(/\{(?:img|pic|사진|이미지|짤) (.*)(?:\{|\})/, async(msg, match) => {
+        const type = 'pic';
         const chatid = msg.chat.id;
         let temp;
         try {
-            logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: chat command received');
+            logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: chat command received');
             let send;
             [send, temp] = await Promise.all([
                 bot.sendChatAction(chatid, 'upload_photo'),
@@ -13,7 +14,7 @@ module.exports = (bot, logger, helper) => {
             if(typeof(res) == 'undefined') {
                 await bot.sendChatAction(chatid, 'typing');
                 await bot.sendMessage(chatid, "🖼 "+temp.text(msg.chat.type, 'command.img.not_found'), {reply_to_message_id: msg.message_id});
-                logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image not found');
+                logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: valid, response: image not found');
             } else {
                 try {
                     await bot.sendChatAction(chatid, 'upload_photo');
@@ -29,7 +30,7 @@ module.exports = (bot, logger, helper) => {
                                 switch_inline_query_current_chat: 'img '+match[1]
                         }]]
                         }, reply_to_message_id: msg.message_id});
-                    logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search success');
+                    logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: valid, response: image search success');
                 } catch(e) {
                     try {
                         await bot.sendChatAction(chatid, 'upload_photo');
@@ -46,17 +47,17 @@ module.exports = (bot, logger, helper) => {
                                     switch_inline_query_current_chat: 'img '+match[1]
                             }]]
                             }, reply_to_message_id: msg.message_id});
-                        logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: image search success');
+                        logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: valid, response: image search success');
                     } catch(e) {
-                        sendError(e, chatid, temp, msg, match);
+                        sendError(e, chatid, temp, msg, match, type);
                     }
                 }
             }
         } catch(e) {
-            sendError(e, chatid, temp, msg, match);
+            sendError(e, chatid, temp, msg, match, type);
         }
-        async function sendError(e, chatid, temp, msg, match) {
-            logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: message send error');
+        async function sendError(e, chatid, temp, msg, match, type) {
+            logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: valid, response: message send error');
             logger.debug(e.stack);
             try {
                 await bot.sendChatAction(chatid, 'typing');
@@ -67,7 +68,7 @@ module.exports = (bot, logger, helper) => {
                             switch_inline_query_current_chat: 'img '+match[1]
                     }]]}, reply_to_message_id: msg.message_id, parse_mode: 'HTML'});
             } catch(e) {
-                logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+tcom[0]+', type: valid, response: message send error send error');
+                logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: valid, response: message send error send error');
                 logger.debug(e.stack);
             }
         }
