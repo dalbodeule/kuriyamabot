@@ -32,14 +32,14 @@ module.exports = (bot, logger, helper) => {
 						}});
 						logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 					} catch(e) {
-						sendError(e);
+						sendError(e, chatid, temp, msg, match);
 					}
 				}
 			} catch(e) {
 				sendError(e);
 			}
         }
-        async function sendError(e) {
+        async function sendError(e, chatid, temp, msg, match) {
             try {
                 await bot.sendMessage(chatid, "❗️ "+temp.text(msg.chat.type, 'command.search.error')
                     .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]), {reply_markup:{ inline_keyboard: [[{
