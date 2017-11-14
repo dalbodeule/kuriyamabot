@@ -1,15 +1,15 @@
 module.exports = (bot, logger, helper) => {
     bot.on('message', async (msg) => {
-        if(msg.reply_to_message &&
-            !msg.reply_to_message.match(/🔍❗️/) &&
-            !msg.reply_to_message.from.username == global.botinfo.username &&
-            !msg.reply_to_message.text) return;
+        if(!msg.reply_to_message) return;
+        if(msg.reply_to_message.from.username != global.botinfo.username) return;
+        if(!msg.reply_to_message.match(/🔍❗️/)) return;
+
         const chatid = msg.chat.id;
         let temp;
         try {
             logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
             await bot.sendChatAction(chatid, 'typing');
-            let response = await searchModule.search(msg.text);
+            let response = await helper.search(msg.text);
             if(response == '') {
                 await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});
                 logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid, response: not found');
