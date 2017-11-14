@@ -8,11 +8,6 @@ module.exports = (bot, logger, modules) => {
                 logger.debug('chatid: '+msg.chat.id+', text: '+msg.text.replace(/\n/g, '\\n')+(typeof msg.chat.username != 'undefined' ? ', username: '+msg.chat.username : ', username: none'));
             }
             const chatid = msg.chat.id;
-            let tcom;
-
-            if(typeof msg.text == 'string') {
-                tcom = msg.text.match(/\{(img|pic|사진|이미지|짤|gg|문서|검색|구글|google) (.*)(?:\{|\})/);
-            } //chatCommand testcase
 
             if(typeof msg.new_chat_member != 'undefined') {
                 require('./message_join.js')(bot, logger, modules, msg); //chat join
@@ -21,8 +16,6 @@ module.exports = (bot, logger, modules) => {
             } else if(typeof(msg.reply_to_message) != 'undefined' && msg.reply_to_message.from.username == global.botinfo.username &&
                 typeof(msg.reply_to_message.text) != 'undefined') {
                 require('./google.js')(bot, logger, modules, msg);
-            } else if(tcom != null) {
-                require('./chatCommand.js')(bot, logger, modules, msg, tcom); //chatCommand
             }
         } else { //testcase time
             if(typeof msg.text != 'undefined') {

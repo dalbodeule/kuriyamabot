@@ -1,18 +1,18 @@
 "use strict";
 const telegram = require('node-telegram-bot-api'), dateformat = require('dateformat'),
     readline = require('readline'), log4js = require('log4js'),
-    modules = require('./src/modules'), logger = log4js.getLogger();
+    helper = require('./src/helper'), logger = log4js.getLogger();
 
 global.config = require('./config.json');
 
 if(global.config.dev == false) {
-    logger.setLevel('INFO');
+    logger.level = 'INFO';
     process.env.NODE_ENV = 'production';
 } else if(global.config.dev == true) {
-    logger.setLevel('DEBUG');
+    logger.level = 'DEBUG';
     process.env.NODE_ENV = 'development';
 } else {
-    logger.setLevel('ALL');
+    logger.level = 'ALL';
     process.env.NODE_ENV = 'development';
 }
 
@@ -27,10 +27,7 @@ logger.info('Bot is activated!');
     try {
         let res = await bot.getMe();
         global.botinfo = res;
-        const module_command = require('./src/module_command')(bot, logger, modules);
-        const module_message = require('./src/module_message')(bot, logger, modules);
-        const module_inline = require('./src/module_inline')(bot, logger, modules);
-        const module_callback = require('./src/module_callback')(bot, logger, modules);
+        const module_loader = require('./src/modules')(bot, logger, helper);
         
         logger.info('Ready!');
     } catch(e) {

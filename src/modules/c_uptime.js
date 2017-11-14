@@ -1,6 +1,4 @@
-"use strict";
-
-module.exports = (bot, logger, modules) => {
+module.exports = (bot, logger, helper) => {
 	const format = class {
 		constructor(time)  {
 			this.time = time;
@@ -24,18 +22,21 @@ module.exports = (bot, logger, modules) => {
 			const chatid = msg.chat.id;
 			let temp;
 			try {
-				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
-				await bot.sendChatAction(chatid, 'typing');
-				temp  = await modules.getlang(msg, logger);
+				logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: command received');
+				let send;
+                [send, temp] = await Promise.all([
+                    bot.sendChatAction(chatid, 'typing'),
+                    helper.getlang(msg, logger)
+                ]);
 				let uptime = new format(process.uptime());
 				await bot.sendMessage(chatid, "✅ "+temp.text(msg.chat.type, 'command.uptime.message')
 					.replace(/{hour}/g, uptime.hour)
 					.replace(/{min}/g, uptime.min)
 					.replace(/{sec}/g, uptime.sec), {
 					reply_to_message_id: msg.message_id});
-				logger.info('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
+				logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: valid');
 			} catch (e) {
-				logger.error('chatid: '+chatid+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
+				logger.error('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.text+', type: error');
 				logger.debug(e.stack);
 			}
 		}
