@@ -40,3 +40,4 @@ module.exports = (bot, logger, helper) => {
 			}
 		}
 	});
+}
