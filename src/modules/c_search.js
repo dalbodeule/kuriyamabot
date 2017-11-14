@@ -10,7 +10,6 @@ module.exports = (bot, logger, helper) => {
                     bot.sendChatAction(chatid, 'typing'),
                     helper.getlang(msg, logger)
                 ]);
-                console.log(temp);
 				let response = await helper.search(match[1]);
 				if(response == '') {
 					await bot.sendMessage(chatid, "🔍 "+temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id});

@@ -14,9 +14,13 @@ module.exports = {
                     let response = '';
                     for(let i=0; i<3; i++) {
                         if(typeof(res[i]) != 'undefined') {
+                            let tempDesc = res[i].description;
+                            if(tempDesc.length > 27) {
+                                tempDesc = tempDesc.substr(0, 30) + '...';
+                            }
+                            tempDesc.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
                             response = response+"\n"+'<a href="'+res[i].link+'">'+res[i].title+'</a>'+"\n"+
-                                (res[i].description != '' ? res[i].description.substr(0, 30).replace('&', '&amp;')
-                                    .replace('<', '&lt;').replace('>', '&gt;')+"\n\n" : '');
+                                (!res[i].description ? '' : tempDesc+"\n\n")
                         }
                     }
                     resolve(response);
