@@ -18,7 +18,7 @@ module.exports = (bot, logger, helper) => {
                 logger.info('message: chat left, chatid: '+chatid+', I\'m has left');
             }
         } catch(e) {
-            logger.error('message: chat left, chatid: '+chatid+', userid: '+msg.new_chat_member.id+', username: '+msg.from.username+' status: error');
+            logger.error('message: chat left, chatid: '+chatid+', userid: '+msg.left_chat_member.id+', username: '+msg.from.username+' status: error');
             logger.debug(e.stack);
         }
     });
