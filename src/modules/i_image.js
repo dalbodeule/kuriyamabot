@@ -10,7 +10,7 @@ module.exports = (bot, logger, helper) => {
             let temp;
             try {
                 temp = await helper.getlang(msg, logger);
-                if(typeof match[1] == 'undefined' || match[1] == '') {
+                if(typeof match[2] == 'undefined' || match[2] == '') {
                     try {
                         await bot.answerInlineQuery(q.id, [{type: 'article', title: '@'+global.botinfo.username+' (photo|image|img) (keyword)', id: 'help', input_message_content: {
                             message_text: '@'+global.botinfo.username+' (photo|image|img) (keyword)', parse_mode: 'HTML', disable_web_page_preview: true
@@ -27,7 +27,7 @@ module.exports = (bot, logger, helper) => {
                     }
                 } else {
                     try {
-                        let res = await google.img(match[1]);
+                        let res = await google.img(match[2]);
                         if(typeof res[0] == 'undefined') {
                             try {
                                 await bot.answerInlineQuery(q.id, [{type: 'article', title: 'not found', id: 'not found', input_message_content: {
@@ -52,12 +52,12 @@ module.exports = (bot, logger, helper) => {
                                         }],
                                         [{
                                             text: temp.inline('command.img.another'),
-                                            switch_inline_query_current_chat: 'img '+match[1]
+                                            switch_inline_query_current_chat: 'img '+match[2]
                                         }]]
                                         }, 
                                     });
                             }
-                            results.splice(30);
+                            results.splice(50);
                             try {
                                 await bot.answerInlineQuery(q.id, results, {cache_time: 3});
                                 logger.info('inlineid: '+q.id+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+msg.query+', type: valid');
@@ -67,11 +67,11 @@ module.exports = (bot, logger, helper) => {
                                     logger.debug(e.stack);
                                     await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content:{
                                             message_text: temp.group('command.img.error')
-                                            .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
+                                            .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[2]),
                                             parse_mode: 'HTML', disable_web_page_prefiew: true},
                                             reply_markup: { inline_keyboard: [[{
-                                                text: '@'+global.botinfo.username+' img '+match[1],
-                                                switch_inline_query_current_chat: 'img '+match[1]
+                                                text: '@'+global.botinfo.username+' img '+match[2],
+                                                switch_inline_query_current_chat: 'img '+match[2]
                                         }]]}
                                     }], {cache_time: 0});
                                 } catch(e) {
@@ -86,11 +86,11 @@ module.exports = (bot, logger, helper) => {
                             logger.debug(e.stack);
                             await bot.answerInlineQuery(q.id, [{type: 'article', title: 'error', id: 'error', input_message_content: {
                                     message_text: temp.group('command.img.error')
-                                    .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[1]),
+                                    .replace(/{botid}/g, '@'+global.botinfo.username).replace(/{keyword}/g, match[2]),
                                     parse_mode: 'HTML', disable_web_page_preview: true},
                                     reply_markup: { inline_keyboard: [[{
-                                    text: '@'+global.botinfo.username+' img '+match[1],
-                                    switch_inline_query_current_chat: 'img '+match[1]
+                                    text: '@'+global.botinfo.username+' img '+match[2],
+                                    switch_inline_query_current_chat: 'img '+match[2]
                                 }]]}
                             }], {cache_time: 3});
                         } catch(e) {
