@@ -4,6 +4,6 @@ module.exports = (bot, logger, helper) => {
             id: msg.id, query: msg.query
         };
 
-        logger.info('inlineid: '+q.id+', username: '+modules.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+q.query+', type: inline command received');
+        logger.info('inlineid: '+q.id+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', command: '+q.query+', type: inline command received');
     });
 }
