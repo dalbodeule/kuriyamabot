@@ -1,5 +1,6 @@
 module.exports = (bot, logger, helper) => {
     bot.onText(/\{(?:img|pic|사진|이미지|짤) (.*)(?:\{|\})/, async(msg, match) => {
+        if(Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return;
         const type = 'pic';
         const chatid = msg.chat.id;
         let temp;

@@ -1,5 +1,6 @@
 module.exports = (bot, logger, helper) => {
     bot.on('message', async (msg) => {
+        if(Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return;
         if(!msg.reply_to_message) return;
         if(msg.reply_to_message.from.username != global.botinfo.username) return;
         if(!msg.reply_to_message.text.match(/🖼❗️/)) return;

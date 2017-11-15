@@ -1,10 +1,12 @@
 module.exports = (bot, logger, helper) => {
     bot.onText(/\{(?:gg|문서|검색|구글|google) (.*)(?:\{|\})/, async(msg, match) => {
+        if(Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return;
         const type = 'google';
         const chatid = msg.chat.id;
         let temp;
         try{
             logger.info('chatid: '+chatid+', username: '+helper.getuser(msg.from)+', lang: '+msg.from.language_code+', chat command: '+type+', type: chat command received');
+            let send;
             [send, temp] = await Promise.all([
                 bot.sendChatAction(chatid, 'typing'),
                 helper.getlang(msg, logger)
