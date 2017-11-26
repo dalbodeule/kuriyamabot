@@ -8,7 +8,7 @@ module.exports = (bot, logger, helper) => {
         let temp;
         try {
             temp = await helper.getlang(msg, logger);
-            if(msg.data == 'help_help') {
+            if(msg.data == 'help') {
                 if(msg.message.text != "📒 "+temp.help('command.help.help')) {
                     try {
                         await bot.editMessageText("📒 "+temp.help('command.help.help'), {chat_id: msg.message.chat.id, message_id: msg.message.message_id, 
