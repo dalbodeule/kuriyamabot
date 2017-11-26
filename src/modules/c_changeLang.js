@@ -1,5 +1,5 @@
 module.exports = (bot, logger, helper) => {
-    bot.on('callback_query', (msg) => {
+    bot.on('callback_query', async(msg) => {
         let test = msg.data.match(/changelang_([a-zA-Z]{2})/);
         if(test) {
             const callid = msg.id;

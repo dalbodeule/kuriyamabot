@@ -1,5 +1,5 @@
 module.exports = (bot, logger, helper) => {
-    bot.on('inline_query', async (msg) => {
+    bot.on('inline_query', async(msg) => {
         const q = {
             id: msg.id, query: msg.query
         }
