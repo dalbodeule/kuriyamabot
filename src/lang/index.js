@@ -1,7 +1,7 @@
 "use strict";
 const objectPath = require('object-path'), language = require('languages'),
-	sqlite = require('sqlite3'), glob = require('glob-promise'),
-	path = require('path');
+	db = require('./db') , glob = require('glob-promise'),
+	path = require('path'), Seuelize = require('sequelize');
 const langs = {};
 
 module.exports = class {
@@ -35,29 +35,24 @@ module.exports = class {
 			} else {
 				this.id = msg.from.id;
 				this.logger = logger;
-				let db = new sqlite.Database('./database.sqlite');
 				try {
-					db = await((db) => {
-						return new Promise((resolve, reject) => {
-							db.serialize(() => {
-								resolve(db);
-							});
-						});
-					})(db);
-					let query = await((db) => {
-						return new Promise((resolve, reject) => {
-							db.get('select * from user where id = ?', this.id, (err, row) => {
-								if(err) reject(err);
-								else resolve(row);
-							});
-						});
-					})(db);
+					let query = await db.user.findAll({
+						where: {
+							id: this.id
+						},
+						attributes: [
+							'id',
+							'lang'
+						]
+					});
 					if(typeof query == 'undefined' || typeof query.lang == 'undefined') {
 						this.lang = msg.from.language_code.split('-')[0];
 						resolve(query);
 						logger.debug(this.id+' '+this.lang);
-						db.run("INSERT into user (id, lang) values (?, ?)",
-							[this.id, this.lang]);
+						db.user.create({
+							id: this.id,
+							lang: this.lang
+						});
 					} else {
 						this.lang = query.lang;
 						logger.debug('id: '+this.id+', lang: '+this.lang);
@@ -81,23 +76,14 @@ module.exports = class {
 			if(isExist == false) {
 				reject(Error(lang+' is not a valid value'))
 			}
-			let db = new sqlite.Database('./database.sqlite');
 			try {
-				db = await((db) => {
-					return new Promise((resolve, reject) => {
-						db.serialize(() => {
-							resolve(db);
-						});
-					});
-				})(db);
-				let query = await((db) => {
-					return new Promise((resolve, reject) => {
-						db.run('update user set lang = ? where id = ?', [lang, this.id], (err) => {
-							if(err) reject(err);
-							else resolve();
-						});
-					});
-				})(db);
+				let query = await db.user.update({
+					lang: this.lang
+				}, {
+					where: {
+						id: this.id
+					}
+				});
 				this.lang = lang;
 				this.logger.debug({id: this.id, lang: this.lang});
 				resolve();

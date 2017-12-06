@@ -1,4 +1,12 @@
 {
     "apiKey": "Place here your api key",
-    "dev": true
+    "dev": true,
+    "db": {
+        "database": "Place here your database",
+        "username": "Place here your db id",
+        "password": "Place here your db pw",
+        "host": "Place here your db host",
+        "sqlite_storage": "Place here your sqlite_storage",
+        "type": "Choose mysql, sqlite, postgres, mssql"
+    }
 }
