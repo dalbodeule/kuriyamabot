@@ -20,6 +20,8 @@ const user = db.define('user', {
     lang: {
         type: Sequelize.TEXT, allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 db.sync();
