@@ -65,3 +65,4 @@ database.sqlite
 
 ## lock file
 package-lock.json
+yarn.lock

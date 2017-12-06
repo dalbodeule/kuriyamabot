@@ -36,7 +36,7 @@ module.exports = class {
 				this.id = msg.from.id;
 				this.logger = logger;
 				try {
-					let query = await db.user.findAll({
+					let query = await db.user.findOne({
 						where: {
 							id: this.id
 						},
@@ -45,7 +45,7 @@ module.exports = class {
 							'lang'
 						]
 					});
-					if(typeof query == 'undefined' || typeof query.lang == 'undefined') {
+					if(!query.get || !query.get('lang')) {
 						this.lang = msg.from.language_code.split('-')[0];
 						resolve(query);
 						logger.debug(this.id+' '+this.lang);
@@ -78,7 +78,7 @@ module.exports = class {
 			}
 			try {
 				let query = await db.user.update({
-					lang: this.lang
+					lang: lang
 				}, {
 					where: {
 						id: this.id

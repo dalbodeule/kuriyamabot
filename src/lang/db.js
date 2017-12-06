@@ -15,10 +15,12 @@ const db = new Sequelize(config.db.database, config.db.username, config.db.passw
 
 const user = db.define('user', {
     id: {
-        type: Sequelize.INTEGER, allowNull: false, unique: true, primaryKey: true
+        type: Sequelize.INTEGER, allowNull: false, unique: true, primaryKey: true, validate: {
+            isInt: true
+        }
     },
     lang: {
-        type: Sequelize.TEXT, allowNull: false
+        type: Sequelize.STRING, allowNull: false
     }
 }, {
     timestamps: false
