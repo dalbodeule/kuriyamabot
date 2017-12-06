@@ -45,7 +45,7 @@ module.exports = class {
 							'lang'
 						]
 					});
-					if(!query.get || !query.get('lang')) {
+					if(!query || !query.get || !query.get('lang')) {
 						this.lang = msg.from.language_code.split('-')[0];
 						resolve(query);
 						logger.debug(this.id+' '+this.lang);
