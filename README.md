@@ -16,7 +16,8 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] /me - 유저정보 확인
  - [ ] /me @id - @id 유저 정보 확인
  - [x] /lang - 언어 변경
- - [x] /help 도움말 명령어
+ - [x] /help - 도움말 명령어
+ - [ ] /whatanime - whatanime.ga 검색
 
 ### 메세지
  - [x] 방 입장 메세지
