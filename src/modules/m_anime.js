@@ -28,7 +28,7 @@ module.exports = (bot, logger, helper) => {
       const response = await query.search(url)
       const result = response.docs[0]
       let resultMessage = ''
-      if (result.anime.toLowerCase() === result.title_english.toLowerCase()) {
+      if (result.anime.toLowerCase() !== result.title_english.toLowerCase()) {
         resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.anime + '\n' +
           temp.textb(msg.chat.type, 'command.whatanime.english') + ': ' + result.title_english + '\n'
       } else {
