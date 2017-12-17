@@ -56,7 +56,7 @@ module.exports = (bot, logger, helper) => {
       const time = new Format(result.at)
       resultMessage = resultMessage +
         temp.textb(msg.chat.type, 'command.whatanime.episode') + ' ' + result.episode + '\n' +
-        temp.textb(msg.chat.type, 'command.whatanime.time') + ' ' +
+        temp.textb(msg.chat.type, 'command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
       await bot.sendMessage(chatid, resultMessage, {
