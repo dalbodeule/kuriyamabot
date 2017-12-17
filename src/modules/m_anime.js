@@ -1,6 +1,6 @@
-const Whatanime = require('whatanimega-helper')
-
 module.exports = (bot, logger, helper) => {
+  const Whatanime = require('whatanimega-helper')
+
   bot.on('message', async (msg) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     if (!msg.photo) return
