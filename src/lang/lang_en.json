@@ -37,6 +37,7 @@
             "name": "Japanese name",
             "english": "English name",
             "episode": "Episode",
+            "time": "Time",
             "match": "accuracy",
             "info": "Please reply with an animated screenshot and you can search what animations are."
         }, "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",

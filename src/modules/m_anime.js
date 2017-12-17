@@ -1,6 +1,25 @@
 module.exports = (bot, logger, helper) => {
   const Whatanime = require('whatanimega-helper')
 
+  const Format = class {
+    constructor (time) {
+      this.time = time
+      return true
+    }
+    get hour () {
+      return this.pad(Math.floor(this.time / (60 * 60)))
+    }
+    get min () {
+      return this.pad(Math.floor(this.time % (60 * 60) / 60))
+    }
+    get sec () {
+      return this.pad(Math.floor(this.time % 60))
+    }
+    pad (s) {
+      return (s < 10 ? '0' : '') + s
+    }
+  }
+
   bot.on('message', async (msg) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     if (!msg.photo) return
@@ -34,8 +53,11 @@ module.exports = (bot, logger, helper) => {
       } else {
         resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.anime + '\n'
       }
+      const time = new Format(result.at)
       resultMessage = resultMessage +
         temp.textb(msg.chat.type, 'command.whatanime.episode') + ' ' + result.episode + '\n' +
+        temp.textb(msg.chat.type, 'command.whatanime.time') + ' ' +
+        (time.hour === 0 ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec +
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
       await bot.sendMessage(chatid, resultMessage, {
         parse_mode: 'HTML',
