@@ -8,5 +8,8 @@
         "host": "Place here your db host",
         "sqlite_storage": "Place here your sqlite_storage",
         "type": "Choose mysql, sqlite, postgres, mssql"
+    },
+    "apikey": {
+        "whatanime": "Place here your whatanime.ga api key"
     }
 }

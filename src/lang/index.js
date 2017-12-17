@@ -109,7 +109,7 @@ module.exports = class {
     } else if (language.getLanguageInfo(this.lang).name === 'English') {
       return objectPath.get(langs.English, code)
     } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) + 
+      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
         '(' + objectPath.get(langs.English, code) + ')'
     }
   }
@@ -159,6 +159,26 @@ module.exports = class {
       } else {
         return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
           '\n' + objectPath.get(langs.English, code)
+      }
+    } else if (type === 'private') {
+      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
+        return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
+      } else {
+        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
+      }
+    }
+  }
+
+  textb (type, code) {
+    if (type === 'group' || type === 'supergroup' || type === 'channel') {
+      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
+        return objectPath.get(langs.Korean, code) +
+          '(' + objectPath.get(langs.English, code) + ')'
+      } else if (language.getLanguageInfo(this.lang).name === 'English') {
+        return objectPath.get(langs.English, code)
+      } else {
+        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
+        '(' + objectPath.get(langs.English, code) + ')'
       }
     } else if (type === 'private') {
       if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
