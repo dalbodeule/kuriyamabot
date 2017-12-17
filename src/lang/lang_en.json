@@ -33,6 +33,13 @@
             "announce": "If you would like to change the language to use, please select from the list below.",
             "success": "🇺🇸 The language to be used in English has changed.",
             "error": "Failed to change language. Please try again."
+        }, "whatanime": {
+            "name": "Japanese name",
+            "english": "English name",
+            "episode": "Episode",
+            "time": "Time",
+            "match": "accuracy",
+            "info": "Please reply with an animated screenshot and you can search what animations are."
         }, "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
         "help": {
             "help": {
