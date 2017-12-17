@@ -59,7 +59,7 @@ module.exports = (bot, logger, helper) => {
         temp.textb(msg.chat.type, 'command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
-      const animeVideo = await query.previewVideo(result.season, result.title, result.filename, result.at)
+      const animeVideo = await query.previewVideo(result.season, result.title, result.filename, result.at, result.tokenthumb)
       await Promise.all([
         bot.sendMessage(chatid, resultMessage, {
           parse_mode: 'HTML',
