@@ -70,7 +70,7 @@ module.exports = (bot, logger, helper) => {
         temp.textb(msg.chat.type, 'command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
-      if (result.similarity < 70) {
+      if (result.similarity > 70) {
         await bot.sendMessage(chatid, resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect'), {
           parse_mode: 'HTML',
           disable_web_page_preview: true,
