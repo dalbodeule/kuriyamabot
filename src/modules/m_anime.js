@@ -22,12 +22,23 @@ module.exports = (bot, logger, helper) => {
 
   bot.on('message', async (msg) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
-    if (!msg.photo) return
-    if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
+    let photo
+    if (!msg.photo) {
+      if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text)) return
       if (!msg.reply_to_message) return
-      if (msg.reply_to_message.from.username !== global.botinfo.username) return
-      if (Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60) return
-      if (!msg.reply_to_message.text.match(/📺❗️/)) return
+      if (!msg.reply_to_message.photo) return
+      photo = msg.photo[msg.photo.length - 1].file_id
+    } else {
+      if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
+        if (!msg.reply_to_message) return
+        if (!msg.reply_to_message.photo) return
+        if (msg.reply_to_message.from.username !== global.botinfo.username) return
+        if (Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60) return
+        if (!msg.reply_to_message.text.match(/📺❗️/)) return
+        photo = msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id
+      } else {
+        photo = msg.photo[msg.photo.length - 1].file_id
+      }
     }
 
     const chatid = msg.chat.id
@@ -43,7 +54,7 @@ module.exports = (bot, logger, helper) => {
 
       const query = new Whatanime(global.config.apikey.whatanime)
 
-      const url = await bot.getFileLink(msg.photo[msg.photo.length - 1].file_id)
+      const url = await bot.getFileLink(photo)
       const response = await query.search(url)
       const result = response.docs[0]
       let resultMessage = ''
