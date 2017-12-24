@@ -27,7 +27,7 @@ module.exports = (bot, logger, helper) => {
       if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text)) return
       if (!msg.reply_to_message) return
       if (!msg.reply_to_message.photo) return
-      photo = msg.photo[msg.photo.length - 1].file_id
+      photo = msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id
     } else {
       if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
         if (!msg.reply_to_message) return
