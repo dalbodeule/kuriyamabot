@@ -70,17 +70,25 @@ module.exports = (bot, logger, helper) => {
         temp.textb(msg.chat.type, 'command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
-      const animeVideo = await query.previewVideo(result.season, result.anime, result.filename, result.at, result.tokenthumb)
-      await Promise.all([
-        bot.sendMessage(chatid, resultMessage, {
+      if (result.similarity < 70) {
+        await bot.sendMessage(chatid, resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect'), {
           parse_mode: 'HTML',
           disable_web_page_preview: true,
           reply_to_message_id: msg.message_id
-        }),
-        bot.sendVideo(chatid, animeVideo, {
-          reply_to_message_id: msg.message_id
         })
-      ])
+      } else {
+        const animeVideo = await query.previewVideo(result.season, result.anime, result.filename, result.at, result.tokenthumb)
+        await Promise.all([
+          bot.sendMessage(chatid, resultMessage, {
+            parse_mode: 'HTML',
+            disable_web_page_preview: true,
+            reply_to_message_id: msg.message_id
+          }),
+          bot.sendVideo(chatid, animeVideo, {
+            reply_to_message_id: msg.message_id
+          })
+        ])
+      }
       logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid')
     } catch (e) {
       logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
