@@ -24,8 +24,8 @@ module.exports = (bot, logger, helper) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     let photo
     if (!msg.photo) {
-      if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text) &&
-        !msg.reply_to_message && !msg.reply_to_message.photo &&
+      if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text) ||
+        !msg.reply_to_message || !msg.reply_to_message.photo ||
         Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60) {
         const chatid = msg.chat.id
         let temp
@@ -53,9 +53,9 @@ module.exports = (bot, logger, helper) => {
       }
     } else {
       if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
-        if (!msg.reply_to_message && !msg.reply_to_message.photo &&
-          msg.reply_to_message.from.username !== global.botinfo.username &&
-          Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60 &&
+        if (!msg.reply_to_message || !msg.reply_to_message.photo ||
+          msg.reply_to_message.from.username !== global.botinfo.username ||
+          Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60 ||
           !msg.reply_to_message.text.match(/📺❗️/)) {
           const chatid = msg.chat.id
           let temp
