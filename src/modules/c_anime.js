@@ -1,7 +1,18 @@
 module.exports = (bot, logger, helper) => {
   bot.onText(new RegExp('^/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$'), async (msg, match) => {
-    if (msg.photo) return
-    if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
+    if (msg.photo) {
+      if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text)) return
+      if (msg.reply_to_message) return
+      if (msg.reply_to_message.photo) return
+    } else {
+      if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
+        if (msg.reply_to_message) return
+        if (msg.reply_to_message.photo) return
+        if (msg.reply_to_message.from.username == global.botinfo.username) return
+        if (Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60) return
+        if (msg.reply_to_message.text.match(/📺❗️/)) return
+      }
+    }
       const chatid = msg.chat.id
       let temp
       try {
