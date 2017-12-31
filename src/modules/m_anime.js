@@ -79,7 +79,7 @@ module.exports = (bot, logger, helper) => {
           }
           return
         } else {
-          photo = msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id
+          photo = msg.photo[msg.photo.length - 1].file_id
         }
       } else {
         photo = msg.photo[msg.photo.length - 1].file_id
