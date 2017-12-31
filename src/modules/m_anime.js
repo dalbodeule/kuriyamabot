@@ -20,73 +20,30 @@ module.exports = (bot, logger, helper) => {
     }
   }
 
-  bot.on('message', async (msg) => {
-    if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
-    let photo
-    if (!msg.photo) {
-      if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text) ||
-        !msg.reply_to_message || !msg.reply_to_message.photo) {
-        const chatid = msg.chat.id
-        let temp
-        try {
-          // eslint-disable-next-line
-          let send
-          [send, temp] = await Promise.all([
-            bot.sendChatAction(chatid, 'typing'),
-            helper.getlang(msg, logger)
-          ])
-          await bot.sendMessage(chatid, '📺❗️ ' + temp.text(msg.chat.type, 'command.whatanime.info'), {
-            reply_to_message_id: msg.message_id,
-            parse_mode: 'HTML',
-            reply_markup: {
-              force_reply: true, selective: true
-            }
-          })
-          logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid,')
-        } catch (e) {
-          logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
-          logger.debug(e.stack)
+  const failure = async (chatid, msg) => {
+    let temp
+    try {
+      // eslint-disable-next-line
+      let send
+      [send, temp] = await Promise.all([
+        bot.sendChatAction(chatid, 'typing'),
+        helper.getlang(msg, logger)
+      ])
+      await bot.sendMessage(chatid, '📺❗️ ' + temp.text(msg.chat.type, 'command.whatanime.info'), {
+        reply_to_message_id: msg.message_id,
+        parse_mode: 'HTML',
+        reply_markup: {
+          force_reply: true, selective: true
         }
-        return
-      } else {
-        photo = msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id
-      }
-    } else {
-      if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
-        if (!msg.reply_to_message && !msg.reply_to_message.photo &&
-          msg.reply_to_message.from.username !== global.botinfo.username &&
-          !msg.reply_to_message.text.match(/📺❗️/)) {
-          const chatid = msg.chat.id
-          let temp
-          try {
-            // eslint-disable-next-line
-            let send
-            [send, temp] = await Promise.all([
-              bot.sendChatAction(chatid, 'typing'),
-              helper.getlang(msg, logger)
-            ])
-            await bot.sendMessage(chatid, '📺❗️ ' + temp.text(msg.chat.type, 'command.whatanime.info'), {
-              reply_to_message_id: msg.message_id,
-              parse_mode: 'HTML',
-              reply_markup: {
-                force_reply: true, selective: true
-              }
-            })
-            logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid,')
-          } catch (e) {
-            logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
-            logger.debug(e.stack)
-          }
-          return
-        } else {
-          photo = msg.photo[msg.photo.length - 1].file_id
-        }
-      } else {
-        photo = msg.photo[msg.photo.length - 1].file_id
-      }
+      })
+      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid,')
+    } catch (e) {
+      logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
+      logger.debug(e.stack)
     }
+  }
 
-    const chatid = msg.chat.id
+  const success = async (chatid, msg, photo) => {
     let temp
     try {
       logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: command received')
@@ -137,6 +94,36 @@ module.exports = (bot, logger, helper) => {
       logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid')
     } catch (e) {
       logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
+      logger.debug(e.stack)
+    }
+  }
+
+  bot.on('message', async (msg) => {
+    try {
+      if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
+      if (!msg.photo) {
+        if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text) &&
+          msg.reply_to_message && msg.reply_to_message.photo) {
+          await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
+        } else if (/^\/(?:무슨애니|whatanime)$/.test(msg.text)) {
+          await failure(msg.chat.id, msg)
+        }
+      } else {
+        if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
+          if (!msg.reply_to_message && !msg.reply_to_message.photo &&
+            msg.reply_to_message.from.username !== global.botinfo.username) {
+            if (!msg.reply_to_message.text.match(/📺❗️/)) {
+              await failure(msg.chat.id, msg)
+            } else {
+              await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
+            }
+          } else {
+            await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
+          }
+        }
+      }
+    } catch (e) {
+      logger.error('chatid: ' + msg.chat.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
       logger.debug(e.stack)
     }
   })
