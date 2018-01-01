@@ -4,6 +4,7 @@ module.exports = (bot, logger, helper) => {
     if (!msg.reply_to_message) return
     if (msg.reply_to_message.from.username !== global.botinfo.username) return
     if (Math.round((new Date()).getTime() / 1000) - msg.reply_to_message.date >= 60) return
+    if (!msg.reply_to_message) return
     if (!msg.reply_to_message.text.match(/🖼❗️/)) return
 
     const chatid = msg.chat.id
