@@ -101,24 +101,19 @@ module.exports = (bot, logger, helper) => {
   bot.on('message', async (msg) => {
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
-      if (!msg.photo) {
-        if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text) &&
-          msg.reply_to_message && msg.reply_to_message.photo) {
-          await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
-        } else if (/^\/(?:무슨애니|whatanime)$/.test(msg.text)) {
-          await failure(msg.chat.id, msg)
+      if (msg.photo) {
+        if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text)) {
+          await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
+        } else if (msg.reply_to_message.from.username !== global.botinfo.username &&
+          msg.reply_to_message.text.match(/📺❗️/)) {
+          await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
         }
       } else {
-        if (!/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
-          if (!msg.reply_to_message && !msg.reply_to_message.photo &&
-            msg.reply_to_message.from.username !== global.botinfo.username) {
-            if (!msg.reply_to_message.text.match(/📺❗️/)) {
-              await failure(msg.chat.id, msg)
-            } else {
-              await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
-            }
+        if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text)) {
+          if (msg.reply_to_message && msg.reply_to_message.photo) {
+            await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
           } else {
-            await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
+            await failure(msg.chat.id, msg)
           }
         }
       }
