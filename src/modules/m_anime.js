@@ -105,7 +105,8 @@ module.exports = (bot, logger, helper) => {
         if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.caption)) {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return
-        } else if (msg.reply_to_message.from.username === global.botinfo.username &&
+        } else if (msg.reply_to_message && msg.reply_to_message.from &&
+          msg.reply_to_message.from.username === global.botinfo.username &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return
