@@ -109,12 +109,12 @@ module.exports = (bot, logger, helper) => {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
         }
       } else {
-        if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text)) {
-          if (msg.reply_to_message && msg.reply_to_message.photo) {
-            await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
-          } else {
-            await failure(msg.chat.id, msg)
-          }
+        if (/^(?:무슨애니|whatanime|\/무슨애니|\/whatanime|무슨애니\?|anime)$/.test(msg.text) &&
+          msg.reply_to_message && msg.reply_to_message.photo) {
+          await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
+        } else if (/^\/(?:무슨애니|\/whatanime)$/.test(msg.text) &&
+          !msg.reply_to_message && !msg.reply_to_message.photo) {
+          await failure(msg.chat.id, msg)
         }
       }
     } catch (e) {
