@@ -72,6 +72,10 @@
                 "name": "내 정보",
                 "description": "자신의 정보를 볼 수 있습니다.",
                 "how": "/정보{botid}"
+            }, "whatanime": {
+                "name": "무슨애니",
+                "description": "애니메이션의 스크린샷으로 무슨 애니메이션인지 찾아볼 수 있습니다.",
+                "how": "/무슨애니{botid}"
             },
             "twice": "이미 보시고 계신 도움말입니다!",
             "contact": "개발자와 연락"
