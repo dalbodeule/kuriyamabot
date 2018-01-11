@@ -72,7 +72,12 @@
                 "name": "My Info",
                 "description": "You can see your own information.",
                 "how": "/me{botid}"
-            }, "twice": "Here are some tips you already have!",
+            }, "whatanime": {
+                "name": "whatanime",
+                "description": "You can find out what animations are in the screenshots of the animation.",
+                "how": "/whatanime{botid}"
+            },
+            "twice": "Here are some tips you already have!",
             "contact": "Contact Developer"
         }
     }, "message": {

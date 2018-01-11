@@ -48,6 +48,9 @@ module.exports = {
         callback_data: 'help_me'
       }],
       [{
+        text: '📺 ' + temp.inline('command.help.whatanime.name'),
+        callback_data: 'help_whatanime'
+      }, {
         text: '😁 ' + temp.inline('command.help.contact'),
         url: 'https://t.me/small_sunshine'
       }]
