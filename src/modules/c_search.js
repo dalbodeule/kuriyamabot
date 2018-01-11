@@ -12,10 +12,10 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger)
         ])
         let response = await helper.search(match[1])
-        if (response == '') {
+        if (response === '') {
           await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id})
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid')
-        } else if (response == false) {
+        } else if (response === false) {
           await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id})
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: google bot block')
         } else {
