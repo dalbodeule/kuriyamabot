@@ -73,7 +73,8 @@ module.exports = (bot, logger, helper) => {
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
       if (result.similarity * 100 < 70) {
-        await bot.sendMessage(chatid, resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect'), {
+        resultMessage = resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect')
+        await bot.sendMessage(chatid, resultMessage, {
           parse_mode: 'HTML',
           disable_web_page_preview: true,
           reply_to_message_id: msg.message_id
@@ -99,8 +100,7 @@ module.exports = (bot, logger, helper) => {
   }
 
   bot.on('message', async (msg) => {
-    // eslint-disable-next-line
-    const regex1 = new RegExp('^(?:무슨애니\??|whatanime|anime|\/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?)$')
+    const regex1 = new RegExp('^(?:무슨애니|whatanime|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?)$')
     const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
