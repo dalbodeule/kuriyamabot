@@ -99,10 +99,13 @@ module.exports = (bot, logger, helper) => {
   }
 
   bot.on('message', async (msg) => {
+    // eslint-disable-next-line
+    const regex1 = new RegExp('^(?:무슨애니|whatanime|무슨애니\?|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')?)? ?$')
+    const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
       if (msg.photo) {
-        if (new RegExp('^(?:무슨애니|whatanime|무슨애니?|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')?)? ?$').test(msg.caption)) {
+        if (regex1.test(msg.caption)) {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return
         } else if (msg.reply_to_message && msg.reply_to_message.from &&
@@ -112,11 +115,11 @@ module.exports = (bot, logger, helper) => {
           return
         }
       } else {
-        if (new RegExp('^(?:무슨애니|whatanime|무슨애니?|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')?)? ?$').test(msg.text) &&
+        if (regex1.test(msg.text) &&
           msg.reply_to_message && msg.reply_to_message.photo) {
           await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
           return
-        } else if (new RegExp('/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$').test(msg.text)) {
+        } else if (regex2.test(msg.text)) {
           await failure(msg.chat.id, msg)
           return
         }
