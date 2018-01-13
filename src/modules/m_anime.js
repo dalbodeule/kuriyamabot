@@ -100,7 +100,7 @@ module.exports = (bot, logger, helper) => {
 
   bot.on('message', async (msg) => {
     // eslint-disable-next-line
-    const regex1 = new RegExp('^(?:무슨애니|whatanime|무슨애니\?|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')?)? ?$')
+    const regex1 = new RegExp('^(?:무슨애니|whatanime|무슨애니\?|anime|\/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?)$')
     const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
