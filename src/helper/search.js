@@ -18,7 +18,7 @@ module.exports = {
               if (tempDesc.length > 27) {
                 tempDesc = tempDesc.substr(0, 30) + '...'
               }
-              tempDesc.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+              tempDesc.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
               response = response + '\n' + '<a href="' + res[i].link + '">' + res[i].title + '</a>' + '\n' +
                 (!res[i].description ? '' : tempDesc + '\n\n')
             }
