@@ -60,27 +60,30 @@ module.exports = (bot, logger, helper) => {
             } else {
               let results = []
               for (let i in res) {
-                results.push({
-                  type: 'photo',
-                  photo_url: res[i].img,
-                  thumb_url: res[i].img,
-                  id: q.id + '/photo/' + i,
-                  reply_markup: {
-                    inline_keyboard: [[{
-                      text: temp.inline('command.img.visit_page'),
-                      url: res[i].url
-                    }, {
-                      text: temp.inline('command.img.view_image'),
-                      url: res[i].img
-                    }],
-                    [{
-                      text: temp.inline('command.img.another'),
-                      switch_inline_query_current_chat: 'img ' + match[2]
-                    }]]
-                  }
-                })
+                if (!res[i].img.match(/x-raw-image:\/\/\//)) {
+                  results.push({
+                    type: 'photo',
+                    photo_url: res[i].img,
+                    thumb_url: res[i].img,
+                    id: q.id + '/photo/' + i,
+                    reply_markup: {
+                      inline_keyboard: [[{
+                        text: temp.inline('command.img.visit_page'),
+                        url: res[i].url
+                      }, {
+                        text: temp.inline('command.img.view_image'),
+                        url: res[i].img
+                      }],
+                      [{
+                        text: temp.inline('command.img.another'),
+                        switch_inline_query_current_chat: 'img ' + match[2]
+                      }]]
+                    }
+                  })
+                }
               }
               results.splice(50)
+              console.log(results)
               try {
                 await bot.answerInlineQuery(q.id, results, {
                   cache_time: 3
