@@ -18,7 +18,7 @@ module.exports = {
               if (tempDesc.length > 27) {
                 tempDesc = tempDesc.substr(0, 30) + '...'
               }
-              tempDesc.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+              tempDesc.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
               response = response + '\n' + '<a href="' + res[i].link + '">' + res[i].title + '</a>' + '\n' +
                 (!res[i].description ? '' : tempDesc + '\n\n')
             }
@@ -40,6 +40,11 @@ module.exports = {
         if (typeof res[0] === 'undefined') {
           resolve(undefined)
         } else {
+          res.forEach((current, index, thisarr) => {
+            if (current.url.match(/x-raw-image:\/\/\//)) {
+              thisarr.splice(index, 1)
+            }
+          })
           let random = getRandomIntInclusive(0, (res.length < 20 ? res.length - 1 : 19))
           resolve({img: res[random].img, url: res[random].url})
         }
