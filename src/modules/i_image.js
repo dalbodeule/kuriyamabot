@@ -83,7 +83,6 @@ module.exports = (bot, logger, helper) => {
                 }
               }
               results.splice(50)
-              console.log(results)
               try {
                 await bot.answerInlineQuery(q.id, results, {
                   cache_time: 3
