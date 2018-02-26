@@ -19,19 +19,28 @@ module.exports = (bot, logger, helper) => {
             id: chatid
           }
         })
-        value = value.get({plain: true})
-        let welcomeMessage
-        if (value && value.welcomeMessage) {
-          welcomeMessage = value.welcomeMessage
+        if (!value) {
+          await bot.sendMessage(chatid, temp.text(msg.chat.type, 'message.join')
+            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{userid}/g, msg.new_chat_member.first_name), {
+            reply_to_message_id: msg.message_id
+          })
+          logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
         } else {
-          welcomeMessage = temp.text(msg.chat.type, 'message.join')
+          value = value.get({plain: true})
+          let welcomeMessage
+          if (value && value.welcomeMessage) {
+            welcomeMessage = value.welcomeMessage
+          } else {
+            welcomeMessage = temp.text(msg.chat.type, 'message.join')
+          }
+          await bot.sendMessage(chatid, welcomeMessage
+            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{userid}/g, msg.new_chat_member.first_name), {
+            reply_to_message_id: msg.message_id
+          })
+          logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
         }
-        await bot.sendMessage(chatid, welcomeMessage
-          .replace(/{roomid}/g, msg.chat.title)
-          .replace(/{userid}/g, msg.new_chat_member.first_name), {
-          reply_to_message_id: msg.message_id
-        })
-        logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
       } else {
         await bot.sendChatAction(chatid, 'typing')
         await bot.sendMessage(chatid, '👋 ' + temp.text(msg.chat.type, 'message.botjoin'))

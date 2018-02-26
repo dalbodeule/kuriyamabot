@@ -19,19 +19,28 @@ module.exports = (bot, logger, helper) => {
             id: chatid
           }
         })
-        value = value.get({plain: true})
-        let leaveMessage
-        if (value && value.leaveMessage) {
-          leaveMessage = value.leaveMessage
+        if (!value) {
+          await bot.sendMessage(chatid, temp.text(msg.chat.type, 'message.left')
+            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{userid}/g, msg.left_chat_member.first_name), {
+            reply_to_message_id: msg.message_id
+          })
+          logger.info('message: chat left, chatid: ' + chatid + ', userid: ' + msg.left_chat_member.id + ', username: ' + msg.from.username)
         } else {
-          leaveMessage = temp.text(msg.chat.type, 'message.left')
+          value = value.get({plain: true})
+          let leaveMessage
+          if (value && value.leaveMessage) {
+            leaveMessage = value.leaveMessage
+          } else {
+            leaveMessage = temp.text(msg.chat.type, 'message.left')
+          }
+          await bot.sendMessage(chatid, leaveMessage
+            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{userid}/g, msg.left_chat_member.first_name), {
+            reply_to_message_id: msg.message_id
+          })
+          logger.info('message: chat left, chatid: ' + chatid + ', userid: ' + msg.left_chat_member.id + ', username: ' + msg.from.username)
         }
-        await bot.sendMessage(chatid, leaveMessage
-          .replace(/{roomid}/g, msg.chat.title)
-          .replace(/{userid}/g, msg.left_chat_member.first_name), {
-          reply_to_message_id: msg.message_id
-        })
-        logger.info('message: chat left, chatid: ' + chatid + ', userid: ' + msg.left_chat_member.id + ', username: ' + msg.from.username)
       } else {
         logger.info('message: chat left, chatid: ' + chatid + ', I\'m has left')
       }
