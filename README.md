@@ -18,10 +18,14 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] /lang - 언어 변경
  - [x] /help - 도움말 명령어
  - [x] /whatanime - whatanime.ga 검색
+ - [x] /welcome - 커스텀 입장메세지
+ - [x] /leave - 커스텀 퇴장메세지
 
 ### 메세지
  - [x] 방 입장 메세지
+ - [x] 커스텀 입장메세지
  - [x] 방 퇴장 메세지
+ - [x] 커스텀 퇴장메세지
 
 ### 인라인 커맨드
  - [x] 구글 검색

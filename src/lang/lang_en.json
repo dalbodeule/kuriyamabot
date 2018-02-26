@@ -41,7 +41,15 @@
             "match": "accuracy",
             "info": "Please reply with an animated screenshot and you can search what animations are.",
             "incorrect": "If the accuracy is less than 70%, no preview will be provided."
-        }, "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
+        }, "welcome": {
+            "success": "The message is set up well.",
+            "help": "How to write an entry message: You can write it in any way. {roomid} specifies the name of this room, and {userid} is the name of the user. \n Examples: `Welcome to {roomid}, {userid}!`"
+        }, "leave": {
+            "success": "The message is set up well.",
+            "help": "How to write an entry message: You can write it in any way. {roomid} specifies the name of this room, and {userid} is the name of the user. \n Examples: `{userid} has been removed from {roomid}.`"
+        }, 
+        "lowPermission": "당신은 이걸 할 수 있는 권한이 부족합니다.",
+        "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
         "help": {
             "help": {
                 "name": "Help",
