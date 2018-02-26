@@ -1,7 +1,7 @@
 const db = require('../db')
 
 module.exports = (bot, logger, helper) => {
-  bot.onText(new RegExp('^/welcome+(?:@' + global.botinfo.username + ')? (.*)$'), async (msg, match) => {
+  bot.onText(new RegExp('^/welcome+(?:@' + global.botinfo.username + ')? ([^\r]+)$'), async (msg, match) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       let temp
