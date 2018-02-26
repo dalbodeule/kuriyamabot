@@ -26,28 +26,39 @@ module.exports = (bot, logger, helper) => {
               id: chatid
             }
           })
-          value = value.get({plain: true})
-          if (Array.isArray(value) && value.welcomeMessage) {
+          if (!value) {
             await db.message.create({
               id: chatid,
               welcomeMessage: match[1]
             })
-            await bot.sendMessage(chatid, ' ' + temp.grup('command.welcome.success'), {
+            await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
               reply_to_message_id: msg.message_id
             })
             logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
           } else {
-            await db.message.update({
-              welcomeMessage: match[1]
-            }, {
-              where: {
-                id: chatid
-              }
-            })
-            await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
-              reply_to_message_id: msg.message_id
-            })
-            logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: update success')
+            value = value.get({plain: true})
+            if (Array.isArray(value) && value.welcomeMessage) {
+              await db.message.create({
+                id: chatid,
+                welcomeMessage: match[1]
+              })
+              await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
+                reply_to_message_id: msg.message_id
+              })
+              logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
+            } else {
+              await db.message.update({
+                welcomeMessage: match[1]
+              }, {
+                where: {
+                  id: chatid
+                }
+              })
+              await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
+                reply_to_message_id: msg.message_id
+              })
+              logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: update success')
+            }
           }
         }
       } catch (e) {
