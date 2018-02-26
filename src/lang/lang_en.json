@@ -49,7 +49,7 @@
             "help": "How to write an entry message: You can write it in any way. {roomid} specifies the name of this room, and {userid} is the name of the user. \n Examples: `{userid} has been removed from {roomid}.`"
         }, 
         "lowPermission": "You lack the authority to do this.",
-        "isnotgruop": "You can not do this unless you are a group or a super group.",
+        "isnotgroup": "You can not do this unless you are a group or a super group.",
         "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
         "help": {
             "help": {
