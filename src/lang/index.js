@@ -1,7 +1,7 @@
 'use strict'
 const objectPath = require('object-path')
 const language = require('languages')
-const db = require('./db')
+const db = require('../db')
 const glob = require('glob-promise')
 const path = require('path')
 const langs = {}

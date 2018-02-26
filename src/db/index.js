@@ -31,6 +31,31 @@ const user = db.define('user', {
   timestamps: false
 })
 
+const message = db.define('message', {
+  id: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    unique: true,
+    primaryKey: true,
+    validate: {
+      isInt: true
+    }
+  },
+  welcomeMessage: {
+    type: Sequelize.TEXT,
+    allowNull: true,
+    unique: false
+  },
+  leaveMessage: {
+    type: Sequelize.TEXT,
+    allowNull: true,
+    unique: false
+  }
+}, {
+  timestamps: false
+})
+
 db.sync()
 
 module.exports.user = user
+module.exports.message = message

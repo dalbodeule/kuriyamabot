@@ -41,7 +41,16 @@
             "match": "accuracy",
             "info": "Please reply with an animated screenshot and you can search what animations are.",
             "incorrect": "If the accuracy is less than 70%, no preview will be provided."
-        }, "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
+        }, "welcome": {
+            "success": "The message is set up well.",
+            "help": "How to write an entry message: You can write it in any way. {roomid} specifies the name of this room, and {userid} is the name of the user. \n Examples: `Welcome to {roomid}, {userid}!`"
+        }, "leave": {
+            "success": "The message is set up well.",
+            "help": "How to write an entry message: You can write it in any way. {roomid} specifies the name of this room, and {userid} is the name of the user. \n Examples: `{userid} has been removed from {roomid}.`"
+        }, 
+        "lowPermission": "You lack the authority to do this.",
+        "isnotgroup": "You can not do this unless you are a group or a super group.",
+        "me": "User ID: {userid}\nFirst name: {fname}\nLast name: {lname}\n ID: {name}\nUse language: {lang}\n",
         "help": {
             "help": {
                 "name": "Help",
@@ -76,6 +85,14 @@
                 "name": "whatanime",
                 "description": "You can find out what animations are in the screenshots of the animation.",
                 "how": "/whatanime{botid}"
+            },"welcome": {
+                "name": "Custom entry message",
+                "description": "You can set an entry message for this room.",
+                "how": "/welcome{botid}"
+            }, "leave": {
+                "name": "Custom exit message",
+                "description": "You can set a message to leave this room.",
+                "how": "/leave{botid}"
             },
             "twice": "Here are some tips you already have!",
             "contact": "Contact Developer"
