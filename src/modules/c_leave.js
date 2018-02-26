@@ -14,7 +14,7 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger),
           bot.getChatAdministrators(chatid)
         ])
-        if (msg.chat.type !== 'group' || msg.chat.type !== 'supergroup') {
+        if (msg.chat.type !== 'group' && msg.chat.type !== 'supergroup') {
           await bot.sendMessage(chatid, '❗️ ' + temp.group('command.isnotgroup'))
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: isnotgroup')
         } else {
@@ -85,7 +85,7 @@ module.exports = (bot, logger, helper) => {
           bot.sendChatAction(chatid, 'typing'),
           helper.getlang(msg, logger)
         ])
-        if (msg.chat.type !== 'group' || msg.chat.type !== 'supergroup') {
+        if (msg.chat.type !== 'group' && msg.chat.type !== 'supergroup') {
           await bot.sendMessage(chatid, '❗️ ' + temp.group('command.isnotgroup'))
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: isnotgroup')
         } else {
