@@ -15,14 +15,14 @@ module.exports = (bot, logger, helper) => {
           bot.getChatAdministrators(chatid)
         ])
         if (msg.chat.type !== 'group' || msg.chat.type !== 'supergroup') {
-          await bot.sendMessage(chatid, '❗️ ' + temp.grup('command.isnotgroup'))
+          await bot.sendMessage(chatid, '❗️ ' + temp.group('command.isnotgroup'))
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: isnotgroup')
         } else {
           isAdmin = admins.some((v) => {
             return v.user.id === msg.from.id
           })
           if (!isAdmin) {
-            await bot.sendMessage(chatid, '❗️ ' + temp.grup('command.lowPermission'))
+            await bot.sendMessage(chatid, '❗️ ' + temp.group('command.lowPermission'))
             logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: lowPermission')
           } else {
             let value = await db.message.findOne({
@@ -86,7 +86,7 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger)
         ])
         if (msg.chat.type !== 'group' || msg.chat.type !== 'supergroup') {
-          await bot.sendMessage(chatid, '❗️ ' + temp.grup('command.isnotgroup'))
+          await bot.sendMessage(chatid, '❗️ ' + temp.group('command.isnotgroup'))
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: isnotgroup')
         } else {
           await bot.sendMessage(chatid, '🔧 ' + temp.group('command.welcome.help'), {
