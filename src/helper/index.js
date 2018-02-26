@@ -51,6 +51,13 @@ module.exports = {
         text: '📺 ' + temp.inline('command.help.whatanime.name'),
         callback_data: 'help_whatanime'
       }, {
+        text: '👋 ' + temp.inline('command.help.welcome.name'),
+        callback_data: 'help_welcome'
+      }],
+      [{
+        text: '👋 ' + temp.inline('command.help.leave.name'),
+        callback_data: 'help_leave'
+      }, {
         text: '😁 ' + temp.inline('command.help.contact'),
         url: 'https://t.me/small_sunshine'
       }]
