@@ -11,7 +11,8 @@ const db = new Sequelize(config.db.database, config.db.username, config.db.passw
     idle: 10000
   },
   storage: config.db.sqlite_storage,
-  operatorsAliases: false
+  operatorsAliases: false,
+  logging: false
 })
 
 const user = db.define('user', {

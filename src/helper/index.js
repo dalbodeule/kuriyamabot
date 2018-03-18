@@ -2,23 +2,17 @@
 const search = require('./search')
 module.exports = {
   getuser (user) {
-    if (user.username === undefined) {
+    if (!user.username) {
       return user.first_name
     } else {
       return user.username
     }
   },
   async getlang (msg, logger) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const Lang = require('../lang')
-        let temp = new Lang()
-        await temp.set(msg, logger)
-        resolve(temp)
-      } catch (e) {
-        reject(e)
-      }
-    })
+    const Lang = require('../lang')
+    let temp = new Lang()
+    await temp.set(msg, logger)
+    return temp
   },
   commandlist (temp) {
     return [

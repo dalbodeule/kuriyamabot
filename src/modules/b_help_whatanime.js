@@ -19,7 +19,7 @@ module.exports = (bot, logger, helper) => {
               reply_markup: {
                 inline_keyboard: helper.commandlist(temp)
               }})
-            logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')     
+            logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
           } catch (e) {
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
             logger.debug(e.message)
