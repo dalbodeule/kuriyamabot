@@ -32,5 +32,6 @@ logger.info('Bot is activated!');
     logger.info('Ready!')
   } catch (e) {
     logger.error(e)
+    process.exit(0)
   }
 })()

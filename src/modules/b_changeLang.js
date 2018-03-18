@@ -14,7 +14,7 @@ module.exports = (bot, logger, helper) => {
             reply_to_message_id: msg.message_id,
             parse_mode: 'HTML'
           })
-          logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')     
+          logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
         } catch (e) {
           try {
             await bot.editMessageText('❗️ ' + temp.group('command.lang.error'), {chat_id: msg.message.chat.id,

@@ -1,6 +1,6 @@
 module.exports = (bot, logger, helper) => {
   const answer = (msg, temp) => {
-    bot.answerCallbackQuery(msg.id, temp.group('command.help.twice'));
+    bot.answerCallbackQuery(msg.id, temp.group('command.help.twice'))
   }
 
   bot.on('callback_query', async (msg) => {

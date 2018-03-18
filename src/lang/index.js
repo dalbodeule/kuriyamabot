@@ -15,84 +15,70 @@ module.exports = class {
   }
 
   async set (msg, logger) {
-    return new Promise(async (resolve, reject) => {
-      if (Object.keys(langs).length === 0) {
-        logger.info('Language: Language not loaded')
-        await (async () => {
-          let items = await glob(path.join(__dirname, 'lang_*.json'))
-          for (let i of items) {
-            let temp = require(i)
-            langs[temp.lang.langname] = temp
-            logger.info('Language: "' + temp.lang.langname + '" Load complete')
-          }
-        })()
-        logger.info('Language: Language load complete')
-        this.ready = true
-      } else {
-        this.ready = true
+    if (Object.keys(langs).length === 0) {
+      logger.info('Language: Language not loaded')
+      let items = await glob(path.join(__dirname, 'lang_*.json'))
+      for (let i of items) {
+        let temp = require(i)
+        langs[temp.lang.langname] = temp
+        logger.info('Language: "' + temp.lang.langname + '" Load complete')
       }
+      logger.info('Language: Language load complete')
+      this.ready = true
+    } else {
+      this.ready = true
+    }
 
-      if (typeof msg.from.language_code === 'undefined') {
-        resolve(undefined)
+    if (typeof msg.from.language_code === 'undefined') {
+      return undefined
+    } else {
+      this.id = msg.from.id
+      this.logger = logger
+      let query = await db.user.findOne({
+        where: {
+          id: this.id
+        },
+        attributes: [
+          'id',
+          'lang'
+        ]
+      })
+      if (!query || !query.get || !query.get('lang')) {
+        this.lang = msg.from.language_code.split('-')[0]
+        logger.debug(this.id + ' ' + this.lang)
+        db.user.create({
+          id: this.id,
+          lang: this.lang
+        })
+        return query
       } else {
-        this.id = msg.from.id
-        this.logger = logger
-        try {
-          let query = await db.user.findOne({
-            where: {
-              id: this.id
-            },
-            attributes: [
-              'id',
-              'lang'
-            ]
-          })
-          if (!query || !query.get || !query.get('lang')) {
-            this.lang = msg.from.language_code.split('-')[0]
-            resolve(query)
-            logger.debug(this.id + ' ' + this.lang)
-            db.user.create({
-              id: this.id,
-              lang: this.lang
-            })
-          } else {
-            this.lang = query.lang
-            logger.debug('id: ' + this.id + ', lang: ' + this.lang)
-            resolve(query)
-          }
-        } catch (e) {
-          reject(e)
-        }
+        this.lang = query.lang
+        logger.debug('id: ' + this.id + ', lang: ' + this.lang)
+        return query
       }
-    })
+    }
   }
 
   async langset (lang) {
-    return new Promise(async (resolve, reject) => {
-      let isExist = false
-      for (let i in Object.keys(langs)) {
-        if (langs[Object.keys(langs)[i]].lang.code === lang) {
-          isExist = true
-        }
+    let isExist = false
+    for (let i in Object.keys(langs)) {
+      if (langs[Object.keys(langs)[i]].lang.code === lang) {
+        isExist = true
       }
-      if (isExist === false) {
-        reject(Error(lang + ' is not a valid value'))
-      }
-      try {
-        await db.user.update({
-          lang: lang
-        }, {
-          where: {
-            id: this.id
-          }
-        })
-        this.lang = lang
-        this.logger.debug({id: this.id, lang: this.lang})
-        resolve()
-      } catch (e) {
-        reject(e)
+    }
+    if (isExist === false) {
+      throw Error(lang + ' is not a valid value')
+    }
+    await db.user.update({
+      lang: lang
+    }, {
+      where: {
+        id: this.id
       }
     })
+    this.lang = lang
+    this.logger.debug({id: this.id, lang: this.lang})
+    return true
   }
 
   person (code) {
