@@ -1,4 +1,6 @@
 # gjmoribot
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsmall-sunshines%2Fgjmoribot.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsmall-sunshines%2Fgjmoribot?ref=badge_shield)
+
 telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
 
 ## 제작 및 번역도움
@@ -45,3 +47,6 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] TextCommand
  -- [x] 구글 검색
  -- [x] 구글 이미지검색
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsmall-sunshines%2Fgjmoribot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsmall-sunshines%2Fgjmoribot?ref=badge_large)
