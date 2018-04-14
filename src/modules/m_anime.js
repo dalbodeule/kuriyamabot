@@ -1,24 +1,6 @@
 module.exports = (bot, logger, helper) => {
   const Whatanime = require('whatanimega-helper')
-
-  const Format = class {
-    constructor (time) {
-      this.time = time
-      return true
-    }
-    get hour () {
-      return this.pad(Math.floor(this.time / (60 * 60)))
-    }
-    get min () {
-      return this.pad(Math.floor(this.time % (60 * 60) / 60))
-    }
-    get sec () {
-      return this.pad(Math.floor(this.time % 60))
-    }
-    pad (s) {
-      return (s < 10 ? '0' : '') + s
-    }
-  }
+  const Format = require('../helper/timeFormat')
 
   const failure = async (chatid, msg) => {
     let temp
@@ -61,10 +43,10 @@ module.exports = (bot, logger, helper) => {
       const result = response.docs[0]
       let resultMessage = ''
       if (result.anime.toLowerCase() !== result.title_english.toLowerCase()) {
-        resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.title + '\n' +
+        resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n' +
           temp.textb(msg.chat.type, 'command.whatanime.english') + ': ' + result.title_english + '\n'
       } else {
-        resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.anime + '\n'
+        resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n'
       }
       const time = new Format(result.at)
       resultMessage = resultMessage +
@@ -74,6 +56,13 @@ module.exports = (bot, logger, helper) => {
         temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
       if (result.similarity * 100 < 70) {
         resultMessage = resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect')
+        await bot.sendMessage(chatid, resultMessage, {
+          parse_mode: 'HTML',
+          disable_web_page_preview: true,
+          reply_to_message_id: msg.message_id
+        })
+      } else if (result.is_adult) {
+        resultMessage = resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.isAdult')
         await bot.sendMessage(chatid, resultMessage, {
           parse_mode: 'HTML',
           disable_web_page_preview: true,

@@ -1,22 +1,5 @@
 module.exports = (bot, logger, helper) => {
-  const Format = class {
-    constructor (time) {
-      this.time = time
-      return true
-    }
-    get hour () {
-      return this.pad(Math.floor(this.time / (60 * 60)))
-    }
-    get min () {
-      return this.pad(Math.floor(this.time % (60 * 60) / 60))
-    }
-    get sec () {
-      return this.pad(Math.floor(this.time % 60))
-    }
-    pad (s) {
-      return (s < 10 ? '0' : '') + s
-    }
-  }
+  const Format = require('../helper/timeFormat')
 
   bot.onText(new RegExp('^/(?:작동시간|uptime)+(?:@' + global.botinfo.username + ')? ?$'), async (msg, match) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
