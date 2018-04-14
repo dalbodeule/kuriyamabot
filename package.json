@@ -16,7 +16,7 @@
   },
   "private": true,
   "author": "small_sunshine",
-  "license": "AGPL-3.0-only",
+  "license": "AGPL-3.0",
   "dependencies": {
     "dateformat": "^2.2.0",
     "dom-parser": "^0.1.5",
