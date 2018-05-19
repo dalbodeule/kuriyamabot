@@ -22,7 +22,7 @@ module.exports = (bot, logger, helper) => {
       } else {
         try {
           await bot.sendMessage(chatid, res, {
-            arse_mode: 'HTML',
+            parse_mode: 'HTML',
             disable_web_page_preview: true,
             reply_to_message_id: msg.message_id,
             reply_markup: {
