@@ -4,7 +4,20 @@ const log4js = require('log4js')
 const helper = require('./src/helper')
 const logger = log4js.getLogger()
 
-global.config = require('./config.json')
+global.config = {
+  apiKey: (process.env.apiKey || null),
+  dev: (process.env.dev || true),
+  db: {
+    database: (process.env.database || null),
+    username: (process.env.dbuser || null),
+    password: (process.env.dbpw || null),
+    host: (process.env.dbhost || null),
+    type: (process.env.dbtype || null)
+  },
+  apikey: {
+    whatanime: (process.env.whatanime || null)
+  }
+}
 
 if (global.config.dev === false) {
   logger.level = 'INFO'

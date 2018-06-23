@@ -56,13 +56,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
-# config file
-config.json
-
-# database file
-database.sqlite
-
-## lock file
-package-lock.json
-yarn.lock
