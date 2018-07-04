@@ -14,7 +14,7 @@ module.exports = (bot, logger, helper) => {
         if (description.length > 27) {
           description = description.substr(0, 30) + '...'.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         }
-        return '<a href="' + url + '">' + title + '</a>' + (!description ? '' : '\n\n' + description)
+        return description
       }
     }
 
