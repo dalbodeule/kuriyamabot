@@ -14,7 +14,7 @@ module.exports = (bot, logger, helper) => {
         if (description.length > 27) {
           description = description.substr(0, 30) + '...'.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         }
-        return '<a href="' + url + '">' + title + '</a>' + (!description ? '' : '\n\n' + description)
+        return description
       }
     }
 
@@ -85,6 +85,7 @@ module.exports = (bot, logger, helper) => {
                 logger.debug(e.stack)
               }
             } else {
+              res.splice(50)
               let results = []
               for (let i in res) {
                 results.push({
@@ -106,7 +107,6 @@ module.exports = (bot, logger, helper) => {
                   }
                 })
               }
-              results.splice(50)
               try {
                 await bot.answerInlineQuery(q.id, results, {
                   cache_time: 3
