@@ -1,18 +1,18 @@
 {
   "name": "gjmoribot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "텔레그램 이미지 검색봇",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bugs": "https://github.com/small-sunshines/gjmoribot/issues",
+  "bugs": "https://git.mori.space/small-sunshine/gjmoribot/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/small-sunshines/gjmoribot.git"
+    "url": "https://git.mori.space/small-sunshine/gjmoribot.git"
   },
   "engines": {
-    "node": "<= 8.0.0"
+    "node": "<= 10.0.0"
   },
   "private": true,
   "author": "small_sunshine",
@@ -22,9 +22,9 @@
     "dom-parser": "^0.1.5",
     "glob": "^7.1.2",
     "glob-promise": "^3.3.0",
-    "google-parser": "^1.2.1",
+    "google-parser": "^1.2.2",
     "languages": "^0.1.3",
-    "log4js": "^2.9.0",
+    "log4js": "^2.10.0",
     "mysql2": "^1.5.1",
     "node-telegram-bot-api": "^0.30.0",
     "object-path": "^0.11.4",
