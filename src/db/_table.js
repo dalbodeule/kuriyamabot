@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./_db')
 
-const user = db.define('language', {
+const language = db.define('language', {
   id: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -43,5 +43,5 @@ const message = db.define('message', {
 })
 
 
-module.exports.user = user
+module.exports.language = language
 module.exports.message = message
