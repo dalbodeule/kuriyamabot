@@ -57,10 +57,14 @@ module.exports = class {
     if (isExist === false) {
       throw Error(lang + ' is not a valid value')
     }
-    await model.language.update(lang, this.id)
-    this.lang = lang
-    this.logger.debug({id: this.id, lang: this.lang})
-    return true
+    try {
+      await model.language.update(lang, this.id)
+      this.lang = lang
+      this.logger.debug({id: this.id, lang: this.lang})
+      return true
+    } catch (e) {
+      throw (e)
+    }
   }
 
   inline (code) {
