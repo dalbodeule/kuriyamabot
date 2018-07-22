@@ -28,8 +28,20 @@ module.exports = class {
       this.ready = true
     }
 
-    if (typeof msg.from.language_code === 'undefined') {
-      return undefined
+    if (msg.message.from.language_code) { // callback query 대응
+      this.id = (msg.message.chat.type === 'private' ? msg.message.from.id : msg.chat.id)
+      this.logger = logger
+      let query = await model.language.find(this.id)
+      if (!query || !query.lang) {
+        this.lang = msg.message.from.language_code.split('-')[0]
+        logger.debug(this.id + ' ' + this.lang)
+        model.language.create(this.id, this.lang)
+        return query
+      } else {
+        this.lang = query.lang
+        logger.debug('id: ' + this.id + ', lang: ' + this.lang)
+        return query
+      }
     } else {
       this.id = (msg.chat.type === 'private' ? msg.from.id : msg.chat.id)
       this.logger = logger
