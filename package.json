@@ -1,6 +1,10 @@
 {
   "name": "gjmoribot",
+<<<<<<< HEAD
   "version": "1.0.2",
+=======
+  "version": "1.1.0",
+>>>>>>> beta
   "description": "텔레그램 이미지 검색봇",
   "main": "main.js",
   "scripts": {

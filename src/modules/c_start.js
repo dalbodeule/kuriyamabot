@@ -11,7 +11,7 @@ module.exports = (bot, logger, helper) => {
           bot.sendChatAction(chatid, 'typing'),
           helper.getlang(msg, logger)
         ])
-        await bot.sendMessage(chatid, '👋 ' + temp.group('command.start')
+        await bot.sendMessage(chatid, '👋 ' + temp.text('command.start')
           .replace(/{botid}/g, global.botinfo.username)
           .replace(/{botname}/g, global.botinfo.first_name), {reply_to_message_id: msg.message_id})
         logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid')

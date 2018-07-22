@@ -32,11 +32,6 @@ module.exports = {
     if (typeof res[0] === 'undefined') {
       return undefined
     } else {
-      res.forEach((current, index, thisarr) => {
-        if (current.url.match(/x-raw-image:\/\/\//)) {
-          thisarr.splice(index, 1)
-        }
-      })
       let random = getRandomIntInclusive(0, (res.length < 20 ? res.length - 1 : 19))
       return {img: res[random].img, url: res[random].url}
     }

@@ -1,7 +1,6 @@
-'use strict'
 const objectPath = require('object-path')
 const language = require('languages')
-const db = require('../db')
+const model = require('../db')
 const glob = require('glob-promise')
 const path = require('path')
 const langs = {}
@@ -17,7 +16,7 @@ module.exports = class {
   async set (msg, logger) {
     if (Object.keys(langs).length === 0) {
       logger.info('Language: Language not loaded')
-      let items = await glob(path.join(__dirname, 'lang_*.json'))
+      let items = await glob(path.join(__dirname, 'lang_*.js'))
       for (let i of items) {
         let temp = require(i)
         langs[temp.lang.langname] = temp
@@ -32,24 +31,13 @@ module.exports = class {
     if (typeof msg.from.language_code === 'undefined') {
       return undefined
     } else {
-      this.id = msg.from.id
+      this.id = (msg.chat.type === 'private' ? msg.from.id : msg.chat.id)
       this.logger = logger
-      let query = await db.user.findOne({
-        where: {
-          id: this.id
-        },
-        attributes: [
-          'id',
-          'lang'
-        ]
-      })
-      if (!query || !query.get || !query.get('lang')) {
+      let query = await model.language.find(this.id)
+      if (!query || !query.lang) {
         this.lang = msg.from.language_code.split('-')[0]
         logger.debug(this.id + ' ' + this.lang)
-        db.user.create({
-          id: this.id,
-          lang: this.lang
-        })
+        model.language.create(this.id, this.lang)
         return query
       } else {
         this.lang = query.lang
@@ -69,24 +57,10 @@ module.exports = class {
     if (isExist === false) {
       throw Error(lang + ' is not a valid value')
     }
-    await db.user.update({
-      lang: lang
-    }, {
-      where: {
-        id: this.id
-      }
-    })
+    await model.language.update(lang, this.id)
     this.lang = lang
     this.logger.debug({id: this.id, lang: this.lang})
     return true
-  }
-
-  person (code) {
-    if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
-    } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-    }
   }
 
   inline (code) {
@@ -100,79 +74,17 @@ module.exports = class {
     }
   }
 
-  group (code) {
-    if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code) +
-        '\n' + objectPath.get(langs.English, code)
-    } else if (language.getLanguageInfo(this.lang).name === 'English' ||
-      typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-    } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
-      '\n' + objectPath.get(langs.English, code)
-    }
-  }
-
   help (code) {
     if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code + '.name') +
-        ' (' + objectPath.get(langs.English, code + '.name') + ')\n\n' +
-        objectPath.get(langs.Korean, code + '.description') +
-        '\n' + objectPath.get(langs.English, code + '.description') + '\n\n' +
+      return objectPath.get(langs.Korean, code + '.name') + '\n\n' +
+        objectPath.get(langs.Korean, code + '.description') + '\n\n' +
         objectPath.get(langs.Korean, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
         ' ( ' + objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
-    } else if (langs[language.getLanguageInfo(this.lang).name] === 'English') {
-      return objectPath.get(langs.English, code + '.name') + '\n\n' +
-        objectPath.get(langs.English, code + '.description') + '\n\n' +
-        objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username)
-    } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name') +
-        ' (' + objectPath.get(langs.English, code + '.name') + ')\n\n' +
-        objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description') +
-        '\n' + objectPath.get(langs.English, code + '.description') + '\n\n' +
-        objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
-        ' ( ' + objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
     }
   }
 
-  text (type, code) {
-    if (type === 'group' || type === 'supergroup' || type === 'channel') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) +
-          '\n' + objectPath.get(langs.English, code)
-      } else if (language.getLanguageInfo(this.lang).name === 'English') {
-        return objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
-          '\n' + objectPath.get(langs.English, code)
-      }
-    } else if (type === 'private') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-      }
-    }
-  }
-
-  textb (type, code) {
-    if (type === 'group' || type === 'supergroup' || type === 'channel') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) +
-          '(' + objectPath.get(langs.English, code) + ')'
-      } else if (language.getLanguageInfo(this.lang).name === 'English') {
-        return objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
-        '(' + objectPath.get(langs.English, code) + ')'
-      }
-    } else if (type === 'private') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-      }
-    }
+  text (code) {
+    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
   }
 
   getLangList () {

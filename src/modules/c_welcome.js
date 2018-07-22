@@ -1,4 +1,4 @@
-const db = require('../db')
+const model = require('../db')
 
 module.exports = (bot, logger, helper) => {
   bot.onText(new RegExp('^/welcome+(?:@' + global.botinfo.username + ')? ([^\r]+)$'), async (msg, match) => {
@@ -15,50 +15,33 @@ module.exports = (bot, logger, helper) => {
           bot.getChatAdministrators(chatid)
         ])
         if (msg.chat.type !== 'group' && msg.chat.type !== 'supergroup') {
-          await bot.sendMessage(chatid, '❗️ ' + temp.group('command.isnotgroup'))
+          await bot.sendMessage(chatid, '❗️ ' + temp.text('command.isnotgroup'))
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: isnotgroup')
         } else {
           isAdmin = admins.some((v) => {
             return v.user.id === msg.from.id
           })
           if (!isAdmin) {
-            await bot.sendMessage(chatid, '❗️ ' + temp.group('command.lowPermission'))
+            await bot.sendMessage(chatid, '❗️ ' + temp.text('command.lowPermission'))
             logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: lowPermission')
           } else {
-            let value = await db.message.findOne({
-              where: {
-                id: chatid
-              }
-            })
+            let value = await model.message.findWelcome(chatid)
             if (!value) {
-              await db.message.create({
-                id: chatid,
-                welcomeMessage: match[1]
-              })
-              await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
+              await model.message.createWelcome(chatid, match[1])
+              await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                 reply_to_message_id: msg.message_id
               })
               logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
             } else {
-              value = value.get({plain: true})
-              if (Array.isArray(value) && value.welcomeMessage) {
-                await db.message.create({
-                  id: chatid,
-                  welcomeMessage: match[1]
-                })
-                await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
+              if (value && value.welcomeMessage) {
+                await model.message.createWelcome(chatid, match[1])
+                await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                   reply_to_message_id: msg.message_id
                 })
                 logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
               } else {
-                await db.message.update({
-                  welcomeMessage: match[1]
-                }, {
-                  where: {
-                    id: chatid
-                  }
-                })
-                await bot.sendMessage(chatid, ' ' + temp.group('command.welcome.success'), {
+                await model.message.updateWelcome(chatid, match[1])
+                await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                   reply_to_message_id: msg.message_id
                 })
                 logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: update success')
@@ -86,10 +69,10 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger)
         ])
         if (msg.chat.type !== 'group' && msg.chat.type !== 'supergroup') {
-          await bot.sendMessage(chatid, '❗️ ' + temp.group('command.isnotgroup'))
+          await bot.sendMessage(chatid, '❗️ ' + temp.text('command.isnotgroup'))
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: isnotgroup')
         } else {
-          await bot.sendMessage(chatid, '🔧 ' + temp.group('command.welcome.help'), {
+          await bot.sendMessage(chatid, '🔧 ' + temp.text('command.welcome.help'), {
             reply_to_message_id: msg.message_id,
             parse_mode: 'Markdown'
           })

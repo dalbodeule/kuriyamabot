@@ -9,7 +9,7 @@ module.exports = (bot, logger, helper) => {
         try {
           temp = await helper.getlang(msg, logger)
           await temp.langset(test[1])
-          await bot.editMessageText(temp.person('command.lang.success'), {chat_id: msg.message.chat.id,
+          await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
             message_id: msg.message.message_id,
             reply_to_message_id: msg.message_id,
             parse_mode: 'HTML'
@@ -17,7 +17,7 @@ module.exports = (bot, logger, helper) => {
           logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
         } catch (e) {
           try {
-            await bot.editMessageText('❗️ ' + temp.group('command.lang.error'), {chat_id: msg.message.chat.id,
+            await bot.editMessageText('❗️ ' + temp.text('command.lang.error'), {chat_id: msg.message.chat.id,
               message_id: msg.message.message_id,
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML'
