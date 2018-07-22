@@ -1,8 +1,5 @@
 # gjmoribot
-<<<<<<< HEAD
-=======
  
->>>>>>> beta
 telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
 
 ## 제작 및 번역도움
