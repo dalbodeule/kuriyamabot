@@ -17,7 +17,7 @@ module.exports = class {
   async set (msg, logger) {
     if (Object.keys(langs).length === 0) {
       logger.info('Language: Language not loaded')
-      let items = await glob(path.join(__dirname, 'lang_*.json'))
+      let items = await glob(path.join(__dirname, 'lang_*.js'))
       for (let i of items) {
         let temp = require(i)
         langs[temp.lang.langname] = temp
