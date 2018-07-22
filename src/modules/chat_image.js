@@ -23,13 +23,13 @@ module.exports = (bot, logger, helper) => {
           await bot.sendPhoto(chatid, res.img, {
             reply_markup: {
               inline_keyboard: [[{
-                text: temp.inline('command.img.visit_page'),
+                text: temp.text('command.img.visit_page'),
                 url: res.url
               }, {
-                text: temp.inline('command.img.view_image'),
+                text: temp.text('command.img.view_image'),
                 url: res.img
               }], [{
-                text: temp.inline('command.img.another'),
+                text: temp.text('command.img.another'),
                 switch_inline_query_current_chat: 'img ' + match[1]
               }]]
             },
@@ -43,13 +43,13 @@ module.exports = (bot, logger, helper) => {
             await bot.sendPhoto(chatid, res.img, {
               reply_markup: {
                 inline_keyboard: [[{
-                  text: temp.inline('command.img.visit_page'),
+                  text: temp.text('command.img.visit_page'),
                   url: res.url
                 }, {
-                  text: temp.inline('command.img.view_image'),
+                  text: temp.text('command.img.view_image'),
                   url: res.img
                 }], [{
-                  text: temp.inline('command.img.another'),
+                  text: temp.text('command.img.another'),
                   switch_inline_query_current_chat: 'img ' + match[1]
                 }]]
               },

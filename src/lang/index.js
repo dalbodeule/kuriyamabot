@@ -1,4 +1,3 @@
-'use strict'
 const objectPath = require('object-path')
 const language = require('languages')
 const db = require('../db')
@@ -81,10 +80,6 @@ module.exports = class {
     return true
   }
 
-  person (code) {
-    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-  }
-
   inline (code) {
     if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
       return objectPath.get(langs.Korean, code) + '(' + objectPath.get(langs.English, code) + ')'
@@ -96,10 +91,6 @@ module.exports = class {
     }
   }
 
-  group (code) {
-    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-  }
-
   help (code) {
     if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
       return objectPath.get(langs.Korean, code + '.name') + '\n\n' +
@@ -109,7 +100,7 @@ module.exports = class {
     }
   }
 
-  text (type, code) {
+  text (code) {
     return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
   }
 

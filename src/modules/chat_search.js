@@ -27,10 +27,10 @@ module.exports = (bot, logger, helper) => {
             reply_to_message_id: msg.message_id,
             reply_markup: {
               inline_keyboard: [[{
-                text: temp.inline('command.search.another'),
+                text: temp.text('command.search.visit_google'),
                 url: 'https://www.google.com/search?q=' + encodeURIComponent(match[1]) + '&ie=UTF-8'
               }, {
-                text: temp.inline('command.img.another'),
+                text: temp.text('command.img.another'),
                 switch_inline_query_current_chat: 'img ' + match[1]
               }]]
             }

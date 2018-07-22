@@ -18,10 +18,10 @@ module.exports = (bot, logger, helper) => {
             return v.user.id === msg.from.id
           })
           if (!isAdmin) {
-            await bot.sendMessage(chatid, '❗️ ' + temp.group('command.lowPermission'))
+            await bot.sendMessage(chatid, '❗️ ' + temp.text('command.lowPermission'))
             logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: lowPermission')
           } else {
-            await bot.sendMessage(chatid, '🔤 ' + temp.group('command.lang.announce'), {
+            await bot.sendMessage(chatid, '🔤 ' + temp.text('command.lang.announce'), {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML',
               reply_markup: {
@@ -30,7 +30,7 @@ module.exports = (bot, logger, helper) => {
             })
           }
         } else {
-          await bot.sendMessage(chatid, '🔤 ' + temp.group('command.lang.announce'), {
+          await bot.sendMessage(chatid, '🔤 ' + temp.text('command.lang.announce'), {
             reply_to_message_id: msg.message_id,
             parse_mode: 'HTML',
             reply_markup: {

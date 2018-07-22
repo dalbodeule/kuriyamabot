@@ -11,7 +11,7 @@ module.exports = (bot, logger, helper) => {
           bot.sendChatAction(chatid, 'typing'),
           helper.getlang(msg, logger)
         ])
-        await bot.sendMessage(chatid, '📟 ' + temp.group('command.me')
+        await bot.sendMessage(chatid, '📟 ' + temp.text('command.me')
           .replace(/{userid}/g, msg.from.id)
           .replace(/{fname}/g, (typeof msg.from.first_name === 'undefined' ? 'none' : msg.from.first_name))
           .replace(/{lname}/g, (typeof msg.from.last_name === 'undefined' ? 'none' : msg.from.last_name))
