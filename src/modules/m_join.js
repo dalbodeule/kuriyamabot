@@ -1,4 +1,4 @@
-const db = require('../db')
+const model = require('../db')
 
 module.exports = (bot, logger, helper) => {
   bot.on('message', async (msg) => {
@@ -14,12 +14,7 @@ module.exports = (bot, logger, helper) => {
         helper.getlang(msg, logger)
       ])
       if (msg.new_chat_member.id !== global.botinfo.id) {
-        let value = await db.message.findOne({
-          where: {
-            id: chatid
-          },
-          raw: true
-        })
+        let value = await model.message.findWelcome(chatid)
         if (!value) {
           await bot.sendMessage(chatid, temp.text(msg.chat.type, 'message.join')
             .replace(/{roomid}/g, msg.chat.title)

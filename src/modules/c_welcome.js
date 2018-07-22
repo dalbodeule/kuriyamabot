@@ -1,4 +1,4 @@
-const db = require('../db')
+const model = require('../db')
 
 module.exports = (bot, logger, helper) => {
   bot.onText(new RegExp('^/welcome+(?:@' + global.botinfo.username + ')? ([^\r]+)$'), async (msg, match) => {
@@ -25,39 +25,22 @@ module.exports = (bot, logger, helper) => {
             await bot.sendMessage(chatid, '❗️ ' + temp.text('command.lowPermission'))
             logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: lowPermission')
           } else {
-            let value = await db.message.findOne({
-              where: {
-                id: chatid
-              }
-            })
+            let value = await model.message.findWelcome(chatid)
             if (!value) {
-              await db.message.create({
-                id: chatid,
-                welcomeMessage: match[1]
-              })
+              await model.message.createWelcome(chatid, match[1])
               await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                 reply_to_message_id: msg.message_id
               })
               logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
             } else {
-              value = value.get({plain: true})
-              if (Array.isArray(value) && value.welcomeMessage) {
-                await db.message.create({
-                  id: chatid,
-                  welcomeMessage: match[1]
-                })
+              if (value && value.welcomeMessage) {
+                await model.message.createWelcome(chatid, match[1])
                 await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                   reply_to_message_id: msg.message_id
                 })
                 logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
               } else {
-                await db.message.update({
-                  welcomeMessage: match[1]
-                }, {
-                  where: {
-                    id: chatid
-                  }
-                })
+                await model.message.updateWelcome(chatid, match[1])
                 await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                   reply_to_message_id: msg.message_id
                 })

@@ -1,6 +1,6 @@
 const objectPath = require('object-path')
 const language = require('languages')
-const db = require('../db')
+const model = require('../db')
 const glob = require('glob-promise')
 const path = require('path')
 const langs = {}
@@ -33,22 +33,11 @@ module.exports = class {
     } else {
       this.id = msg.from.id
       this.logger = logger
-      let query = await db.user.findOne({
-        where: {
-          id: this.id
-        },
-        attributes: [
-          'id',
-          'lang'
-        ]
-      })
+      let query = await model.language.find(this.id)
       if (!query || !query.get || !query.get('lang')) {
         this.lang = msg.from.language_code.split('-')[0]
         logger.debug(this.id + ' ' + this.lang)
-        db.user.create({
-          id: this.id,
-          lang: this.lang
-        })
+        model.language.create(this.id, this.lang)
         return query
       } else {
         this.lang = query.lang
@@ -68,13 +57,7 @@ module.exports = class {
     if (isExist === false) {
       throw Error(lang + ' is not a valid value')
     }
-    await db.user.update({
-      lang: lang
-    }, {
-      where: {
-        id: this.id
-      }
-    })
+    await model.language.update(lang, this.id)
     this.lang = lang
     this.logger.debug({id: this.id, lang: this.lang})
     return true
