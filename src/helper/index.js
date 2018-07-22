@@ -9,10 +9,14 @@ module.exports = {
     }
   },
   async getlang (msg, logger) {
-    const Lang = require('../lang')
-    let temp = new Lang()
-    await temp.set(msg, logger)
-    return temp
+    try {
+      const Lang = require('../lang')
+      let temp = new Lang()
+      await temp.set(msg, logger)
+      return temp
+    } catch (e) {
+      throw (e)
+    }
   },
   commandlist (temp) {
     return [
