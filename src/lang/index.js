@@ -28,8 +28,8 @@ module.exports = class {
       this.ready = true
     }
 
-    if (msg.message.from.language_code) { // callback query 대응
-      this.id = (msg.message.chat.type === 'private' ? msg.message.from.id : msg.chat.id)
+    if (msg.message) { // callback query 대응
+      this.id = (msg.message.chat.type === 'private' ? msg.message.from.id : msg.message.chat.id)
       this.logger = logger
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {

@@ -8,13 +8,12 @@ module.exports = (bot, logger, helper) => {
         logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
         try {
           // eslint-disable-next-line
-          let send, admins, isAdmin = false;
-          [send, temp, admins] = await Promise.all([
-            bot.sendChatAction(msg.chat.id, 'typing'),
+          let admins, isAdmin = false;
+          [temp, admins] = await Promise.all([
             helper.getlang(msg, logger),
-            bot.getChatAdministrators(msg.chat.id)
+            bot.getChatAdministrators(msg.message.chat.id)
           ])
-          if (msg.chat.type === 'private') {
+          if (msg.message.chat.type === 'private') {
             temp = await helper.getlang(msg, logger)
             await temp.langset(test[1])
             await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
@@ -46,6 +45,7 @@ module.exports = (bot, logger, helper) => {
             }
           }
         } catch (e) {
+          console.log(e)
           try {
             await bot.editMessageText('❗️ ' + temp.text('command.lang.error'), {chat_id: msg.message.chat.id,
               message_id: msg.message.message_id,
