@@ -16,7 +16,7 @@ module.exports = (bot, logger, helper) => {
       if (msg.new_chat_member.id !== global.botinfo.id) {
         let value = await model.message.findWelcome(chatid)
         if (!value) {
-          await bot.sendMessage(chatid, temp.text(msg.chat.type, 'message.join')
+          await bot.sendMessage(chatid, temp.text('message.join')
             .replace(/{roomid}/g, msg.chat.title)
             .replace(/{userid}/g, msg.new_chat_member.first_name), {
             reply_to_message_id: msg.message_id
@@ -25,7 +25,7 @@ module.exports = (bot, logger, helper) => {
         } else if (value.welcomeMessage === 'off') {
           logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
         } else {
-          let welcomeMessage = value.welcomeMessage || temp.text(msg.chat.type, 'message.join')
+          let welcomeMessage = value.welcomeMessage || temp.text('message.join')
           await bot.sendMessage(chatid, welcomeMessage
             .replace(/{roomid}/g, msg.chat.title)
             .replace(/{userid}/g, msg.new_chat_member.first_name), {
@@ -35,7 +35,7 @@ module.exports = (bot, logger, helper) => {
         }
       } else {
         await bot.sendChatAction(chatid, 'typing')
-        await bot.sendMessage(chatid, '👋 ' + temp.text(msg.chat.type, 'message.botjoin'))
+        await bot.sendMessage(chatid, '👋 ' + temp.text('message.botjoin'))
         logger.info('message: chat join, chatid: ' + chatid + ', i\'m join room!')
       }
     } catch (e) {

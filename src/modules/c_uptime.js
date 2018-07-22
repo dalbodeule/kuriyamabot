@@ -14,7 +14,7 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger)
         ])
         let uptime = new Format(process.uptime())
-        await bot.sendMessage(chatid, '✅ ' + temp.text(msg.chat.type, 'command.uptime.message')
+        await bot.sendMessage(chatid, '✅ ' + temp.text('command.uptime.message')
           .replace(/{hour}/g, uptime.hour)
           .replace(/{min}/g, uptime.min)
           .replace(/{sec}/g, uptime.sec), {
