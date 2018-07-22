@@ -27,7 +27,7 @@ class Language {
   }
 
   static async update (lang, id) {
-    await db.user.update({
+    await db.language.update({
       lang
     }, {
       where: {

@@ -14,10 +14,10 @@ module.exports = (bot, logger, helper) => {
       ])
       let res = await helper.search(match[1])
       if (res === '') {
-        await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id})
+        await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.not_found'), {reply_to_message_id: msg.message_id})
         logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', chat command: ' + type + ', type: valid, response: not found')
       } else if (res === false) {
-        await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id})
+        await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.bot_block'), {reply_to_message_id: msg.message_id})
         logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', chat command: ' + type + ', type: valid, response: google bot block')
       } else {
         try {
@@ -47,7 +47,7 @@ module.exports = (bot, logger, helper) => {
       logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', chat command: ' + msg.text + ', type: valid, response: message send error')
       logger.debug(e.stack)
       try {
-        await bot.sendMessage(chatid, '❗️ ' + temp.text(msg.chat.type, 'command.search.error')
+        await bot.sendMessage(chatid, '❗️ ' + temp.text('command.search.error')
           .replace([/{botid}/g], global.botinfo.username)
           .replace(/{keyword}/g, match[1]), {
           reply_markup: {

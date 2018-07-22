@@ -11,7 +11,7 @@ module.exports = (bot, logger, helper) => {
         bot.sendChatAction(chatid, 'typing'),
         helper.getlang(msg, logger)
       ])
-      await bot.sendMessage(chatid, '📺❗️ ' + temp.text(msg.chat.type, 'command.whatanime.info'), {
+      await bot.sendMessage(chatid, '📺❗️ ' + temp.text('command.whatanime.info'), {
         reply_to_message_id: msg.message_id,
         parse_mode: 'HTML',
         reply_markup: {
@@ -43,26 +43,26 @@ module.exports = (bot, logger, helper) => {
       const result = response.docs[0]
       let resultMessage = ''
       if (result.anime.toLowerCase() !== result.title_english.toLowerCase()) {
-        resultMessage = temp.text(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n' +
-          temp.text(msg.chat.type, 'command.whatanime.english') + ': ' + result.title_english + '\n'
+        resultMessage = temp.text('command.whatanime.name') + ': ' + result.title_native + '\n' +
+          temp.text('command.whatanime.english') + ': ' + result.title_english + '\n'
       } else {
-        resultMessage = temp.text(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n'
+        resultMessage = temp.text('command.whatanime.name') + ': ' + result.title_native + '\n'
       }
       const time = new Format(result.at)
       resultMessage = resultMessage +
-        temp.text(msg.chat.type, 'command.whatanime.episode') + ' ' + result.episode + '\n' +
-        temp.text(msg.chat.type, 'command.whatanime.time') + ': ' +
+        temp.text('command.whatanime.episode') + ' ' + result.episode + '\n' +
+        temp.text('command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
-        temp.text(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
+        temp.text('command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
       if (result.similarity * 100 < 70) {
-        resultMessage = resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect')
+        resultMessage = resultMessage + '\n' + temp.text('command.whatanime.incorrect')
         await bot.sendMessage(chatid, resultMessage, {
           parse_mode: 'HTML',
           disable_web_page_preview: true,
           reply_to_message_id: msg.message_id
         })
       } else if (result.is_adult) {
-        resultMessage = resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.isAdult')
+        resultMessage = resultMessage + '\n' + temp.text('command.whatanime.isAdult')
         await bot.sendMessage(chatid, resultMessage, {
           parse_mode: 'HTML',
           disable_web_page_preview: true,

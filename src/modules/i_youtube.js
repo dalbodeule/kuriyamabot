@@ -9,7 +9,7 @@ module.exports = (bot, logger, helper) => {
       if (shot !== null) {
         return 'https://youtu.be/' + shot[1]
       } else if (description === '') {
-        return temp.group('command.search.desc_null')
+        return temp.text('command.search.desc_null')
       } else {
         if (description.length > 27) {
           description = description.substr(0, 30) + '...'.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
@@ -54,10 +54,10 @@ module.exports = (bot, logger, helper) => {
               try {
                 await bot.answerInlineQuery(q.id, [{
                   type: 'article',
-                  title: 'search error',
+                  title: temp.text('command.search.bot_blcok'),
                   id: 'google bot block',
                   input_message_content: {
-                    message_text: temp.group('command.search.bot_blcok'), parse_mode: 'HTML', disable_web_page_preview: true
+                    message_text: temp.inline('command.search.bot_blcok'), parse_mode: 'HTML', disable_web_page_preview: true
                   }
                 }], {
                   cache_time: 3
@@ -71,10 +71,10 @@ module.exports = (bot, logger, helper) => {
               try {
                 await bot.answerInlineQuery(q.id, [{
                   type: 'article',
-                  title: 'not found',
+                  title: temp.text('command.search.not_found'),
                   id: 'not found',
                   input_message_content: {
-                    message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                    message_text: temp.inline('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                   }
                 }], {
                   cache_time: 3
@@ -117,10 +117,12 @@ module.exports = (bot, logger, helper) => {
                 try {
                   await bot.answerInlineQuery(q.id, [{
                     type: 'article',
-                    title: 'error',
+                    title: temp.text('command.search.error')
+                      .replace(/{botid}/g, '@' + global.botinfo.username)
+                      .replace(/{keyword}/g, match[2]),
                     id: 'error',
                     input_message_content: {
-                      message_text: temp.group('command.search.not_found')
+                      message_text: temp.inline('command.search.error')
                         .replace(/{botid}/g, '@' + global.botinfo.username)
                         .replace(/{keyword}/g, match[2]),
                       parse_mode: 'HTML',
@@ -140,10 +142,12 @@ module.exports = (bot, logger, helper) => {
           } catch (e) {
             await bot.answerInlineQuery(q.id, [{
               type: 'article',
-              title: 'error',
+              title: temp.text('command.search.error')
+                .replace(/{botid}/g, '@' + global.botinfo.username)
+                .replace(/{keyword}/g, match[2]),
               id: 'error',
               input_message_content: {
-                message_text: temp.group('command.search.not_found')
+                message_text: temp.inline('command.search.error')
                   .replace(/{botid}/g, '@' + global.botinfo.username)
                   .replace(/{keyword}/g, match[2]),
                 parse_mode: 'HTML',

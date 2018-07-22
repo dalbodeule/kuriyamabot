@@ -7,15 +7,45 @@ module.exports = (bot, logger, helper) => {
       try {
         logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
         try {
-          temp = await helper.getlang(msg, logger)
-          await temp.langset(test[1])
-          await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
-            message_id: msg.message.message_id,
-            reply_to_message_id: msg.message_id,
-            parse_mode: 'HTML'
-          })
-          logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
+          // eslint-disable-next-line
+          let admins, isAdmin = false;
+          [temp, admins] = await Promise.all([
+            helper.getlang(msg, logger),
+            bot.getChatAdministrators(msg.message.chat.id)
+          ])
+          if (msg.message.chat.type === 'private') {
+            temp = await helper.getlang(msg, logger)
+            await temp.langset(test[1])
+            await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
+              message_id: msg.message.message_id,
+              reply_to_message_id: msg.message_id,
+              parse_mode: 'HTML'
+            })
+            logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
+          } else {
+            isAdmin = admins.some((v) => {
+              return v.user.id === msg.from.id
+            })
+            if (isAdmin) {
+              temp = await helper.getlang(msg, logger)
+              await temp.langset(test[1])
+              await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
+                message_id: msg.message.message_id,
+                reply_to_message_id: msg.message_id,
+                parse_mode: 'HTML'
+              })
+              logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
+            } else {
+              await bot.editMessageText(temp.text('command.lowPermission'), {chat_id: msg.message.chat.id,
+                message_id: msg.message.message_id,
+                reply_to_message_id: msg.message_id,
+                parse_mode: 'HTML'
+              })
+              logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: lowPermission')
+            }
+          }
         } catch (e) {
+          console.log(e)
           try {
             await bot.editMessageText('❗️ ' + temp.text('command.lang.error'), {chat_id: msg.message.chat.id,
               message_id: msg.message.message_id,

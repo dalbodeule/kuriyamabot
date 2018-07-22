@@ -42,10 +42,10 @@ module.exports = (bot, logger, helper) => {
               try {
                 await bot.answerInlineQuery(q.id, [{
                   type: 'article',
-                  title: 'not found',
+                  title: temp.text('command.img.not_found'),
                   id: 'not found',
                   input_message_content: {
-                    message_text: temp.group('command.img.not_found'),
+                    message_text: temp.inline('command.img.not_found'),
                     parse_mode: 'HTML',
                     disable_web_page_preview: true
                   }
@@ -58,31 +58,30 @@ module.exports = (bot, logger, helper) => {
                 logger.debug(e.stack)
               }
             } else {
+              res.splice(50)
               let results = []
               for (let i in res) {
-                if (!res[i].img.match(/x-raw-image:\/\/\//)) {
-                  results.push({
-                    type: 'photo',
-                    photo_url: res[i].img,
-                    thumb_url: res[i].img,
-                    id: q.id + '/photo/' + i,
-                    reply_markup: {
-                      inline_keyboard: [[{
-                        text: temp.inline('command.img.visit_page'),
-                        url: res[i].url
-                      }, {
-                        text: temp.inline('command.img.view_image'),
-                        url: res[i].img
-                      }],
-                      [{
-                        text: temp.inline('command.img.another'),
-                        switch_inline_query_current_chat: 'img ' + match[2]
-                      }]]
-                    }
-                  })
-                }
+                results.push({
+                  type: 'photo',
+                  photo_url: res[i].img,
+                  thumb_url: res[i].img,
+                  id: q.id + '/photo/' + i,
+                  reply_markup: {
+                    inline_keyboard: [[{
+                      text: temp.inline('command.img.visit_page'),
+                      url: res[i].url
+                    }, {
+                      text: temp.inline('command.img.view_image'),
+                      url: res[i].img
+                    }],
+                    [{
+                      text: temp.inline('command.img.another'),
+                      switch_inline_query_current_chat: 'img ' + match[2]
+                    }]]
+                  }
+                })
               }
-              results.splice(50)
+
               try {
                 await bot.answerInlineQuery(q.id, results, {
                   cache_time: 3
@@ -94,10 +93,12 @@ module.exports = (bot, logger, helper) => {
                   logger.debug(e.stack)
                   await bot.answerInlineQuery(q.id, [{
                     type: 'article',
-                    title: 'error',
+                    title: temp.text('command.img.error')
+                      .replace(/{botid}/g, '@' + global.botinfo.username)
+                      .replace(/{keyword}/g, match[2]),
                     id: 'error',
                     input_message_content: {
-                      message_text: temp.group('command.img.error')
+                      message_text: temp.inline('command.img.error')
                         .replace(/{botid}/g, '@' + global.botinfo.username)
                         .replace(/{keyword}/g, match[2]),
                       parse_mode: 'HTML',
@@ -123,10 +124,12 @@ module.exports = (bot, logger, helper) => {
               logger.debug(e.stack)
               await bot.answerInlineQuery(q.id, [{
                 type: 'article',
-                title: 'error',
+                title: temp.text('command.img.error')
+                  .replace(/{botid}/g, '@' + global.botinfo.username)
+                  .replace(/{keyword}/g, match[2]),
                 id: 'error',
                 input_message_content: {
-                  message_text: temp.group('command.img.error')
+                  message_text: temp.inline('command.img.error')
                     .replace(/{botid}/g, '@' + global.botinfo.username)
                     .replace(/{keyword}/g, match[2]),
                   parse_mode: 'HTML',

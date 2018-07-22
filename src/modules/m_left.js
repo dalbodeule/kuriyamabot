@@ -16,7 +16,7 @@ module.exports = (bot, logger, helper) => {
         ])
         let value = await model.message.leave(chatid)
         if (!value) {
-          await bot.sendMessage(chatid, temp.text(msg.chat.type, 'message.left')
+          await bot.sendMessage(chatid, temp.text('message.left')
             .replace(/{roomid}/g, msg.chat.title)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {
             reply_to_message_id: msg.message_id
@@ -26,7 +26,7 @@ module.exports = (bot, logger, helper) => {
           logger.info('message: chat left, chatid: ' + chatid + ', userid: ' + msg.left_chat_member.id + ', username: ' + msg.from.username)
         } else {
           value = value.get({plain: true})
-          let leaveMessage = value.leaveMessage || temp.text(msg.chat.type, 'message.left')
+          let leaveMessage = value.leaveMessage || temp.text('message.left')
           await bot.sendMessage(chatid, leaveMessage
             .replace(/{roomid}/g, msg.chat.title)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {

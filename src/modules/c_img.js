@@ -14,7 +14,7 @@ module.exports = (bot, logger, helper) => {
         let response = await helper.image(match[1])
         if (typeof (response) === 'undefined') {
           await bot.sendChatAction(chatid, 'typing')
-          await bot.sendMessage(chatid, '🖼 ' + temp.text(msg.chat.type, 'command.img.not_found'), {reply_to_message_id: msg.message_id})
+          await bot.sendMessage(chatid, '🖼 ' + temp.text('command.img.not_found'), {reply_to_message_id: msg.message_id})
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid')
         } else {
           try {
@@ -72,7 +72,7 @@ module.exports = (bot, logger, helper) => {
         logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
         logger.debug(e.stack)
         await bot.sendChatAction(chatid, 'typing')
-        await bot.sendMessage(chatid, '❗️ ' + temp.text(msg.chat.type, 'command.img.error')
+        await bot.sendMessage(chatid, '❗️ ' + temp.text('command.img.error')
           .replace(/{botid}/g, '@' + global.botinfo.username).replace(/{keyword}/g, match[1]),
         {
           reply_markup: {
@@ -103,7 +103,7 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger)
         ])
         try {
-          await bot.sendMessage(chatid, '🖼❗️ ' + temp.text(msg.chat.type, 'command.img.blank'), {
+          await bot.sendMessage(chatid, '🖼❗️ ' + temp.text('command.img.blank'), {
             reply_to_message_id: msg.message_id,
             reply_markup: {
               force_reply: true, selective: true

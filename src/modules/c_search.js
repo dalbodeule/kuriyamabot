@@ -13,14 +13,14 @@ module.exports = (bot, logger, helper) => {
         ])
         let response = await helper.search(match[1])
         if (response === '') {
-          await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id})
+          await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.not_found'), {reply_to_message_id: msg.message_id})
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid')
         } else if (response === false) {
-          await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.bot_block'), {reply_to_message_id: msg.message_id})
+          await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.bot_block'), {reply_to_message_id: msg.message_id})
           logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: google bot block')
         } else {
           try {
-            await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.result') +
+            await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.result') +
               '\n' + response, {
               parse_mode: 'HTML',
               disable_web_page_preview: true,
@@ -46,7 +46,7 @@ module.exports = (bot, logger, helper) => {
     }
     async function sendError (e, chatid, temp, msg, match) {
       try {
-        await bot.sendMessage(chatid, '❗️ ' + temp.text(msg.chat.type, 'command.search.error')
+        await bot.sendMessage(chatid, '❗️ ' + temp.text('command.search.error')
           .replace(/{botid}/g, '@' + global.botinfo.username).replace(/{keyword}/g, match[1]), {
           reply_markup: {
             inline_keyboard: [[{
@@ -79,7 +79,7 @@ module.exports = (bot, logger, helper) => {
           helper.getlang(msg, logger)
         ])
         try {
-          await bot.sendMessage(chatid, '🔍❗️ ' + temp.text(msg.chat.type, 'command.search.blank'), {
+          await bot.sendMessage(chatid, '🔍❗️ ' + temp.text('command.search.blank'), {
             reply_to_message_id: msg.message_id,
             reply_markup: {
               force_reply: true, selective: true

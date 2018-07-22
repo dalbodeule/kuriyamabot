@@ -20,14 +20,14 @@ module.exports = (bot, logger, helper) => {
       ])
       let response = await helper.search(msg.text)
       if (response === '') {
-        await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id})
+        await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.not_found'), {reply_to_message_id: msg.message_id})
         logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid, response: not found')
       } else if (response === false) {
-        bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.not_found'), {reply_to_message_id: msg.message_id})
+        bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.not_found'), {reply_to_message_id: msg.message_id})
         logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid, response: google bot block')
       } else {
         try {
-          await bot.sendMessage(chatid, '🔍 ' + temp.text(msg.chat.type, 'command.search.result') +
+          await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.result') +
             '\n' + response, {
             parse_mode: 'HTML',
             disable_web_page_preview: true,
@@ -54,7 +54,7 @@ module.exports = (bot, logger, helper) => {
       logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid, response: message send error')
       logger.debug(e.stack)
       try {
-        await bot.sendMessage(chatid, '❗️ ' + temp.text(msg.chat.type, 'command.search.error')
+        await bot.sendMessage(chatid, '❗️ ' + temp.text('command.search.error')
           .replace(/{botid}/g, '@' + global.botinfo.username).replace(/{keyword}/g, msg.text), {
           reply_markup: {
             inline_keyboard: [[{
