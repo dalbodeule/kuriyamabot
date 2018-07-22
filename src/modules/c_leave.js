@@ -34,7 +34,7 @@ module.exports = (bot, logger, helper) => {
               })
               logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
             } else {
-              if (Array.isArray(value) && value.leaveMessage) {
+              if (value && !value.leaveMessage) {
                 await model.message.createLeave(chatid, match[1])
                 await bot.sendMessage(chatid, ' ' + temp.text('command.leave.success'), {
                   reply_to_message_id: msg.message_id
