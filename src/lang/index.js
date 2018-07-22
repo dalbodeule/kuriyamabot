@@ -31,10 +31,10 @@ module.exports = class {
     if (typeof msg.from.language_code === 'undefined') {
       return undefined
     } else {
-      this.id = msg.from.id
+      this.id = (msg.chat.type === 'private' ? msg.from.id : msg.chat.id)
       this.logger = logger
       let query = await model.language.find(this.id)
-      if (!query || !query.get || !query.get('lang')) {
+      if (!query || !query.lang) {
         this.lang = msg.from.language_code.split('-')[0]
         logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)

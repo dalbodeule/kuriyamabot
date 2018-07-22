@@ -3,13 +3,10 @@ const db = require('./_db')
 
 const language = db.define('language', {
   id: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     allowNull: false,
     unique: true,
-    primaryKey: true,
-    validate: {
-      isInt: true
-    }
+    primaryKey: true
   },
   lang: {
     type: Sequelize.STRING, allowNull: false
@@ -23,10 +20,7 @@ const message = db.define('message', {
     type: Sequelize.BIGINT,
     allowNull: false,
     unique: true,
-    primaryKey: true,
-    validate: {
-      isInt: true
-    }
+    primaryKey: true
   },
   welcomeMessage: {
     type: Sequelize.TEXT,
@@ -41,7 +35,6 @@ const message = db.define('message', {
 }, {
   timestamps: false
 })
-
 
 module.exports.language = language
 module.exports.message = message
