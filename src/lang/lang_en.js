@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   lang: {
     langname: 'English',
     display: '🇺🇸 English',
