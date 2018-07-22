@@ -34,11 +34,11 @@ module.exports = (bot, logger, helper) => {
               logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
             } else {
               if (value && !value.welcomeMessage) {
-                await model.message.createWelcome(chatid, match[1])
+                await model.message.updateLeave(chatid, match[1])
                 await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
                   reply_to_message_id: msg.message_id
                 })
-                logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: create success')
+                logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: update success')
               } else {
                 await model.message.updateWelcome(chatid, match[1])
                 await bot.sendMessage(chatid, ' ' + temp.text('command.welcome.success'), {
