@@ -6,23 +6,29 @@ module.exports = (bot, logger, helper) => {
       try {
         logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: command received')
         // eslint-disable-next-line
-        let send;
-        [send, temp] = await Promise.all([
+        let send, admins, isAdmin = false;
+        [send, temp, admins] = await Promise.all([
           bot.sendChatAction(chatid, 'typing'),
-          helper.getlang(msg, logger)
+          helper.getlang(msg, logger),
+          bot.getChatAdministrators(chatid)
         ])
         let ctype = msg.chat.type
         if (ctype === 'group' || ctype === 'supergroup' || ctype === 'channel') {
-          await bot.sendMessage(chatid, '❗️ ' + temp.group('command.lang.isgroup'), {
-            reply_to_message_id: msg.message_id,
-            parse_mode: 'HTML',
-            reply_markup: {
-              inline_keyboard: [[{
-                text: temp.inline('tobot'),
-                url: 'https://t.me/' + global.botinfo.username
-              }]]
-            }
+          isAdmin = isAdmin = admins.some((v) => {
+            return v.user.id === msg.from.id
           })
+          if (!isAdmin) {
+            await bot.sendMessage(chatid, '❗️ ' + temp.group('command.lowPermission'))
+            logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: lowPermission')
+          } else {
+            await bot.sendMessage(chatid, '🔤 ' + temp.group('command.lang.announce'), {
+              reply_to_message_id: msg.message_id,
+              parse_mode: 'HTML',
+              reply_markup: {
+                inline_keyboard: helper.langlist(temp)
+              }
+            })
+          }
         } else {
           await bot.sendMessage(chatid, '🔤 ' + temp.group('command.lang.announce'), {
             reply_to_message_id: msg.message_id,

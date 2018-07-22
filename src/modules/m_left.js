@@ -17,7 +17,8 @@ module.exports = (bot, logger, helper) => {
         let value = await db.message.findOne({
           where: {
             id: chatid
-          }
+          },
+          raw: true
         })
         if (!value) {
           await bot.sendMessage(chatid, temp.text(msg.chat.type, 'message.left')
@@ -26,14 +27,11 @@ module.exports = (bot, logger, helper) => {
             reply_to_message_id: msg.message_id
           })
           logger.info('message: chat left, chatid: ' + chatid + ', userid: ' + msg.left_chat_member.id + ', username: ' + msg.from.username)
+        } else if (value.leaveMessage === 'off') {
+          logger.info('message: chat left, chatid: ' + chatid + ', userid: ' + msg.left_chat_member.id + ', username: ' + msg.from.username)
         } else {
           value = value.get({plain: true})
-          let leaveMessage
-          if (value && value.leaveMessage) {
-            leaveMessage = value.leaveMessage
-          } else {
-            leaveMessage = temp.text(msg.chat.type, 'message.left')
-          }
+          let leaveMessage = value.leaveMessage || temp.text(msg.chat.type, 'message.left')
           await bot.sendMessage(chatid, leaveMessage
             .replace(/{roomid}/g, msg.chat.title)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {

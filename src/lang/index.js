@@ -82,11 +82,7 @@ module.exports = class {
   }
 
   person (code) {
-    if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
-    } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-    }
+    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
   }
 
   inline (code) {
@@ -101,78 +97,20 @@ module.exports = class {
   }
 
   group (code) {
-    if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code) +
-        '\n' + objectPath.get(langs.English, code)
-    } else if (language.getLanguageInfo(this.lang).name === 'English' ||
-      typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-    } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
-      '\n' + objectPath.get(langs.English, code)
-    }
+    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
   }
 
   help (code) {
     if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code + '.name') +
-        ' (' + objectPath.get(langs.English, code + '.name') + ')\n\n' +
-        objectPath.get(langs.Korean, code + '.description') +
-        '\n' + objectPath.get(langs.English, code + '.description') + '\n\n' +
+      return objectPath.get(langs.Korean, code + '.name') + '\n\n' +
+        objectPath.get(langs.Korean, code + '.description') + '\n\n' +
         objectPath.get(langs.Korean, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
-        ' ( ' + objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
-    } else if (langs[language.getLanguageInfo(this.lang).name] === 'English') {
-      return objectPath.get(langs.English, code + '.name') + '\n\n' +
-        objectPath.get(langs.English, code + '.description') + '\n\n' +
-        objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username)
-    } else {
-      return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name') +
-        ' (' + objectPath.get(langs.English, code + '.name') + ')\n\n' +
-        objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description') +
-        '\n' + objectPath.get(langs.English, code + '.description') + '\n\n' +
-        objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
         ' ( ' + objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
     }
   }
 
   text (type, code) {
-    if (type === 'group' || type === 'supergroup' || type === 'channel') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) +
-          '\n' + objectPath.get(langs.English, code)
-      } else if (language.getLanguageInfo(this.lang).name === 'English') {
-        return objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
-          '\n' + objectPath.get(langs.English, code)
-      }
-    } else if (type === 'private') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-      }
-    }
-  }
-
-  textb (type, code) {
-    if (type === 'group' || type === 'supergroup' || type === 'channel') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) +
-          '(' + objectPath.get(langs.English, code) + ')'
-      } else if (language.getLanguageInfo(this.lang).name === 'English') {
-        return objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) +
-        '(' + objectPath.get(langs.English, code) + ')'
-      }
-    } else if (type === 'private') {
-      if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-        return objectPath.get(langs.Korean, code) + '\n\n' + objectPath.get(langs.English, code)
-      } else {
-        return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
-      }
-    }
+    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code)
   }
 
   getLangList () {

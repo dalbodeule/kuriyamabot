@@ -43,17 +43,17 @@ module.exports = (bot, logger, helper) => {
       const result = response.docs[0]
       let resultMessage = ''
       if (result.anime.toLowerCase() !== result.title_english.toLowerCase()) {
-        resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n' +
-          temp.textb(msg.chat.type, 'command.whatanime.english') + ': ' + result.title_english + '\n'
+        resultMessage = temp.text(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n' +
+          temp.text(msg.chat.type, 'command.whatanime.english') + ': ' + result.title_english + '\n'
       } else {
-        resultMessage = temp.textb(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n'
+        resultMessage = temp.text(msg.chat.type, 'command.whatanime.name') + ': ' + result.title_native + '\n'
       }
       const time = new Format(result.at)
       resultMessage = resultMessage +
-        temp.textb(msg.chat.type, 'command.whatanime.episode') + ' ' + result.episode + '\n' +
-        temp.textb(msg.chat.type, 'command.whatanime.time') + ': ' +
+        temp.text(msg.chat.type, 'command.whatanime.episode') + ' ' + result.episode + '\n' +
+        temp.text(msg.chat.type, 'command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
-        temp.textb(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
+        temp.text(msg.chat.type, 'command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
       if (result.similarity * 100 < 70) {
         resultMessage = resultMessage + '\n' + temp.text(msg.chat.type, 'command.whatanime.incorrect')
         await bot.sendMessage(chatid, resultMessage, {

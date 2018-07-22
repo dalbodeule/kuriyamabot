@@ -1,15 +1,15 @@
 {
   "name": "gjmoribot",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "텔레그램 이미지 검색봇",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bugs": "https://github.com/small-sunshines/gjmoribot/issues",
+  "bugs": "https://git.mori.space/small-sunshine/gjmoribot/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/small-sunshines/gjmoribot.git"
+    "url": "https://git.mori.space/small-sunshine/gjmoribot.git"
   },
   "engines": {
     "node": "<= 8.0.0"
