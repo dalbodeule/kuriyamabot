@@ -108,7 +108,7 @@ module.exports = class {
     return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name') + '\n\n' +
       objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description') + '\n\n' +
       objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
-      ' ( ' + objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
+      ' ( ' + objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
   }
 
   text (code) {
