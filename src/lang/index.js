@@ -105,12 +105,10 @@ module.exports = class {
   }
 
   help (code) {
-    if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
-      return objectPath.get(langs.Korean, code + '.name') + '\n\n' +
-        objectPath.get(langs.Korean, code + '.description') + '\n\n' +
-        objectPath.get(langs.Korean, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
-        ' ( ' + objectPath.get(langs.English, code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
-    }
+    return objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name') + '\n\n' +
+      objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description') + '\n\n' +
+      objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) +
+      ' ( ' + objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how').replace(/{botid}/g, '@' + global.botinfo.username) + ' )'
   }
 
   text (code) {
