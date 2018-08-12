@@ -27,7 +27,6 @@ module.exports = class {
     } else {
       this.ready = true
     }
-    console.log(msg)
 
     if (msg.chat) { // 일반 채팅 대응
       this.id = (msg.chat.type === 'private' ? msg.from.id : msg.chat.id)
