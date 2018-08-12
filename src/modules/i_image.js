@@ -7,7 +7,7 @@ module.exports = (bot, logger, helper) => {
     function removeMatching (originalArray, regex) {
       let j = 0
       while (j < originalArray.length) {
-        if (regex.test(originalArray[j])) {
+        if (regex.test(originalArray[j].img)) {
           originalArray.splice(j, 1)
         } else {
           j++
@@ -52,8 +52,6 @@ module.exports = (bot, logger, helper) => {
           try {
             let res = await google.img(match[2])
 
-            res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
-
             if (typeof res[0] === 'undefined') {
               try {
                 await bot.answerInlineQuery(q.id, [{
@@ -75,6 +73,8 @@ module.exports = (bot, logger, helper) => {
               }
             } else {
               res.splice(50)
+              res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
+
               let results = []
               for (let i in res) {
                 results.push({

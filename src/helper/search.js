@@ -31,7 +31,7 @@ module.exports = {
     function removeMatching (originalArray, regex) {
       let j = 0
       while (j < originalArray.length) {
-        if (regex.test(originalArray[j])) {
+        if (regex.test(originalArray[j].img)) {
           originalArray.splice(j, 1)
         } else {
           j++
