@@ -20,7 +20,7 @@ module.exports = (bot, logger, helper) => {
             logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
           } catch (e) {
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
-            logger.debug(e.stack)
+            logger.debug(e)
           }
         } else {
           answer(msg, temp)
@@ -29,7 +29,7 @@ module.exports = (bot, logger, helper) => {
       logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
     } catch (e) {
       logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
-      logger.debug(e.message)
+      logger.debug(e)
     }
   })
 }

@@ -45,7 +45,7 @@ module.exports = (bot, logger, helper) => {
             }
           }
         } catch (e) {
-          console.log(e)
+          logger.debug(e)
           try {
             await bot.editMessageText('❗️ ' + temp.text('command.lang.error'), {chat_id: msg.message.chat.id,
               message_id: msg.message.message_id,
@@ -53,15 +53,15 @@ module.exports = (bot, logger, helper) => {
               parse_mode: 'HTML'
             })
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
-            logger.debug(e.stack)
+            logger.debug(e)
           } catch (e) {
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error send error')
-            logger.debug(e.stack)
+            logger.debug(e)
           }
         }
       } catch (e) {
         logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
-        logger.debug(e.message)
+        logger.debug(e)
       }
     }
   })
