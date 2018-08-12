@@ -57,7 +57,7 @@ module.exports = class {
         logger.debug('id: ' + this.id + ', lang: ' + this.lang)
         return query
       }
-    } else if (msg.query) { // inline query 대응
+    } else { // inline query 대응
       this.id = msg.from.id
       this.logger = logger
       let query = await model.language.find(this.id)
