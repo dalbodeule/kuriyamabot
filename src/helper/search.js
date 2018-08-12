@@ -28,7 +28,23 @@ module.exports = {
     function getRandomIntInclusive (min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }
+    function removeMatching (originalArray, regex) {
+      let j = 0
+      while (j < originalArray.length) {
+        if (regex.test(originalArray[j])) {
+          originalArray.splice(j, 1)
+        } else {
+          j++
+        }
+      }
+      return originalArray
+    }
+    // https://stackoverflow.com/a/3661083
+
     let res = await google.img(keyword + ' -site:ilbe.com')
+
+    res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
+
     if (typeof res[0] === 'undefined') {
       return undefined
     } else {

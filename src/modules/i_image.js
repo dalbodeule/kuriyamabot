@@ -4,6 +4,19 @@ module.exports = (bot, logger, helper) => {
       id: msg.id, query: msg.query
     }
 
+    function removeMatching (originalArray, regex) {
+      let j = 0
+      while (j < originalArray.length) {
+        if (regex.test(originalArray[j])) {
+          originalArray.splice(j, 1)
+        } else {
+          j++
+        }
+      }
+      return originalArray
+    }
+    // https://stackoverflow.com/a/3661083
+
     const match = q.query.match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
     if (match) {
       const google = require('google-parser')
@@ -38,6 +51,9 @@ module.exports = (bot, logger, helper) => {
         } else {
           try {
             let res = await google.img(match[2])
+
+            res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
+
             if (typeof res[0] === 'undefined') {
               try {
                 await bot.answerInlineQuery(q.id, [{
