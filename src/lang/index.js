@@ -27,7 +27,6 @@ module.exports = class {
     } else {
       this.ready = true
     }
-    console.log(msg)
 
     if (msg.chat) { // 일반 채팅 대응
       this.id = (msg.chat.type === 'private' ? msg.from.id : msg.chat.id)
@@ -43,8 +42,22 @@ module.exports = class {
         logger.debug('id: ' + this.id + ', lang: ' + this.lang)
         return query
       }
-    } else { // callback query 대응
+    } else if (msg.message) { // callback query 대응
       this.id = (msg.message.chat.type === 'private' ? msg.from.id : msg.message.chat.id)
+      this.logger = logger
+      let query = await model.language.find(this.id)
+      if (!query || !query.lang) {
+        this.lang = msg.from.language_code.split('-')[0]
+        logger.debug(this.id + ' ' + this.lang)
+        model.language.create(this.id, this.lang)
+        return query
+      } else {
+        this.lang = query.lang
+        logger.debug('id: ' + this.id + ', lang: ' + this.lang)
+        return query
+      }
+    } else { // inline query 대응
+      this.id = msg.from.id
       this.logger = logger
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
