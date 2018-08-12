@@ -89,7 +89,7 @@ module.exports = (bot, logger, helper) => {
   }
 
   bot.on('message', async (msg) => {
-    const regex1 = new RegExp('^(?:무슨애니|whatanime|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?)$')
+    const regex1 = new RegExp('^(?:무슨 ?애니|whatanime|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?)$')
     const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
@@ -99,6 +99,7 @@ module.exports = (bot, logger, helper) => {
           return
         } else if (msg.reply_to_message && msg.reply_to_message.from &&
           msg.reply_to_message.from.username === global.botinfo.username &&
+          msg.reply_to_message.text &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return

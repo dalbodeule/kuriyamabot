@@ -7,12 +7,6 @@ module.exports = (bot, logger, helper) => {
       try {
         logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
         try {
-          // eslint-disable-next-line
-          let admins, isAdmin = false;
-          [temp, admins] = await Promise.all([
-            helper.getlang(msg, logger),
-            bot.getChatAdministrators(msg.message.chat.id)
-          ])
           if (msg.message.chat.type === 'private') {
             temp = await helper.getlang(msg, logger)
             await temp.langset(test[1])
@@ -23,6 +17,12 @@ module.exports = (bot, logger, helper) => {
             })
             logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
           } else {
+            // eslint-disable-next-line
+            let admins, isAdmin = false;
+            [temp, admins] = await Promise.all([
+              helper.getlang(msg, logger),
+              bot.getChatAdministrators(msg.message.chat.id)
+            ])
             isAdmin = admins.some((v) => {
               return v.user.id === msg.from.id
             })
@@ -45,7 +45,7 @@ module.exports = (bot, logger, helper) => {
             }
           }
         } catch (e) {
-          console.log(e)
+          logger.debug(e)
           try {
             await bot.editMessageText('❗️ ' + temp.text('command.lang.error'), {chat_id: msg.message.chat.id,
               message_id: msg.message.message_id,
@@ -53,15 +53,15 @@ module.exports = (bot, logger, helper) => {
               parse_mode: 'HTML'
             })
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
-            logger.debug(e.stack)
+            logger.debug(e)
           } catch (e) {
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error send error')
-            logger.debug(e.stack)
+            logger.debug(e)
           }
         }
       } catch (e) {
         logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
-        logger.debug(e.message)
+        logger.debug(e)
       }
     }
   })

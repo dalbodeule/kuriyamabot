@@ -1,7 +1,7 @@
 {
   "name": "gjmoribot",
-  "version": "1.1.5",
-  "description": "텔레그램 이미지 검색봇",
+  "version": "1.1.6",
+  "description": "텔레그램 MoriBot",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
