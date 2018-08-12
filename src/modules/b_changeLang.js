@@ -7,12 +7,6 @@ module.exports = (bot, logger, helper) => {
       try {
         logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
         try {
-          // eslint-disable-next-line
-          let admins, isAdmin = false;
-          [temp, admins] = await Promise.all([
-            helper.getlang(msg, logger),
-            bot.getChatAdministrators(msg.message.chat.id)
-          ])
           if (msg.message.chat.type === 'private') {
             temp = await helper.getlang(msg, logger)
             await temp.langset(test[1])
@@ -23,6 +17,12 @@ module.exports = (bot, logger, helper) => {
             })
             logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
           } else {
+            // eslint-disable-next-line
+            let admins, isAdmin = false;
+            [temp, admins] = await Promise.all([
+              helper.getlang(msg, logger),
+              bot.getChatAdministrators(msg.message.chat.id)
+            ])
             isAdmin = admins.some((v) => {
               return v.user.id === msg.from.id
             })
