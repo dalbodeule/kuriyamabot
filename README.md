@@ -52,4 +52,4 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  -- [x] 구글 이미지검색
 
 ## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsmall-sunshines%2Fgjmoribot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsmall-sunshines%2Fgjmoribot?ref=badge_large)
+AGPL-3.0
