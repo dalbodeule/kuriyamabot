@@ -19,6 +19,8 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] /lang - 언어 변경
  - [x] /help - 도움말 명령어
  - [x] /whatanime - whatanime.ga 검색
+
+### 어드민커맨드
  - [x] /welcome - 커스텀 입장메세지
  - [x] /leave - 커스텀 퇴장메세지
 
@@ -50,6 +52,17 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] TextCommand
  -- [x] 구글 검색
  -- [x] 구글 이미지검색
+
+### i18n
+ - [x] 한국어
+ - [x] 영어 - 현재 구글 번역기로 불완전한 번역
+ - [ ] 일본어
+ - [ ] 중국어
+ - [ ] 러시아어
+
+### 웹페이지
+ - [ ] 초대버튼
+ - [ ] 명령어
 
 ## License
 AGPL-3.0
