@@ -104,6 +104,28 @@ module.exports = (bot, logger, helper) => {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return
         }
+      } else if (msg.document && msg.document.thumb) {
+        if (regex1.test(msg.caption)) {
+          await success(msg.chat.id, msg, msg.document.thumb.file_id)
+          return
+        } else if (msg.reply_to_message && msg.reply_to_message.from &&
+          msg.reply_to_message.from.username === global.botinfo.username &&
+          msg.reply_to_message.text &&
+          msg.reply_to_message.text.match(/📺❗️/)) {
+          await success(msg.chat.id, msg, msg.document.thumb.file_id)
+          return
+        }
+      } else if (msg.video && msg.document.thumb) {
+        if (regex1.test(msg.caption)) {
+          await success(msg.chat.id, msg, msg.document.thumb.file_id)
+          return
+        } else if (msg.reply_to_message && msg.reply_to_message.from &&
+          msg.reply_to_message.from.username === global.botinfo.username &&
+          msg.reply_to_message.text &&
+          msg.reply_to_message.text.match(/📺❗️/)) {
+          await success(msg.chat.id, msg, msg.document.thumb.file_id)
+          return
+        }
       } else {
         if (regex1.test(msg.text) &&
           msg.reply_to_message && msg.reply_to_message.photo) {
