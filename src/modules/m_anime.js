@@ -121,10 +121,10 @@ module.exports = (bot, logger, helper) => {
             await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
             return
           } else if (msg.reply_to_message && msg.reply_to_message.document && msg.reply_to_message.document.thumb) {
-            await success(msg.chat.id, msg, msg.reply_to_message.document.thumb)
+            await success(msg.chat.id, msg, msg.reply_to_message.document.thumb.file_id)
             return
           } else if (msg.reply_to_message && msg.reply_to_message.video && msg.reply_to_message.document.video) {
-            await success(msg.chat.id, msg, msg.reply_to_message.video.thumb)
+            await success(msg.chat.id, msg, msg.reply_to_message.video.thumb.file_id)
             return
           }
         } else if (regex2.test(msg.text)) {
