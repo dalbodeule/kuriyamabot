@@ -2,6 +2,8 @@ module.exports = (bot, logger, helper) => {
   const Whatanime = require('whatanimega-helper')
   const Format = require('../helper/timeFormat')
 
+  const query = new Whatanime(global.config.apikey.whatanime)
+
   const failure = async (chatid, msg) => {
     let temp
     try {
@@ -36,8 +38,6 @@ module.exports = (bot, logger, helper) => {
         helper.getlang(msg, logger)
       ])
 
-      const query = new Whatanime(global.config.apikey.whatanime)
-
       const url = await bot.getFileLink(photo)
       const response = await query.search(url)
       const result = response.docs[0]
@@ -54,14 +54,10 @@ module.exports = (bot, logger, helper) => {
         temp.text('command.whatanime.time') + ': ' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '\n' +
         temp.text('command.whatanime.match') + ': ' + (result.similarity * 100).toFixed(2) + '%'
-      if (result.similarity * 100 < 70) {
+      if (result.similarity < 0.9) {
         resultMessage = resultMessage + '\n' + temp.text('command.whatanime.incorrect')
-        await bot.sendMessage(chatid, resultMessage, {
-          parse_mode: 'HTML',
-          disable_web_page_preview: true,
-          reply_to_message_id: msg.message_id
-        })
-      } else if (result.is_adult) {
+      }
+      if (result.is_adult) {
         resultMessage = resultMessage + '\n' + temp.text('command.whatanime.isAdult')
         await bot.sendMessage(chatid, resultMessage, {
           parse_mode: 'HTML',

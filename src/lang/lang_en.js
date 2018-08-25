@@ -44,7 +44,7 @@ module.exports = {
       time: 'Time',
       match: 'accuracy',
       info: 'Please reply with an animated screenshot and you can search what animations are.',
-      incorrect: 'If the accuracy is less than 70%, no preview will be provided.',
+      incorrect: 'This is not exactly ...',
       isAdult: 'For adult animation, it does not provide a preview.'
     },
     welcome: {
