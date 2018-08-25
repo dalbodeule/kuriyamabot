@@ -53,7 +53,7 @@ module.exports = (bot, logger, helper) => {
         temp.text('command.whatanime.episode') + ' <code>' + result.episode + '</code>\n' +
         temp.text('command.whatanime.time') + ': <code>' +
         (time.hour === '00' ? '' : time.hour + ' : ') + time.min + ' : ' + time.sec + '</code>\n' +
-        temp.text('command.whatanime.match') + ': <code>' + (result.similarity * 100).toFixed(2) + '</code>%'
+        temp.text('command.whatanime.match') + ': <code>' + (result.similarity * 100).toFixed(2) + '%</code>'
       if (result.similarity < 0.9) {
         resultMessage = resultMessage + '\n\n<b>' + temp.text('command.whatanime.incorrect') + '</b>'
       }
