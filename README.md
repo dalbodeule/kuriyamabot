@@ -15,11 +15,10 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] /pic - 구글 이미지검색
  - [x] /gg - 구글 검색
  - [x] /me - 자신의 정보 확인
- - [ ] /me userid - 선택한 유저의 정보 확인
  - [x] /lang - 언어 변경
  - [x] /help - 도움말 명령어
  - [x] /whatanime - whatanime.ga 검색
- - [ ] /whatanime - GIF/동영상 검색
+ - [x] /whatanime - GIF/동영상 검색
 
 ### 어드민커맨드
  - [x] /welcome - 커스텀 입장메세지
@@ -53,6 +52,9 @@ telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
  - [x] TextCommand
  -- [x] 구글 검색
  -- [x] 구글 이미지검색
+
+### 제작자 기능
+ - [ ] /msginfo - 메세지 정보보기
 
 ### i18n
  - [x] 한국어
