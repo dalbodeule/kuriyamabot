@@ -1,4 +1,8 @@
-module.exports = (bot, logger, helper) => {
+import helper from '../helper'
+import { Logger } from 'log4js'
+import * as Telegram from 'node-telegram-bot-api'
+
+export default (bot: Telegram, logger: Logger) => {
   bot.onText(/\{(?:img|pic|사진|이미지|짤) (.*)(?:\{|\})/, async (msg, match) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     const type = 'pic'

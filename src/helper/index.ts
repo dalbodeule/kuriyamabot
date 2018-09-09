@@ -11,7 +11,7 @@ export default {
       return user.username
     }
   },
-  async getlang (msg: Message, logger: Logger) {
+  async getlang (msg: any, logger: Logger) {
     try {
       const Lang = require('../lang')
       let temp = new Lang()

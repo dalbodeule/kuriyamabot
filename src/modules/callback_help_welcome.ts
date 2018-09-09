@@ -1,4 +1,8 @@
-module.exports = (bot, logger, helper) => {
+import helper from '../helper'
+import { Logger } from 'log4js'
+import * as Telegram from 'node-telegram-bot-api'
+
+export default (bot: Telegram, logger: Logger) => {
   const answer = (msg, temp) => {
     bot.answerCallbackQuery(msg.id, temp.text('command.help.twice'))
   }

@@ -1,4 +1,8 @@
-module.exports = (bot, logger, helper) => {
+import helper from '../helper'
+import { Logger } from 'log4js'
+import * as Telegram from 'node-telegram-bot-api'
+
+export default (bot: Telegram, logger: Logger) => {
   bot.on('inline_query', async (msg) => {
     const q = {
       id: msg.id, query: msg.query

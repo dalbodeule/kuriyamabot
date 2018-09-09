@@ -1,7 +1,10 @@
-module.exports = (bot, logger, helper) => {
-  const Whatanime = require('whatanimega-helper')
-  const Format = require('../helper/timeFormat')
+import helper from '../helper'
+import { Logger } from 'log4js'
+import * as Telegram from 'node-telegram-bot-api'
+import Whatanime from 'whatanimega-helper'
+import Format from '../helper/timeFormat'
 
+export default (bot: Telegram, logger: Logger) => {
   const query = new Whatanime(global.config.apikey.whatanime)
 
   const failure = async (chatid, msg) => {

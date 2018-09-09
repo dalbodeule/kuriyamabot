@@ -1,5 +1,4 @@
-'use strict'
-module.exports = async (bot, logger, helper) => {
+export default async (bot, logger, helper) => {
   const glob = require('glob-promise')
   const path = require('path')
 

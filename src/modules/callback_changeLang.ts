@@ -1,18 +1,21 @@
-module.exports = (bot, logger, helper) => {
-  bot.on('callback_query', async (msg) => {
-    let test = msg.data.match(/changelang_([a-zA-Z]{2})/)
+import helper from '../helper'
+import { Logger } from 'log4js'
+import * as Telegram from 'node-telegram-bot-api'
+
+export default (bot: Telegram, logger: Logger) => {
+  bot.on('callback_query', async (msg: Telegram.CallbackQuery) => {
+    let test = (<string>msg.data).match(/changelang_([a-zA-Z]{2})/)
     if (test) {
       const callid = msg.id
       let temp
       try {
         logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
         try {
-          if (msg.message.chat.type === 'private') {
+          if ((<Telegram.Message>msg.message).chat.type === 'private') {
             temp = await helper.getlang(msg, logger)
             await temp.langset(test[1])
-            await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
-              message_id: msg.message.message_id,
-              reply_to_message_id: msg.message_id,
+            await bot.editMessageText(temp.text('command.lang.success'), {chat_id: (<Telegram.Message>msg.message).chat.id,
+              message_id: (<Telegram.Message>msg.message).message_id,
               parse_mode: 'HTML'
             })
             logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
@@ -21,7 +24,7 @@ module.exports = (bot, logger, helper) => {
             let admins, isAdmin = false;
             [temp, admins] = await Promise.all([
               helper.getlang(msg, logger),
-              bot.getChatAdministrators(msg.message.chat.id)
+              bot.getChatAdministrators((<Telegram.Message>msg.message).chat.id)
             ])
             isAdmin = admins.some((v) => {
               return v.user.id === msg.from.id
@@ -29,16 +32,14 @@ module.exports = (bot, logger, helper) => {
             if (isAdmin) {
               temp = await helper.getlang(msg, logger)
               await temp.langset(test[1])
-              await bot.editMessageText(temp.text('command.lang.success'), {chat_id: msg.message.chat.id,
-                message_id: msg.message.message_id,
-                reply_to_message_id: msg.message_id,
+              await bot.editMessageText(temp.text('command.lang.success'), {chat_id: (<Telegram.Message>msg.message).chat.id,
+                message_id: (<Telegram.Message>msg.message).message_id,
                 parse_mode: 'HTML'
               })
               logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
             } else {
-              await bot.editMessageText(temp.text('command.lowPermission'), {chat_id: msg.message.chat.id,
-                message_id: msg.message.message_id,
-                reply_to_message_id: msg.message_id,
+              await bot.editMessageText(temp.text('command.lowPermission'), {chat_id: (<Telegram.Message>msg.message).chat.id,
+                message_id: (<Telegram.Message>msg.message).message_id,
                 parse_mode: 'HTML'
               })
               logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: lowPermission')
@@ -47,9 +48,8 @@ module.exports = (bot, logger, helper) => {
         } catch (e) {
           logger.debug(e)
           try {
-            await bot.editMessageText('❗️ ' + temp.text('command.lang.error'), {chat_id: msg.message.chat.id,
-              message_id: msg.message.message_id,
-              reply_to_message_id: msg.message_id,
+            await bot.editMessageText('❗️ ' + (temp).text('command.lang.error'), {chat_id: (<Telegram.Message>msg.message).chat.id,
+              message_id: (<Telegram.Message>msg.message).message_id,
               parse_mode: 'HTML'
             })
             logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
