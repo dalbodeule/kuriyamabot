@@ -1,7 +1,9 @@
-module.exports = class {
-  constructor (time) {
+export default class {
+  time: number
+
+  constructor (time: number) {
     this.time = time
-    return true
+    return
   }
   get hour () {
     return this.pad(Math.floor(this.time / (60 * 60)))
@@ -12,7 +14,7 @@ module.exports = class {
   get sec () {
     return this.pad(Math.floor(this.time % 60))
   }
-  pad (s) {
+  pad (s: number) {
     return (s < 10 ? '0' : '') + s
   }
 }

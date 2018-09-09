@@ -1,14 +1,17 @@
-'use strict'
-const search = require('./search')
-module.exports = {
-  getuser (user) {
+import search from './search'
+import lang from '../lang'
+import { User, Message } from 'node-telegram-bot-api'
+import { Logger } from 'log4js';
+
+export default {
+  getuser (user: User) {
     if (!user.username) {
       return user.first_name
     } else {
       return user.username
     }
   },
-  async getlang (msg, logger) {
+  async getlang (msg: Message, logger: Logger) {
     try {
       const Lang = require('../lang')
       let temp = new Lang()
@@ -18,7 +21,7 @@ module.exports = {
       throw (e)
     }
   },
-  commandlist (temp) {
+  commandlist (temp: lang) {
     return [
       [{
         text: '📒 ' + temp.inline('command.help.help.name'),
@@ -61,8 +64,8 @@ module.exports = {
       }]
     ]
   },
-  langlist (temp) {
-    let list = temp.getLangList()
+  langlist (temp: lang) {
+    let list: any = temp.getLangList()
     let listResult = []
     for (let i in Object.keys(list)) {
       listResult.push(list[Object.keys(list)[i]].lang)

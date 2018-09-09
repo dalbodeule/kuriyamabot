@@ -1,9 +1,9 @@
-const db = require('./_table')
+import db from '../table'
 const SUCCESS = true
 
 class Language {
-  static async find (id) {
-    let result = await db.language.findOne({
+  static async find (id: number): Promise<any> {
+    let result = await db.Language.findOne({
       where: {
         id
       },
@@ -17,8 +17,8 @@ class Language {
     return result
   }
 
-  static async create (id, lang) {
-    db.language.create({
+  static async create (id: number, lang: string) {
+    db.Language.create({
       id,
       lang
     })
@@ -26,8 +26,8 @@ class Language {
     return SUCCESS
   }
 
-  static async update (lang, id) {
-    await db.language.update({
+  static async update (lang: string, id: number) {
+    await db.Language.update({
       lang
     }, {
       where: {
@@ -39,4 +39,4 @@ class Language {
   }
 }
 
-module.exports = Language
+export default Language
