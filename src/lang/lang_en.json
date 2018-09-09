@@ -55,6 +55,10 @@
       "success" :"The message is set up well.",
       "help" :"How to write an entry message :{roomid} specifies the name of this room, and {userid} is the name of the user. If you turn off, you will not get a message to leave.\n Examples :`{userid} has been removed from {roomid}.`"
     },
+    "msginfo": {
+      "success": "It is the information of the desired message.",
+      "alert": "Please reply to the message you want!"
+    },
     "lowPermission" :"You lack the authority to do this.",
     "isnotgroup" :"You can not do this unless you are a group or a super group.",
     "me" :"`User ID :{userid}`\n`First name :{fname}`\n`Last name :{lname}`\n`ID :{name}`\n`Use language :{lang}`\n",
