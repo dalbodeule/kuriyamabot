@@ -7,7 +7,7 @@ import Format from '../helper/timeFormat'
 export default (bot: Telegram, logger: Logger) => {
   const query = new Whatanime(global.config.apikey.whatanime)
 
-  const failure = async (chatid, msg) => {
+  const failure = async (chatid: number, msg: Telegram.Message) => {
     let temp
     try {
       // eslint-disable-next-line
@@ -23,17 +23,17 @@ export default (bot: Telegram, logger: Logger) => {
           force_reply: true, selective: true
         }
       })
-      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid,')
+      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', command: whatanime, type: valid,')
     } catch (e) {
-      logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
+      logger.error('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', command: whatanime, type: error')
       logger.debug(e.stack)
     }
   }
 
-  const success = async (chatid, msg, photo) => {
+  const success = async (chatid: number, msg: Telegram.Message, photo: string) => {
     let temp
     try {
-      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: command received')
+      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', command: whatanime, type: command received')
       // eslint-disable-next-line
       let send
       [send, temp] = await Promise.all([
@@ -80,20 +80,20 @@ export default (bot: Telegram, logger: Logger) => {
           })
         ])
       }
-      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: valid')
+      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', command: whatanime, type: valid')
     } catch (e) {
-      logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
+      logger.error('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', command: whatanime, type: error')
       logger.debug(e.stack)
     }
   }
 
-  bot.on('message', async (msg) => {
+  bot.on('message', async (msg: Telegram.Message) => {
     const regex1 = new RegExp('^(?:무슨 ?애니|whatanime|anime|/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?)$')
     const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' + global.botinfo.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
       if (msg.photo) {
-        if (regex1.test(msg.caption)) {
+        if (regex1.test((<string>msg.caption))) {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return
         } else if (msg.reply_to_message && msg.reply_to_message.from &&
@@ -103,36 +103,36 @@ export default (bot: Telegram, logger: Logger) => {
           await success(msg.chat.id, msg, msg.photo[msg.photo.length - 1].file_id)
           return
         }
-      } else if (msg.video && msg.document.thumb) {
-        if (regex1.test(msg.caption)) {
-          await success(msg.chat.id, msg, msg.document.thumb.file_id)
+      } else if (msg.video && (<Telegram.Document>msg.document).thumb) {
+        if (regex1.test((<string>msg.caption))) {
+          await success(msg.chat.id, msg, (<Telegram.PhotoSize>(<Telegram.Document>msg.document).thumb).file_id)
           return
         } else if (msg.reply_to_message && msg.reply_to_message.from &&
           msg.reply_to_message.from.username === global.botinfo.username &&
           msg.reply_to_message.text &&
           msg.reply_to_message.text.match(/📺❗️/)) {
-          await success(msg.chat.id, msg, msg.document.thumb.file_id)
+          await success(msg.chat.id, msg, (<Telegram.PhotoSize>(<Telegram.Document>msg.document).thumb).file_id)
           return
         }
       } else {
-        if (regex1.test(msg.text)) {
+        if (regex1.test((<string>msg.text))) {
           if (msg.reply_to_message && msg.reply_to_message.photo) {
             await success(msg.chat.id, msg, msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1].file_id)
             return
           } else if (msg.reply_to_message && msg.reply_to_message.document && msg.reply_to_message.document.thumb) {
             await success(msg.chat.id, msg, msg.reply_to_message.document.thumb.file_id)
             return
-          } else if (msg.reply_to_message && msg.reply_to_message.video && msg.reply_to_message.document.video) {
-            await success(msg.chat.id, msg, msg.reply_to_message.video.thumb.file_id)
+          } else if (msg.reply_to_message && msg.reply_to_message.video) {
+            await success(msg.chat.id, msg, (<Telegram.PhotoSize>(<Telegram.Video>msg.reply_to_message.video).thumb).file_id)
             return
           }
-        } else if (regex2.test(msg.text)) {
+        } else if (regex2.test((<string>msg.text))) {
           await failure(msg.chat.id, msg)
           return
         }
       }
     } catch (e) {
-      logger.error('chatid: ' + msg.chat.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: whatanime, type: error')
+      logger.error('chatid: ' + msg.chat.id + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', command: whatanime, type: error')
       logger.debug(e.stack)
     }
   })
