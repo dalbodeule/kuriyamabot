@@ -1,9 +1,9 @@
 import * as google from 'google-parser'
-export default {
-  async search (keyword: string) {
+export default class Search {
+  static async search (keyword: string): Promise<string | google.error | undefined> {
     let res = await google.search(keyword + ' -site:ilbe.com')
     if ((<google.error>res).error) {
-      return false
+      return (<google.error>res)
     } else if (!res) {
       return undefined
     } else {
@@ -22,8 +22,8 @@ export default {
       }
       return response
     }
-  },
-  async image (keyword: string) {
+  }
+  static async image (keyword: string): Promise<google.imgReturn | undefined> {
     function getRandomIntInclusive (min: number, max: number) {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }

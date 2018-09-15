@@ -3,9 +3,10 @@ import * as model from '../db'
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+import config from '../config'
 
 export default (bot: Telegram, logger: Logger) => {
-  bot.onText(new RegExp('^/welcome+(?:@' + global.botinfo.username + ')? ([^\r]+)$'), async (msg, match) => {
+  bot.onText(new RegExp('^/welcome+(?:@' + (<Telegram.User>config.botinfo).username + ')? ([^\r]+)$'), async (msg, match) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       let temp

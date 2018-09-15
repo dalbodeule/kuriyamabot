@@ -1,6 +1,7 @@
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+import config from '../config'
 
 export default (bot: Telegram, logger: Logger) => {
   bot.on('inline_query', async (msg) => {
@@ -33,7 +34,7 @@ export default (bot: Telegram, logger: Logger) => {
               switch_inline_query_current_chat: 'search'
             }], [{
               text: '⚙️',
-              url: 'https://t.me/' + global.botinfo.username
+              url: 'https://t.me/' + (<Telegram.User>config.botinfo).username
             }]]
           }
         }], {

@@ -1,10 +1,13 @@
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+import * as types from '../types'
 
 export default (bot: Telegram, logger: Logger) => {
-  const answer = (msg, temp) => {
-    bot.answerCallbackQuery(msg.id, temp.text('command.help.twice'))
+  const answer = (msg: Telegram.CallbackQuery, temp: types.Lang) => {
+    bot.answerCallbackQuery(msg.id, {
+      text: temp.text('command.help.twice')
+    })
   }
 
   bot.on('callback_query', async (msg) => {
@@ -18,7 +21,6 @@ export default (bot: Telegram, logger: Logger) => {
             await bot.editMessageText('📟 ' + temp.help('command.help.me'), {
               chat_id: msg.message.chat.id,
               message_id: msg.message.message_id,
-              reply_to_message_id: msg.message_id,
               parse_mode: 'HTML',
               reply_markup: {
                 inline_keyboard: helper.commandlist(temp)

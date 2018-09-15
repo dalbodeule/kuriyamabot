@@ -1,17 +1,18 @@
 import search from './search'
 import lang from '../lang'
-import { User, Message } from 'node-telegram-bot-api'
+import { User } from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
+import * as types from '../types'
 
 export default {
-  getuser (user: User) {
+  getuser (user: User): string {
     if (!user.username) {
       return user.first_name
     } else {
       return user.username
     }
   },
-  async getlang (msg: any, logger: Logger) {
+  async getlang (msg: any, logger: Logger): Promise<types.Lang> {
     try {
       const Lang = require('../lang')
       let temp = new Lang()
@@ -21,7 +22,7 @@ export default {
       throw (e)
     }
   },
-  commandlist (temp: lang) {
+  commandlist (temp: types.Lang) {
     return [
       [{
         text: '📒 ' + temp.inline('command.help.help.name'),

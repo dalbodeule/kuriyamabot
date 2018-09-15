@@ -1,9 +1,10 @@
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+import config from '../config'
 
 export default (bot: Telegram, logger: Logger) => {
-  bot.onText(new RegExp('^/(?:검색|google|search|gg)+(?:@' + global.botinfo.username + ')? (.+)$'), async (msg, match) => {
+  bot.onText(new RegExp('^/(?:검색|google|search|gg)+(?:@' + (<Telegram.User>config.botinfo).username + ')? (.+)$'), async (msg, match) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       let temp
@@ -51,10 +52,10 @@ export default (bot: Telegram, logger: Logger) => {
     async function sendError (e, chatid, temp, msg, match) {
       try {
         await bot.sendMessage(chatid, '❗️ ' + temp.text('command.search.error')
-          .replace(/{botid}/g, '@' + global.botinfo.username).replace(/{keyword}/g, match[1]), {
+          .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username).replace(/{keyword}/g, match[1]), {
           reply_markup: {
             inline_keyboard: [[{
-              text: '@' + global.botinfo.username + ' search ' + match[1],
+              text: '@' + (<Telegram.User>config.botinfo).username + ' search ' + match[1],
               switch_inline_query_current_chat: 'search ' + match[1]
             }]]
           },
@@ -70,7 +71,7 @@ export default (bot: Telegram, logger: Logger) => {
     }
   })
 
-  bot.onText(new RegExp('^/(?:검색|google|search|gg)+(?:@' + global.botinfo.username + ')? ?$'), async (msg, match) => {
+  bot.onText(new RegExp('^/(?:검색|google|search|gg)+(?:@' + (<Telegram.User>config.botinfo).username + ')? ?$'), async (msg, match) => {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       let temp

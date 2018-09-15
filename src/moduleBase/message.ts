@@ -1,16 +1,30 @@
+import * as model from '../db'
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+
 import * as types from '../types'
 import config from '../config'
 
-export default class {
-  config: types.globalType;
-  constructor (bot: Telegram) {
+export default class Message {
+  protected config: types.globalType;
+  protected bot: Telegram;
+  protected logger: Logger;
+  protected helper: any;
+  protected model: any;
+
+  constructor (bot: Telegram, logger: Logger) {
     this.config = config
+    this.bot = bot
+    this.logger = logger
+    this.helper = helper
+    this.model = model
   }
 
-  private async run (): Promise<void> {
+  public run (): void {
+    this.bot.on('message', this.module)
+  }
 
+  protected async module (msg: Telegram.Message): Promise<void> {
   }
 }

@@ -46,21 +46,11 @@ export default (bot: Telegram, logger: Logger) => {
             }
           }
         } catch (e) {
+          logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
           logger.debug(e)
-          try {
-            await bot.editMessageText('❗️ ' + (temp).text('command.lang.error'), {chat_id: (<Telegram.Message>msg.message).chat.id,
-              message_id: (<Telegram.Message>msg.message).message_id,
-              parse_mode: 'HTML'
-            })
-            logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
-            logger.debug(e)
-          } catch (e) {
-            logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error send error')
-            logger.debug(e)
-          }
         }
       } catch (e) {
-        logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
+        logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
         logger.debug(e)
       }
     }

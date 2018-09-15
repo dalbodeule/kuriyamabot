@@ -1,6 +1,9 @@
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+import * as google from 'google-parser'
+import config from '../config'
+import { Lang } from '../types';
 
 export default (bot: Telegram, logger: Logger) => {
   bot.on('inline_query', async (msg) => {
@@ -8,7 +11,7 @@ export default (bot: Telegram, logger: Logger) => {
       id: msg.id, query: msg.query
     }
 
-    function getdesc (description, url, title, temp) {
+    function getdesc (description: string, url: string, title: string, temp: Lang) {
       let shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/)
       if (shot !== null) {
         return 'https://youtu.be/' + shot[1]
@@ -24,7 +27,6 @@ export default (bot: Telegram, logger: Logger) => {
 
     const match = q.query.match(/^(?:([search|google|query|검색|구글]+)(?:| (.*)+))$/)
     if (match) {
-      const google = require('google-parser')
       let temp
       try {
         temp = await helper.getlang(msg, logger)
@@ -32,10 +34,10 @@ export default (bot: Telegram, logger: Logger) => {
           try {
             await bot.answerInlineQuery(q.id, [{
               type: 'article',
-              title: '@' + global.botinfo.username + ' (search|google|query) (keyword)',
+              title: '@' + (<Telegram.User>config.botinfo).username + ' (search|google|query) (keyword)',
               id: 'help',
               input_message_content: {
-                message_text: '@' + global.botinfo.username + ' (search|google|query) (keyword)', parse_mode: 'HTML', disable_web_page_preview: true
+                message_text: '@' + (<Telegram.User>config.botinfo).username + ' (search|google|query) (keyword)', parse_mode: 'HTML', disable_web_page_preview: true
               },
               reply_markup: {
                 inline_keyboard: [[{
@@ -54,7 +56,7 @@ export default (bot: Telegram, logger: Logger) => {
         } else {
           try {
             let res = await google.search(match[2])
-            if (res === false) {
+            if (res.reson == 'antibot') {
               try {
                 await bot.answerInlineQuery(q.id, [{
                   type: 'article',
@@ -71,14 +73,14 @@ export default (bot: Telegram, logger: Logger) => {
                 logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error')
                 logger.debug(e.stack)
               }
-            } else if (typeof res[0] === 'undefined') {
+            } else if (typeof (<Array<google.searchReturn>>res)[0] === 'undefined') {
               try {
                 await bot.answerInlineQuery(q.id, [{
                   type: 'article',
-                  title: temp.group('command.search.not_found'),
+                  title: temp.inline('command.search.not_found'),
                   id: 'not found',
                   input_message_content: {
-                    message_text: temp.group('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
+                    message_text: temp.inline('command.search.not_found'), parse_mode: 'HTML', disable_web_page_preview: true
                   }
                 }], {
                   cache_time: 3
@@ -89,21 +91,22 @@ export default (bot: Telegram, logger: Logger) => {
                 logger.debug(e.stack)
               }
             } else {
-              res.splice(50)
-              let results = []
-              for (let i in res) {
+              (<Array<google.searchReturn>>res).splice(50)
+              let results: Array<Telegram.InlineQueryResult> = []
+              let i: any = 0
+              for (i in res) {
                 results.push({
                   type: 'article',
-                  title: res[i].title,
+                  title: (<Array<google.searchReturn>>res)[i].title,
                   id: q.id + '/document/' + i,
                   input_message_content: {
-                    message_text: getdesc(res[i].description, res[i].link, res[i].title, temp),
+                    message_text: getdesc((<Array<google.searchReturn>>res)[i].description, (<Array<google.searchReturn>>res)[i].link, (<Array<google.searchReturn>>res)[i].title, temp),
                     parse_mode: 'HTML'
                   },
                   reply_markup: {
                     inline_keyboard: [[{
                       text: temp.inline('command.search.visit_page'),
-                      url: res[i].link
+                      url: (<Array<google.searchReturn>>res)[i].link
                     }, {
                       text: temp.inline('command.search.another'),
                       switch_inline_query_current_chat: 'search ' + match[2]
@@ -122,12 +125,12 @@ export default (bot: Telegram, logger: Logger) => {
                   await bot.answerInlineQuery(q.id, [{
                     type: 'article',
                     title: temp.text('command.search.error')
-                      .replace(/{botid}/g, '@' + global.botinfo.username)
+                      .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                       .replace(/{keyword}/g, match[2]),
                     id: 'error',
                     input_message_content: {
                       message_text: temp.inline('command.search.error')
-                        .replace(/{botid}/g, '@' + global.botinfo.username)
+                        .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                         .replace(/{keyword}/g, match[2]),
                       parse_mode: 'HTML',
                       disable_web_page_preview: true
@@ -147,12 +150,12 @@ export default (bot: Telegram, logger: Logger) => {
             await bot.answerInlineQuery(q.id, [{
               type: 'article',
               title: temp.text('command.search.error')
-                .replace(/{botid}/g, '@' + global.botinfo.username)
+                .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                 .replace(/{keyword}/g, match[2]),
               id: 'error',
               input_message_content: {
                 message_text: temp.inline('command.search.not_found')
-                  .replace(/{botid}/g, '@' + global.botinfo.username)
+                  .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                   .replace(/{keyword}/g, match[2]),
                 parse_mode: 'HTML',
                 disable_web_page_preview: true

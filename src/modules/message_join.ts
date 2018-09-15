@@ -1,50 +1,52 @@
-import * as model from '../db'
-
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 
-export default (bot: Telegram, logger: Logger) => {
-  bot.on('message', async (msg) => {
+export default class MessageJoin extends Message {
+  protected async module (msg: Telegram.Message) {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
-    if (!msg.new_chat_member) return
+    if (!msg.new_chat_members) return
+
     const chatid = msg.chat.id
-    let temp
+    
     try {
-      // eslint-disable-next-line
-      let send;
-      [send, temp] = await Promise.all([
-        bot.sendChatAction(chatid, 'typing'),
-        helper.getlang(msg, logger)
+      this.logger.info('message: chat join, chatid: ' + chatid + 
+        ', userid: ' + msg.new_chat_members[0].id + ', status: pending')
+
+      let [send, temp] = await Promise.all([
+        this.bot.sendChatAction(chatid, 'typing'),
+        this.helper.getlang(msg, this.logger)
       ])
-      if (msg.new_chat_member.id !== global.botinfo.id) {
-        let value = await model.message.findWelcome(chatid)
+      
+      if (msg.new_chat_members[0].id !== this.config.botinfo!.id) {
+        let value = await this.model.message.findWelcome(chatid)
         if (!value) {
-          await bot.sendMessage(chatid, temp.text('message.join')
+          await this.bot.sendMessage(chatid, temp.text('message.join')
             .replace(/{roomid}/g, msg.chat.title)
-            .replace(/{userid}/g, msg.new_chat_member.first_name), {
+            .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id
           })
-          logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
         } else if (value.welcomeMessage === 'off') {
-          logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
+
         } else {
           let welcomeMessage = value.welcomeMessage || temp.text('message.join')
-          await bot.sendMessage(chatid, welcomeMessage
+          await this.bot.sendMessage(chatid, welcomeMessage
             .replace(/{roomid}/g, msg.chat.title)
-            .replace(/{userid}/g, msg.new_chat_member.first_name), {
+            .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id
           })
-          logger.info('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username)
         }
+        this.logger.info('message: chat join, chatid: ' + chatid + 
+          ', userid: ' + msg.new_chat_members[0].id + ', status: success')
       } else {
-        await bot.sendChatAction(chatid, 'typing')
-        await bot.sendMessage(chatid, '👋 ' + temp.text('message.botjoin'))
-        logger.info('message: chat join, chatid: ' + chatid + ', i\'m join room!')
+        await this.bot.sendChatAction(chatid, 'typing')
+        await this.bot.sendMessage(chatid, '👋 ' + temp.text('message.botjoin'))
+        this.logger.info('message: chat join, chatid: ' + chatid +
+          ', i\'m join room!, status: success')
       }
     } catch (e) {
-      logger.error('message: chat join, chatid: ' + chatid + ', userid: ' + msg.new_chat_member.id + ', username: ' + msg.from.username + ' status: error')
-      logger.debug(e.stack)
+      this.logger.error('message: chat join, chatid: ' + chatid +
+        ', userid: ' + msg.new_chat_members[0].id + ', status: error')
+      this.logger.debug(e.stack)
     }
-  })
+  }
 }

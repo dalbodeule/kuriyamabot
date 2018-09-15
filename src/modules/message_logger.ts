@@ -1,11 +1,12 @@
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 
-export default (bot: Telegram, logger: Logger) => {
-  bot.on('message', (msg) => {
+export default class MessageLogger extends Message {
+  protected async module (msg: Telegram.Message) {
     if (typeof msg.text !== 'undefined') {
-      logger.debug('chatid: ' + msg.chat.id + ', text: ' + msg.text.replace(/\n/g, '\\n') + ', username: ' + helper.getuser(msg.from))
+      this.logger.debug('chatid: ' + msg.chat.id +
+      ', text: ' + msg.text.replace(/\n/g, '\\n') +
+      ', username: ' + this.helper.getuser((<Telegram.User>msg.from)))
     }
-  })
+  }
 }

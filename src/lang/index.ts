@@ -23,7 +23,7 @@ export default class {
     this.ready = false
   }
 
-  async set (msg: any) {
+  async set (msg: any): Promise<void> {
     if (Object.keys(langs).length === 0) {
       this.logger.info('Language: Language not loaded')
       let items = await glob(path.join(__dirname, 'lang_*.json'))
@@ -80,7 +80,7 @@ export default class {
     }
   }
 
-  async langset (lang: string) {
+  async langset (lang: string): Promise<boolean> {
     let isExist = false
     for (let i in Object.keys(langs)) {
       if ((<string>langs[Object.keys(langs)[i]].lang.code) === lang) {
@@ -100,7 +100,7 @@ export default class {
     }
   }
 
-  inline (code: string) {
+  inline (code: string): string {
     if (typeof this.lang === 'undefined' || typeof langs[language.getLanguageInfo(this.lang).name] === 'undefined') {
       return (<string>objectPath.get(langs.Korean, code)) + '(' + (<string>objectPath.get(langs.English, code)) + ')'
     } else if (language.getLanguageInfo(this.lang).name === 'English') {
@@ -111,18 +111,18 @@ export default class {
     }
   }
 
-  help (code: string) {
+  help (code: string): string {
     return (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name')) + '\n\n' +
       (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description')) + '\n\n' +
       (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how')).replace(/{botid}/g, '@' + (<User>config.botinfo).username) +
       ' ( ' + (<string>objectPath.get(langs.English, code + '.how')).replace(/{botid}/g, '@' + (<User>config.botinfo).username) + ' )'
   }
 
-  text (code: string) {
+  text (code: string): string {
     return (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code))
   }
 
-  getLangList () {
+  getLangList (): Langs {
     return langs
   }
 }

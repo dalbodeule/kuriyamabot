@@ -35,7 +35,7 @@
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.26.0",
-    "whatanimega-helper": "^1.1.0"
+    "whatanimega-helper": "^2.0.0"
   },
   "devDependencies": {
     "tslint": "^5.11.0",

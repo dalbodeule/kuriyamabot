@@ -1,6 +1,5 @@
 import * as Telegram from 'node-telegram-bot-api'
 import * as log4js from 'log4js'
-import helper from './helper'
 import global from './config'
 
 const logger = log4js.getLogger()
@@ -27,7 +26,7 @@ try {
   (async () => {
     try {
       global.botinfo = await bot.getMe()
-      require('./modules')(bot, logger, helper)
+      require('./modules')(bot, logger)
       logger.info('Ready!')
     } catch (err) {
       logger.error(err)

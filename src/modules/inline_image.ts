@@ -1,6 +1,8 @@
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
+import config from '../config'
+import * as google from 'google-parser'
 
 export default (bot: Telegram, logger: Logger) => {
   bot.on('inline_query', async (msg) => {
@@ -8,7 +10,7 @@ export default (bot: Telegram, logger: Logger) => {
       id: msg.id, query: msg.query
     }
 
-    function removeMatching (originalArray, regex) {
+    function removeMatching (originalArray: Array<google.imgReturn>, regex: RegExp) {
       let j = 0
       while (j < originalArray.length) {
         if (regex.test(originalArray[j].img)) {
@@ -23,7 +25,6 @@ export default (bot: Telegram, logger: Logger) => {
 
     const match = q.query.match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
     if (match) {
-      const google = require('google-parser')
       let temp
       try {
         temp = await helper.getlang(msg, logger)
@@ -31,10 +32,10 @@ export default (bot: Telegram, logger: Logger) => {
           try {
             await bot.answerInlineQuery(q.id, [{
               type: 'article',
-              title: '@' + global.botinfo.username + ' (photo|image|img) (keyword)',
+              title: '@' + (<Telegram.User>config.botinfo).username + ' (photo|image|img) (keyword)',
               id: 'help',
               input_message_content: {
-                message_text: '@' + global.botinfo.username + ' (photo|image|img) (keyword)',
+                message_text: '@' + (<Telegram.User>config.botinfo).username + ' (photo|image|img) (keyword)',
                 parse_mode: 'HTML',
                 disable_web_page_preview: true
               },
@@ -79,7 +80,7 @@ export default (bot: Telegram, logger: Logger) => {
               res.splice(50)
               res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
 
-              let results = []
+              let results: Array<Telegram.InlineQueryResult> = []
               for (let i in res) {
                 results.push({
                   type: 'photo',
@@ -114,18 +115,18 @@ export default (bot: Telegram, logger: Logger) => {
                   await bot.answerInlineQuery(q.id, [{
                     type: 'article',
                     title: temp.text('command.img.error')
-                      .replace(/{botid}/g, '@' + global.botinfo.username)
+                      .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                       .replace(/{keyword}/g, match[2]),
                     id: 'error',
                     input_message_content: {
                       message_text: temp.inline('command.img.error')
-                        .replace(/{botid}/g, '@' + global.botinfo.username)
+                        .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                         .replace(/{keyword}/g, match[2]),
                       parse_mode: 'HTML',
                       disable_web_page_prefiew: true},
                     reply_markup: {
                       inline_keyboard: [[{
-                        text: '@' + global.botinfo.username + ' img ' + match[2],
+                        text: '@' + (<Telegram.User>config.botinfo).username + ' img ' + match[2],
                         switch_inline_query_current_chat: 'img ' + match[2]
                       }]]
                     }
@@ -145,18 +146,18 @@ export default (bot: Telegram, logger: Logger) => {
               await bot.answerInlineQuery(q.id, [{
                 type: 'article',
                 title: temp.text('command.img.error')
-                  .replace(/{botid}/g, '@' + global.botinfo.username)
+                  .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                   .replace(/{keyword}/g, match[2]),
                 id: 'error',
                 input_message_content: {
                   message_text: temp.inline('command.img.error')
-                    .replace(/{botid}/g, '@' + global.botinfo.username)
+                    .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
                     .replace(/{keyword}/g, match[2]),
                   parse_mode: 'HTML',
                   disable_web_page_preview: true},
                 reply_markup: {
                   inline_keyboard: [[{
-                    text: '@' + global.botinfo.username + ' img ' + match[2],
+                    text: '@' + (<Telegram.User>config.botinfo).username + ' img ' + match[2],
                     switch_inline_query_current_chat: 'img ' + match[2]
                   }]]
                 }
