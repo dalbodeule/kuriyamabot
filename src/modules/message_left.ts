@@ -17,7 +17,7 @@ export default class MessageLeft extends Message{
         this.helper.getlang(msg, this.logger)
       ])
       
-      if (msg.left_chat_member.id !== this.config.botinfo!.id) {
+      if (msg.left_chat_member.id !== this.config.bot.id) {
         let value = await this.model.message.findLeave(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.left')

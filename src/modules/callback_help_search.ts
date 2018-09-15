@@ -1,42 +1,48 @@
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { callback as Callback } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as types from '../types'
 
-export default (bot: Telegram, logger: Logger) => {
-  const answer = (msg: Telegram.CallbackQuery, temp: types.Lang) => {
-    bot.answerCallbackQuery(msg.id, {
-      text: temp.text('command.help.twice')
-    })
-  }
-
-  bot.on('callback_query', async (msg) => {
+export default class CallbackHelpHelp extends Callback {
+  protected async module (msg: Telegram.CallbackQuery) {
+    const answer = (msg: Telegram.CallbackQuery, temp: types.Lang) => {
+      this.bot.answerCallbackQuery(msg.id, {
+        text: temp.text('command.help.twice')
+      })
+    }
     const callid = msg.id
-    let temp
     try {
-      temp = await helper.getlang(msg, logger)
+      let temp = await this.helper.getlang(msg, this.logger)
       if (msg.data === 'help_search') {
-        if (msg.message.text !== '🔍 ' + temp.help('command.help.search')) {
+        if (msg.message!.text !== '🔍 ' + temp.help('command.help.search')) {
+          this.logger.info('callback: help_serarch, callback id: ' + callid +
+            ', username: ' + this.helper.getuser(msg.from) +
+            ', command: ' + msg.data + ', type: pending')
           try {
-            await bot.editMessageText('🔍 ' + temp.help('command.help.search'), {chat_id: msg.message.chat.id,
-              message_id: msg.message.message_id,
+            await this.bot.editMessageText('🔍 ' + temp.help('command.help.search'), {
+              chat_id: msg.message!.chat.id,
+              message_id: msg.message!.message_id,
               parse_mode: 'HTML',
               reply_markup: {
-                inline_keyboard: helper.commandlist(temp)
+                inline_keyboard: this.helper.commandlist(temp)
               }})
-            logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: valid')
+            this.logger.info('callback: help_serarch, callback id: ' + callid +
+              ', username: ' + this.helper.getuser(msg.from) +
+              ', command: ' + msg.data + ', type: success')
           } catch (e) {
-            logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: error')
-            logger.debug(e)
+            this.logger.error('callback: help_serarch, callback id: ' + callid +
+              ', username: ' + this.helper.getuser(msg.from) +
+              ', command: ' + msg.data + ', type: error')
+            this.logger.debug(e)
           }
         } else {
           answer(msg, temp)
         }
       }
-      logger.info('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.data + ', type: callback received')
     } catch (e) {
-      logger.error('callback id: ' + callid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
-      logger.debug(e)
+      this.logger.error('callback id: ' + callid +
+        ', username: ' + this.helper.getuser(msg.from) +
+        ', command: ' + msg.data + ', type: error')
+      this.logger.debug(e)
     }
-  })
+  }
 }

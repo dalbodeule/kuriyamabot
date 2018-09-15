@@ -17,7 +17,7 @@ export default class MessageJoin extends Message {
         this.helper.getlang(msg, this.logger)
       ])
       
-      if (msg.new_chat_members[0].id !== this.config.botinfo!.id) {
+      if (msg.new_chat_members[0].id !== this.config.bot.id) {
         let value = await this.model.message.findWelcome(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.join')

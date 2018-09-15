@@ -6,7 +6,7 @@ export default class messageSearch extends Message {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     if (!msg.reply_to_message) return
     if ((<Telegram.User>msg.reply_to_message.from).username !==
-      this.config.botinfo!.username) return
+      this.config.bot.username) return
     if (Math.round((new Date()).getTime() / 1000) -
       msg.reply_to_message.date >= 60) return
     if (!msg.reply_to_message) return

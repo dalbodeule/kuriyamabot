@@ -6,9 +6,9 @@ import Format from '../helper/timeFormat'
 export default class MessageWhatanime extends Message {
   protected async module (msg: Telegram.Message) {
     const regex1 = new RegExp('^(?:무슨 ?애니\??|whatanime|anime|/(?:무슨애니|whatanime)+(?:@' +
-      (<Telegram.User>this.config.botinfo).username + ')? ?)$')
+      this.config.bot.username + ')? ?)$')
     const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' +
-      (<Telegram.User>this.config.botinfo).username + ')? ?$')
+      this.config.bot.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
 
@@ -18,8 +18,7 @@ export default class MessageWhatanime extends Message {
             msg.photo[msg.photo.length - 1].file_id)
           return
         } else if (msg.reply_to_message && msg.reply_to_message.from &&
-          msg.reply_to_message.from.username ===
-          (<Telegram.User>this.config.botinfo).username &&
+          msg.reply_to_message.from.username === this.config.bot.username &&
           msg.reply_to_message.text &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await this.success(msg.chat.id, msg,
@@ -32,8 +31,7 @@ export default class MessageWhatanime extends Message {
             (<Telegram.PhotoSize>(<Telegram.Document>msg.document).thumb).file_id)
           return
         } else if (msg.reply_to_message && msg.reply_to_message.from &&
-          msg.reply_to_message.from.username ===
-          (<Telegram.User>this.config.botinfo).username &&
+          msg.reply_to_message.from.username === this.config.bot.username &&
           msg.reply_to_message.text &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await this.success(msg.chat.id, msg,
@@ -100,7 +98,7 @@ export default class MessageWhatanime extends Message {
   }
 
   private async success(chatid: number, msg: Telegram.Message, photo: string) {
-    const query = new Whatanime(this.config.config.apiKey.whatanime)
+    const query = new Whatanime(this.config.apiKey.whatanime)
     try {
       this.logger.info('message: whatanime, chatid: ' + chatid +
         ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +

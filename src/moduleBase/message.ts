@@ -3,11 +3,10 @@ import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
 
-import * as types from '../types'
-import config from '../config'
+import { config, Config } from '../config'
 
 export default class Message {
-  protected config: types.globalType;
+  protected config: Config;
   protected bot: Telegram;
   protected logger: Logger;
   protected helper: any;

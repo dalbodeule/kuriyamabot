@@ -1,41 +1,33 @@
-import * as type from './types'
 import * as Telegram from 'node-telegram-bot-api'
 
-const configClass = class ConfigClass {
-  private _config: type.configType
-  private _botinfo: Telegram.User | null
-
-  constructor () {
-    this._config = {
-      dev: process.env.dev || true,
-      db: {
-        database: process.env.database || 'sometext',
-        username: process.env.dbuser || 'sometext',
-        password: process.env.dbpw || 'sometext',
-        host: process.env.dbhost || 'sometext',
-        type: process.env.dbtype || 'sometext'
-      },
-      apiKey: {
-        telegram: process.env.telegram || 'sometext',
-        whatanime: process.env.whatanime || 'sometext' 
-      }
-    },
-    this._botinfo = null
+export interface Config {
+  readonly dev: string | boolean,
+  readonly db: {
+    readonly database: string,
+    readonly username: string,
+    readonly password: string,
+    readonly host: string,
+    readonly type: string
+  },
+  readonly apiKey: {
+    readonly telegram: string,
+    readonly whatanime: string
   }
-
-  get config (): type.configType {
-    return this._config
-  }
-  set config ( config ) {
-    this._config = config
-  }
-
-  get botinfo (): Telegram.User | null {
-    return this._botinfo
-  }
-  set botinfo (user: Telegram.User | null) {
-    this._botinfo = user
-  }
+  readonly bot: Telegram.User
 }
 
-export default new configClass()
+export const config: Config = {
+  dev: process.env.dev || true,
+  db: {
+    database: process.env.database!,
+    username: process.env.dbuser!,
+    password: process.env.dbpw!,
+    host: process.env.dbhost!,
+    type: process.env.dbtype!
+  },
+  apiKey: {
+    telegram: process.env.telegram!,
+    whatanime: process.env.whatanime! 
+  },
+  bot: null as any as Telegram.User
+}
