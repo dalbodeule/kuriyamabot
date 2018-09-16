@@ -1,20 +1,22 @@
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { inline as Inline } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
-import config from '../config'
 
-export default (bot: Telegram, logger: Logger) => {
-  bot.on('inline_query', async (msg) => {
+export default class InlineHelp extends Inline {
+  protected async module (msg: Telegram.InlineQuery) {
     const q = {
       id: msg.id, query: msg.query
     }
 
     const match = q.query.match(/^(?:([help]+)(?:| (.*)+))$/)
     if (match) {
-      let temp
       try {
-        temp = await helper.getlang(msg, logger)
-        await bot.answerInlineQuery(q.id, [{
+        this.logger.info('inline: help, inlineid: ' + q.id +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', command: ' + msg.query + ', type: pending')
+
+        let temp = await this.helper.getlang(msg, this.logger)
+
+        await this.bot.answerInlineQuery(q.id, [{
           type: 'article',
           title: 'help message',
           id: 'help',
@@ -34,16 +36,21 @@ export default (bot: Telegram, logger: Logger) => {
               switch_inline_query_current_chat: 'search'
             }], [{
               text: '⚙️',
-              url: 'https://t.me/' + (<Telegram.User>config.botinfo).username
+              url: 'https://t.me/' + this.config.bot.username
             }]]
           }
         }], {
           cache_time: 3
         })
+        this.logger.info('inline: help, inlineid: ' + q.id +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', command: ' + msg.query + ', type: success')
       } catch (e) {
-        logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error')
-        logger.debug(e.stack)
+        this.logger.error('inline: help, inlineid: ' + q.id +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', command: ' + msg.query + ', type: error')
+        this.logger.debug(e.stack)
       }
     }
-  })
+  }
 }

@@ -1,12 +1,12 @@
 import * as Sequelize from 'sequelize'
-import global from '../config'
+import { config as global, config } from '../config'
 
-const db = new Sequelize(global.config.db.database,
-  global.config.db.username,
-  global.config.db.password,
+const db = new Sequelize(global.db.database,
+  global.db.username,
+  global.db.password,
   {
-    host: global.config.db.host,
-    dialect: global.config.db.type,
+    host: global.db.host,
+    dialect: global.db.type,
     pool: {
       max: 5,
       min: 0,

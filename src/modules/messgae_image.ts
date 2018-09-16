@@ -81,17 +81,30 @@ export default class MessageImage extends Message {
             ', username: ' + this.helper.getuser(msg.from) +
             ', command: ' + msg.text + ', type: valid, response: search success')
           } catch (e) {
+            await this.bot.sendChatAction(chatid, 'typing')
+            await this.bot.sendMessage(chatid, '❗️ ' +
+              temp.text('command.img.error')
+              .replace(/{botid}/g, '@' + this.config.bot.username)
+              .replace(/{keyword}/g, msg.text), {
+              reply_markup: {
+                inline_keyboard: [[{
+                  text: '@' + this.config.bot.username + ' img ' + msg.text,
+                  switch_inline_query_current_chat: 'img ' + msg.text
+                }]]
+              },
+              reply_to_message_id: msg.message_id,
+              parse_mode: 'HTML'})
             this.logger.error('message: img, chatid: ' + chatid +
-              ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
-              ', command: ' + msg.text + ', type: error,  response: search error')
+              ', username: ' + this.helper.getuser(msg.from) +
+              ', command: ' + msg.text + ', type: error')
             this.logger.debug(e.stack)
           }
         }
       }
     } catch (e) {
       this.logger.error('message: img, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
-        ', command: ' + msg.text + ', type: error,  response: search error')
+        ', username: ' + this.helper.getuser(msg.from) +
+        ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }
   }

@@ -53,7 +53,7 @@ export default class messageSearch extends Message {
               inline_keyboard: [[{
                 text: temp.text('command.search.another'),
                 url: 'https://www.google.com/search?q=' +
-                  encodeURIComponent((<string>msg.text)) + '&ie=UTF-8'
+                  encodeURIComponent(msg.text!) + '&ie=UTF-8'
               }, {
                 text: temp.text('command.search.another'),
                 switch_inline_query_current_chat: 'search ' + msg.text
@@ -64,16 +64,29 @@ export default class messageSearch extends Message {
             ', username: ' + this.helper.getuser(msg.from) +
             ', command: ' + msg.text + ', type: valid, response: search success')
         } catch (e) {
+          await this.bot.sendMessage(chatid, '❗️ ' +
+              temp.text('command.search.error')
+              .replace(/{botid}/g, '@' + this.config.bot.username)
+              .replace(/{keyword}/g, msg.text), {
+              reply_markup: {
+                inline_keyboard: [[{
+                  text: '@' + this.config.bot.username + ' search ' + msg.text,
+                  switch_inline_query_current_chat: 'search ' + msg.text
+                }]]
+              },
+              reply_to_message_id: msg.message_id,
+              parse_mode: 'HTML'
+            })
           this.logger.error('message: search chatid: ' + chatid +
-            ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
-            ', command: ' + msg.text + ', type: error, response: message send error')
+            ', username: ' + this.helper.getuser(msg.from) +
+            ', command: ' + msg.text + ', type: error')
           this.logger.debug(e.stack)
         }
       }
     } catch (e) {
       this.logger.error('message: search chatid: ' + chatid +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
-        ', command: ' + msg.text + ', type: error, response: message send error')
+        ', username: ' + this.helper.getuser(msg.from) +
+        ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }
   }

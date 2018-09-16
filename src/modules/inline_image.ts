@@ -1,11 +1,9 @@
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { inline as Inline } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
-import config from '../config'
 import * as google from 'google-parser'
 
-export default (bot: Telegram, logger: Logger) => {
-  bot.on('inline_query', async (msg) => {
+export default class InlineImage extends Inline {
+  protected async module (msg: Telegram.InlineQuery) {
     const q = {
       id: msg.id, query: msg.query
     }
@@ -23,19 +21,22 @@ export default (bot: Telegram, logger: Logger) => {
     }
     // https://stackoverflow.com/a/3661083
 
-    const match = q.query.match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
+    const match = q.query
+      .match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
     if (match) {
-      let temp
+      this.logger.info('inline: image, inlineid: ' + q.id +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', command: ' + msg.query + ', type: pending')
       try {
-        temp = await helper.getlang(msg, logger)
+        let temp = await this.helper.getlang(msg, this.logger)
         if (typeof match[2] === 'undefined' || match[2] === '') {
           try {
-            await bot.answerInlineQuery(q.id, [{
+            await this.bot.answerInlineQuery(q.id, [{
               type: 'article',
-              title: '@' + (<Telegram.User>config.botinfo).username + ' (photo|image|img) (keyword)',
+              title: '@' + this.config.bot.username + ' (photo|image|img) (keyword)',
               id: 'help',
               input_message_content: {
-                message_text: '@' + (<Telegram.User>config.botinfo).username + ' (photo|image|img) (keyword)',
+                message_text: '@' + this.config.bot.username + ' (photo|image|img) (keyword)',
                 parse_mode: 'HTML',
                 disable_web_page_preview: true
               },
@@ -48,10 +49,14 @@ export default (bot: Telegram, logger: Logger) => {
             }], {
               cache_time: 3
             })
-            logger.info('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: not valid, response: help')
+            this.logger.info('inline: image, inlineid: ' + q.id +
+              ', username: ' + this.helper.getuser(msg.from) +
+              ', command: ' + msg.query + ', type: success, response: help')
           } catch (e) {
-            logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: valid')
-            logger.debug(e.stack)
+            this.logger.error('inline: image, inlineid: ' + q.id +
+              ', username: ' + this.helper.getuser(msg.from) +
+              ', command: ' + msg.query + ', type: error')
+            this.logger.debug(e.stack)
           }
         } else {
           try {
@@ -59,7 +64,7 @@ export default (bot: Telegram, logger: Logger) => {
 
             if (typeof res[0] === 'undefined') {
               try {
-                await bot.answerInlineQuery(q.id, [{
+                await this.bot.answerInlineQuery(q.id, [{
                   type: 'article',
                   title: temp.text('command.img.not_found'),
                   id: 'not found',
@@ -71,10 +76,14 @@ export default (bot: Telegram, logger: Logger) => {
                 }], {
                   cache_time: 3
                 })
-                logger.info('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: valid')
+                this.logger.info('inline: image, inlineid: ' + q.id +
+                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', command: ' + msg.query + ', type: success, response: not found')
               } catch (e) {
-                logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error')
-                logger.debug(e.stack)
+                this.logger.error('inline: image, inlineid: ' + q.id +
+                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', command: ' + msg.query + ', type: error')
+                this.logger.debug(e.stack)
               }
             } else {
               res.splice(50)
@@ -104,29 +113,33 @@ export default (bot: Telegram, logger: Logger) => {
               }
 
               try {
-                await bot.answerInlineQuery(q.id, results, {
+                await this.bot.answerInlineQuery(q.id, results, {
                   cache_time: 3
                 })
-                logger.info('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: valid')
+                this.logger.info('inline: image, inlineid: ' + q.id +
+                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', command: ' + msg.query + ', type: success')
               } catch (e) {
                 try {
-                  logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error')
-                  logger.debug(e.stack)
-                  await bot.answerInlineQuery(q.id, [{
+                  this.logger.error('inline: image, inlineid: ' + q.id +
+                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', command: ' + msg.query + ', type: error')
+                  this.logger.debug(e.stack)
+                  await this.bot.answerInlineQuery(q.id, [{
                     type: 'article',
                     title: temp.text('command.img.error')
-                      .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
+                      .replace(/{botid}/g, '@' + this.config.bot.username)
                       .replace(/{keyword}/g, match[2]),
                     id: 'error',
                     input_message_content: {
                       message_text: temp.inline('command.img.error')
-                        .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
+                        .replace(/{botid}/g, '@' + this.config.bot.username)
                         .replace(/{keyword}/g, match[2]),
                       parse_mode: 'HTML',
                       disable_web_page_prefiew: true},
                     reply_markup: {
                       inline_keyboard: [[{
-                        text: '@' + (<Telegram.User>config.botinfo).username + ' img ' + match[2],
+                        text: '@' + this.config.bot.username + ' img ' + match[2],
                         switch_inline_query_current_chat: 'img ' + match[2]
                       }]]
                     }
@@ -134,46 +147,54 @@ export default (bot: Telegram, logger: Logger) => {
                     cache_time: 0
                   })
                 } catch (e) {
-                  logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error send error')
-                  logger.debug(e.stack)
+                  this.logger.error('inline: image, inlineid: ' + q.id +
+                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', command: ' + msg.query + ', type: error')
+                  this.logger.debug(e.stack)
                 }
               }
             }
           } catch (e) {
             try {
-              logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error')
-              logger.debug(e.stack)
-              await bot.answerInlineQuery(q.id, [{
+              this.logger.error('inline: image, inlineid: ' + q.id +
+                ', username: ' + this.helper.getuser(msg.from) +
+                ', command: ' + msg.query + ', type: error')
+              this.logger.debug(e.stack)
+              await this.bot.answerInlineQuery(q.id, [{
                 type: 'article',
                 title: temp.text('command.img.error')
-                  .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
+                  .replace(/{botid}/g, '@' + this.config.bot.username)
                   .replace(/{keyword}/g, match[2]),
                 id: 'error',
                 input_message_content: {
                   message_text: temp.inline('command.img.error')
-                    .replace(/{botid}/g, '@' + (<Telegram.User>config.botinfo).username)
+                    .replace(/{botid}/g, '@' + this.config.bot.username)
                     .replace(/{keyword}/g, match[2]),
                   parse_mode: 'HTML',
-                  disable_web_page_preview: true},
+                  disable_web_page_prefiew: true},
                 reply_markup: {
                   inline_keyboard: [[{
-                    text: '@' + (<Telegram.User>config.botinfo).username + ' img ' + match[2],
+                    text: '@' + this.config.bot.username + ' img ' + match[2],
                     switch_inline_query_current_chat: 'img ' + match[2]
                   }]]
                 }
               }], {
-                cache_time: 3
+                cache_time: 0
               })
             } catch (e) {
-              logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error send error')
-              logger.debug(e.stack)
+              this.logger.error('inline: image, inlineid: ' + q.id +
+                ', username: ' + this.helper.getuser(msg.from) +
+                ', command: ' + msg.query + ', type: error')
+              this.logger.debug(e.stack)
             }
           }
         }
       } catch (e) {
-        logger.error('inlineid: ' + q.id + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.query + ', type: error')
-        logger.debug(e.stack)
+        this.logger.error('inline: image, inlineid: ' + q.id +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', command: ' + msg.query + ', type: error')
+        this.logger.debug(e.stack)
       }
     }
-  })
+  }
 }

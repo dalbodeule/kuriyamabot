@@ -18,15 +18,19 @@ import callbackHelpWhatanime from './callback_help_whatanime'
 import chatImage from './chat_image'
 import chatSearch from './chat_search'
 import commandHelp from './command_help'
-import commandImg from './command_img'
+import commandImageSuccess from './command_image_success'
+import commandImageError from './command_image_error'
 import commandLang from './command_lang'
-import commandLeave from './command_leave'
+import commandLeaveSuccess from './command_leave_success'
+import commandLeaveError from './command_leave_error'
 import commandMe from './command_me'
 import commandMsginfo from './command_msginfo'
-import commandSearch from './command_search'
+import commandSearchSuccess from './command_search_success'
+import commandSearchError from './command_search_error'
 import commandStart from './command_start'
 import commandUptime from './command_uptime'
-import commandWelcome from './command_welcome'
+import commandWelcomeSuccess from './command_welcome_success'
+import commandWelcomeError from './command_welcome_error'
 
 // inline
 
@@ -61,15 +65,19 @@ export {
   chatImage,
   chatSearch,
   commandHelp,
-  commandImg,
+  commandImageSuccess,
+  commandImageError,
   commandLang,
-  commandLeave,
+  commandLeaveSuccess,
+  commandLeaveError,
   commandMe,
   commandMsginfo,
-  commandSearch,
+  commandSearchSuccess,
+  commandSearchError,
   commandStart,
   commandUptime,
-  commandWelcome,
+  commandWelcomeSuccess,
+  commandWelcomeError,
   inlineHelp,
   inlineImage,
   inlineSearch,

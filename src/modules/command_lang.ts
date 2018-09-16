@@ -1,57 +1,73 @@
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { command as Command } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
-import config from '../config'
+import { Logger } from 'log4js';
 
-export default (bot: Telegram, logger: Logger) => {
-  bot.onText(new RegExp('^/(?:언어변경|언어|lang|langset)+(?:@' + (<Telegram.User>config.botinfo).username + ')? ?$'), async (msg, match) => {
+export default class CommandLang extends Command {
+  constructor (bot: Telegram, logger: Logger) {
+    super (bot, logger)
+    this.regexp = new RegExp('^/(?:언어변경|언어|lang|langset)+(?:@' +
+      this.config.bot.username + ')? ?$')
+  }
+  
+  protected async module (msg: Telegram.Message, match: RegExpExecArray) {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       let temp, send
       try {
-        logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: command received')
+        this.logger.info('command: lang, chatid: ' + chatid +
+          ', username: ' + this.helper.getuser(msg.from) + 
+          ', command: ' + msg.text + ', type: command received')
         let ctype = msg.chat.type
         if (ctype === 'group' || ctype === 'supergroup' || ctype === 'channel') {
           // eslint-disable-next-line
           let admins, isAdmin = false;
           [send, temp, admins] = await Promise.all([
-            bot.sendChatAction(chatid, 'typing'),
-            helper.getlang(msg, logger),
-            bot.getChatAdministrators(chatid)
+            this.bot.sendChatAction(chatid, 'typing'),
+            this.helper.getlang(msg, this.logger),
+            this.bot.getChatAdministrators(chatid)
           ])
           isAdmin = isAdmin = admins.some((v) => {
-            return v.user.id === msg.from.id
+            return v.user.id === msg.from!.id
           })
           if (!isAdmin) {
-            await bot.sendMessage(chatid, '❗️ ' + temp.text('command.lowPermission'))
-            logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: lowPermission')
+            await this.bot.sendMessage(chatid, '❗️ ' +
+              temp.text('command.lowPermission'))
+            this.logger.info('command: lang, chatid: ' + chatid + 
+              ', username: ' + this.helper.getuser(msg.from) +
+              ', command: ' + msg.text + ', type: lowPermission')
           } else {
-            await bot.sendMessage(chatid, '🔤 ' + temp.text('command.lang.announce'), {
-              reply_to_message_id: msg.message_id,
-              parse_mode: 'HTML',
-              reply_markup: {
-                inline_keyboard: helper.langlist(temp)
-              }
-            })
+            await this.bot.sendMessage(chatid, '🔤 ' +
+              temp.text('command.lang.announce'), {
+                reply_to_message_id: msg.message_id,
+                parse_mode: 'HTML',
+                reply_markup: {
+                  inline_keyboard: this.helper.langlist(temp)
+                }
+              })
           }
         } else {
           [send, temp] = await Promise.all([
-            bot.sendChatAction(chatid, 'typing'),
-            helper.getlang(msg, logger)
+            this.bot.sendChatAction(chatid, 'typing'),
+            this.helper.getlang(msg, this.logger)
           ])
-          await bot.sendMessage(chatid, '🔤 ' + temp.text('command.lang.announce'), {
-            reply_to_message_id: msg.message_id,
-            parse_mode: 'HTML',
-            reply_markup: {
-              inline_keyboard: helper.langlist(temp)
-            }
-          })
+          await this.bot.sendMessage(chatid, '🔤 ' +
+            temp.text('command.lang.announce'), {
+              reply_to_message_id: msg.message_id,
+              parse_mode: 'HTML',
+              reply_markup: {
+                inline_keyboard: this.helper.langlist(temp)
+              }
+            })
         }
-        logger.info('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: valid,')
+        this.logger.info('command: lang, chatid: ' + chatid +
+          ', username: ' + this.helper.getuser(msg.from) + 
+          ', command: ' + msg.text + ', type: valid,')
       } catch (e) {
-        logger.error('chatid: ' + chatid + ', username: ' + helper.getuser(msg.from) + ', lang: ' + msg.from.language_code + ', command: ' + msg.text + ', type: error')
-        logger.debug(e.stack)
+        this.logger.error('command: lang, chatid: ' + chatid +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', command: ' + msg.text + ', type: error')
+        this.logger.debug(e.stack)
       }
     }
-  })
+  }
 }

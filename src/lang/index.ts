@@ -4,9 +4,8 @@ import * as model from '../db'
 import * as glob from 'glob-promise'
 import * as path from 'path'
 import { Logger } from 'log4js';
-import { User } from 'node-telegram-bot-api'
 import { Langs } from '../types'
-import config from '../config';
+import { config } from '../config';
 
 const langs: Langs = {}
 
@@ -114,8 +113,8 @@ export default class {
   help (code: string): string {
     return (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name')) + '\n\n' +
       (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description')) + '\n\n' +
-      (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how')).replace(/{botid}/g, '@' + (<User>config.botinfo).username) +
-      ' ( ' + (<string>objectPath.get(langs.English, code + '.how')).replace(/{botid}/g, '@' + (<User>config.botinfo).username) + ' )'
+      (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how')).replace(/{botid}/g, '@' + config.bot.username) +
+      ' ( ' + (<string>objectPath.get(langs.English, code + '.how')).replace(/{botid}/g, '@' + config.bot.username + ' )')
   }
 
   text (code: string): string {

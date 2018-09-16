@@ -4,7 +4,7 @@ import * as Telegram from 'node-telegram-bot-api'
 
 import { config, Config } from '../config'
 
-export default class Command {
+export default class Inline {
   protected config: Config;
   protected bot: Telegram;
   protected logger: Logger;

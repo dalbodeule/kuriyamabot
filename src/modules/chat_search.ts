@@ -1,74 +1,76 @@
-import helper from '../helper'
-import { Logger } from 'log4js'
+import { command as Command } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
-import * as types from '../types'
-import config from '../config'
+import { Logger } from 'log4js';
 
-export default (bot: Telegram, logger: Logger) => {
-  bot.onText(/\{(?:gg|문서|검색|구글|google) (.*)(?:\{|\})/, async (msg, match) => {
+export default class ChatImage extends Command {
+  constructor (bot: Telegram, logger: Logger) {
+    super (bot, logger)
+    this.regexp = /\{(?:gg|문서|검색|구글|google) (.*)(?:\{|\})/
+  }
+  protected async module (msg: Telegram.Message, match: RegExpExecArray) {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
-    const type = 'google'
+    const type = 'search'
     const chatid = msg.chat.id
-    let temp
     try {
-      logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', chat command: ' + type + ', type: chat command received')
-      // eslint-disable-next-line
-      let send;
-      [send, temp] = await Promise.all([
-        bot.sendChatAction(chatid, 'typing'),
-        helper.getlang(msg, logger)
+      this.logger.info('command: chat_search chatid: ' + chatid +
+        ', username: ' + this.helper.getuser(msg.from) +
+        ', chat command: ' + type + ', type: pending')
+      
+      let [send, temp] = await Promise.all([
+        this.bot.sendChatAction(chatid, 'typing'),
+        this.helper.getlang(msg, this.logger)
       ])
-      let res = await helper.search((<RegExpExecArray>match)[1])
-      if (res === '') {
-        await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.not_found'), {reply_to_message_id: msg.message_id})
-        logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', chat command: ' + type + ', type: valid, response: not found')
-      } else if (res === false) {
-        await bot.sendMessage(chatid, '🔍 ' + temp.text('command.search.bot_block'), {reply_to_message_id: msg.message_id})
-        logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', chat command: ' + type + ', type: valid, response: google bot block')
+
+      let response = await this.helper.search((<RegExpExecArray>match)[1])
+
+      if (!response) {
+        await this.bot.sendMessage(chatid, '🔍 ' +
+          temp.text('command.search.not_found'), {
+            reply_to_message_id: msg.message_id
+          })
+        this.logger.info('command: chat_search, chatid: ' + chatid +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', chat command: ' + type + ', type: valid, response: not found')
+      } else if (response.error) {
+        await this.bot.sendMessage(chatid, '🔍 ' +
+          temp.text('command.search.bot_block'), {
+            reply_to_message_id: msg.message_id
+          })
+        this.logger.info('command: chat_search, chatid: ' + chatid +
+          ', username: ' + this.helper.getuser(msg.from) +
+          ', chat command: ' + type + ', type: valid, response: google bot block')
       } else {
         try {
-          await bot.sendMessage(chatid, (<string>res), {
+          await this.bot.sendMessage(chatid, response, {
             parse_mode: 'HTML',
             disable_web_page_preview: true,
             reply_to_message_id: msg.message_id,
             reply_markup: {
               inline_keyboard: [[{
                 text: temp.text('command.search.visit_google'),
-                url: 'https://www.google.com/search?q=' + encodeURIComponent((<RegExpExecArray>match)[1]) + '&ie=UTF-8'
+                url: 'https://www.google.com/search?q=' +
+                  encodeURIComponent(match[1]) + '&ie=UTF-8'
               }, {
                 text: temp.text('command.img.another'),
-                switch_inline_query_current_chat: 'img ' + (<RegExpExecArray>match)[1]
+                switch_inline_query_current_chat: 'search ' + match[1]
               }]]
             }
           })
-          logger.info('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', chat command: ' + type + ', type: valid, response: search success')
+          this.logger.info('command: chat_search, chatid: ' + chatid +
+            ', username: ' + this.helper.getuser(msg.from) +
+            ', command: ' + type + ', type: valid, response: search success')
         } catch (e) {
-          sendError(e, chatid, temp, msg, match)
+          this.logger.error('command: chat_search, chatid: ' + chatid +
+            ', username: ' + this.helper.getuser(msg.from) +
+            ', command: ' + msg.text + ', type: error')
+          this.logger.debug(e.stack)
         }
       }
     } catch (e) {
-      sendError(e, chatid, temp, msg, match)
+      this.logger.error('command: chat_search, chatid: ' + chatid +
+        ', username: ' + this.helper.getuser(msg.from) +
+        ', command: ' + msg.text + ', type: error')
+      this.logger.debug(e.stack)
     }
-    async function sendError (e: Error, chatid: number, temp: types.Lang | undefined, msg: Telegram.Message, match: RegExpExecArray | null) {
-      logger.error('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', chat command: ' + msg.text + ', type: valid, response: message send error')
-      logger.debug(e.stack)
-      try {
-        await bot.sendMessage(chatid, '❗️ ' + (<types.Lang>temp).text('command.search.error')
-          .replace(/{botid}/g, (<string>(<Telegram.User>config.botinfo).username))
-          .replace(/{keyword}/g, (<RegExpExecArray>match)[1]), {
-          reply_markup: {
-            inline_keyboard: [[{
-              text: '@' + (<Telegram.User>config.botinfo).username + ' search ' + (<RegExpExecArray>match)[1],
-              switch_inline_query_current_chat: 'search ' + (<RegExpExecArray>match)[1]
-            }]]
-          },
-          reply_to_message_id: msg.message_id,
-          parse_mode: 'HTML'
-        })
-      } catch (e) {
-        logger.error('chatid: ' + chatid + ', username: ' + helper.getuser((<Telegram.User>msg.from)) + ', lang: ' + (<Telegram.User>msg.from).language_code + ', chat command: ' + msg.text + ', type: valid, response: message send error send error')
-        logger.debug(e.stack)
-      }
-    }
-  })
+  }
 }
