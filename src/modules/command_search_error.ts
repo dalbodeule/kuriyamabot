@@ -7,7 +7,7 @@ export default class ChatImage extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp('^/(?:검색|google|search|gg)+(?:@' +
-      this.config.bot.username + ')? (.+)$')
+      this.config.bot.username + ')? ?$')
   }
   
   protected async module (msg: Telegram.Message, match: RegExpExecArray) {
