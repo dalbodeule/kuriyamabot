@@ -117,8 +117,8 @@ export default class {
   help (code: string): string {
     return (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.name')) + '\n\n' +
       (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.description')) + '\n\n' +
-      (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how')).replace(/{botid}/g, '@' + config.bot.username) +
-      ' ( ' + (<string>objectPath.get(langs.English, code + '.how')).replace(/{botid}/g, '@' + config.bot.username + ' )')
+      (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + '.how'))
+        .replace(/{botid}/g, '@' + config.bot.username)
   }
 
   text (code: string): string {
