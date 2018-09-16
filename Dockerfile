@@ -4,4 +4,4 @@ COPY . /src
 WORKDIR /src
 RUN npm install
 
-CMD ["node", "./dist/main.js"]
+CMD ["node", "./dist/index.js"]
