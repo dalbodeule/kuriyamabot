@@ -19,7 +19,7 @@ export default class Callback {
   }
 
   public run (): void {
-    this.bot.on('callback_query', this.module)
+    this.bot.on('callback_query', (msg) => this.module(msg))
   }
 
   protected async module (msg: Telegram.CallbackQuery): Promise<void> {

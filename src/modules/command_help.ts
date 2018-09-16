@@ -17,11 +17,12 @@ export default class ChatImage extends Command {
         this.logger.info('command: help, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from) +
           ', command: ' + msg.text + ', type: pending')
-        // eslint-disable-next-line
+
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
           this.helper.getlang(msg, this.logger)
         ])
+
         await this.bot.sendMessage(chatid, '📒 ' +
           temp.help('command.help.help'), {
             reply_to_message_id: msg.message_id,

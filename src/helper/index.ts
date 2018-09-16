@@ -3,6 +3,7 @@ import lang from '../lang'
 import { User } from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import * as types from '../types'
+import Lang from '../lang'
 
 export default {
   getuser (user: User): string {
@@ -14,9 +15,8 @@ export default {
   },
   async getlang (msg: any, logger: Logger): Promise<types.Lang> {
     try {
-      const Lang = require('../lang')
-      let temp = new Lang()
-      await temp.set(msg, logger)
+      let temp = new Lang(logger)
+      await temp.set(msg)
       return temp
     } catch (e) {
       throw (e)

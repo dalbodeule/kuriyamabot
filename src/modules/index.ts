@@ -50,7 +50,9 @@ import messageImage from './messgae_image'
 
 // modules end
 
-const modules: {[index: string]: any} = {
+const modules: {
+  [index: string]: any
+} = {
   callbackChangeLang,
   callbackHelpHelp,
   callbackHelpImage,

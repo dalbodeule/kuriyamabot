@@ -1,7 +1,13 @@
 import { callback as Callback } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
+import { Logger } from 'log4js';
+import { Config } from '../config'
 
 export default class CallbackChangeLang extends Callback {
+  constructor (bot: Telegram, logger: Logger, config: Config) {
+    super (bot, logger, config)
+  }
+
   protected async module (msg: Telegram.CallbackQuery) {
     let test = (<string>msg.data).match(/changelang_([a-zA-Z]{2})/)
     if (test) {

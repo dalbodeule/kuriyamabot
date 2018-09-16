@@ -19,7 +19,7 @@ export default class Inline {
   }
 
   public run (): void {
-    this.bot.on('inline_query', this.module)
+    this.bot.on('inline_query', (msg) => this.module(msg))
   }
 
   protected async module (msg: Telegram.InlineQuery): Promise<void> {

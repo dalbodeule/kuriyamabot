@@ -21,7 +21,7 @@ export default class Command {
   }
 
   public run (): void {
-    this.bot.onText(this.regexp, this.module)
+    this.bot.onText(this.regexp, (msg, match) => this.module(msg, match))
   }
 
   protected async module (msg: Telegram.Message, match: RegExpExecArray | null): Promise<void> {

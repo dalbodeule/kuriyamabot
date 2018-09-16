@@ -2,8 +2,14 @@ import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import Whatanime from 'whatanimega-helper'
 import Format from '../helper/timeFormat'
+import { Logger } from 'log4js';
+import { Config } from '../config'
 
 export default class MessageWhatanime extends Message {
+  constructor (bot: Telegram, logger: Logger, config: Config) {
+    super (bot, logger, config)
+  }
+
   protected async module (msg: Telegram.Message) {
     const regex1 = new RegExp('^(?:무슨 ?애니\??|whatanime|anime|/(?:무슨애니|whatanime)+(?:@' +
       this.config.bot.username + ')? ?)$')

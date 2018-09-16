@@ -1,7 +1,13 @@
 import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
+import { Logger } from 'log4js';
+import { Config } from '../config'
 
 export default class messageSearch extends Message {
+  constructor (bot: Telegram, logger: Logger, config: Config) {
+    super (bot, logger, config)
+  }
+
   protected async module (msg: Telegram.Message) {
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     if (!msg.reply_to_message) return

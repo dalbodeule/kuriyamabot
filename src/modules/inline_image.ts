@@ -1,8 +1,14 @@
 import { inline as Inline } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as google from 'google-parser'
+import { Logger } from 'log4js';
+import { Config } from '../config'
 
 export default class InlineImage extends Inline {
+  constructor (bot: Telegram, logger: Logger, config: Config) {
+    super (bot, logger, config)
+  }
+
   protected async module (msg: Telegram.InlineQuery) {
     const q = {
       id: msg.id, query: msg.query

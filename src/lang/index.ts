@@ -6,6 +6,7 @@ import * as path from 'path'
 import { Logger } from 'log4js';
 import { Langs } from '../types'
 import { config } from '../config';
+import * as Telegram from 'node-telegram-bot-api'
 
 const langs: Langs = {}
 
@@ -22,10 +23,10 @@ export default class {
     this.ready = false
   }
 
-  async set (msg: any): Promise<void> {
+  async set (msg: Telegram.Message | Telegram.InlineQuery | Telegram.CallbackQuery): Promise<void> {
     if (Object.keys(langs).length === 0) {
       this.logger.info('Language: Language not loaded')
-      let items = await glob(path.join(__dirname, 'lang_*.json'))
+      let items = await glob(path.join(__dirname, '..', '..', 'language', 'lang_*.json'))
       for (let i of items) {
         let temp = require(i)
         langs[temp.lang.langname] = temp
@@ -37,11 +38,12 @@ export default class {
       this.ready = true
     }
 
-    if (msg.from && msg.from.language_code) { // 일반 채팅 대응
-      this.id = (msg.chat.type === 'private' ? msg.from.id : msg.chat.id)
+    if ((<Telegram.Message>msg).chat && msg.from!.language_code) { // 일반 채팅 대응
+      this.id = ((<Telegram.Message>msg).chat.type === 'private' ?
+        (<Telegram.Message>msg).from!.id : (<Telegram.Message>msg).chat.id)
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
-        this.lang = msg.from.language_code.split('-')[0]
+        this.lang = msg.from!.language_code!.split('-')[0]
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
         return query
@@ -50,11 +52,13 @@ export default class {
         this.logger.debug('id: ' + this.id + ', lang: ' + this.lang)
         return query
       }
-    } else if (msg.message) { // callback query 대응
-      this.id = (msg.message.chat.type === 'private' ? msg.from.id : msg.message.chat.id)
+    } else if ((<Telegram.CallbackQuery>msg).message) { // callback query 대응
+      this.id = ((<Telegram.CallbackQuery>msg).message!.chat.type === 'private' ?
+        (<Telegram.CallbackQuery>msg).from.id :
+        (<Telegram.CallbackQuery>msg).message!.chat.id)
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
-        this.lang = msg.from.language_code.split('-')[0]
+        this.lang = (<Telegram.CallbackQuery>msg).from!.language_code!.split('-')[0]
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
         return query
@@ -64,10 +68,10 @@ export default class {
         return query
       }
     } else { // inline query 대응
-      this.id = msg.from.id
+      this.id = msg.from!.id
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
-        this.lang = msg.from.language_code.split('-')[0]
+        this.lang = msg.from!.language_code!.split('-')[0]
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
         return query

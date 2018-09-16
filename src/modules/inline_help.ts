@@ -1,7 +1,13 @@
 import { inline as Inline } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
+import { Logger } from 'log4js';
+import { Config } from '../config'
 
 export default class InlineHelp extends Inline {
+  constructor (bot: Telegram, logger: Logger, config: Config) {
+    super (bot, logger, config)
+  }
+
   protected async module (msg: Telegram.InlineQuery) {
     const q = {
       id: msg.id, query: msg.query

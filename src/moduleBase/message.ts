@@ -21,7 +21,7 @@ export default class Message {
   }
 
   public run (): void {
-    this.bot.on('message', this.module)
+    this.bot.on('message', (msg) => this.module(msg))
   }
 
   protected async module (msg: Telegram.Message): Promise<void> {
