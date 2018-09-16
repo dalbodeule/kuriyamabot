@@ -1,10 +1,11 @@
 import { command as Command } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
+import { Config } from '../config'
 
 export default class ChatImage extends Command {
-  constructor (bot: Telegram, logger: Logger) {
-    super (bot, logger)
+  constructor (bot: Telegram, logger: Logger, config: Config) {
+    super (bot, logger, config)
     this.regexp = /\{(?:gg|문서|검색|구글|google) (.*)(?:\{|\})/
   }
   protected async module (msg: Telegram.Message, match: RegExpExecArray) {

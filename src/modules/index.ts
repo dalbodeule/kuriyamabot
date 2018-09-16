@@ -42,15 +42,15 @@ import inlineYoutube from './inline_youtube'
 // message
 
 import messageJoin from './message_join'
-import messaveLeft from './message_left'
+import messageLeft from './message_left'
 import messageLogger from './message_logger'
 import messageSearch from './message_search'
-import messaveWhatanime from './message_whatanime'
+import messageWhatanime from './message_whatanime'
 import messageImage from './messgae_image'
 
 // modules end
 
-export {
+const modules: {[index: string]: any} = {
   callbackChangeLang,
   callbackHelpHelp,
   callbackHelpImage,
@@ -83,9 +83,11 @@ export {
   inlineSearch,
   inlineYoutube,
   messageJoin,
-  messaveLeft,
+  messageLeft,
   messageLogger,
   messageSearch,
-  messaveWhatanime,
+  messageWhatanime,
   messageImage
 }
+
+export default modules

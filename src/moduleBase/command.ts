@@ -2,7 +2,7 @@ import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
 
-import { config, Config } from '../config'
+import { Config } from '../config'
 
 export default class Command {
   protected config: Config;
@@ -12,7 +12,7 @@ export default class Command {
   protected model: any;
   protected regexp: RegExp
 
-  constructor (bot: Telegram, logger: Logger) {
+  constructor (bot: Telegram, logger: Logger, config: Config) {
     this.config = config
     this.bot = bot
     this.logger = logger
