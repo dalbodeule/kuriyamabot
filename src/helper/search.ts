@@ -9,7 +9,7 @@ export default class Search {
     } else {
       let response = ''
       for (let i = 0; i < 3; i++) {
-        if (typeof ((<Array<google.searchReturn>>res)[i]) !== 'undefined') {
+        if ((<Array<google.searchReturn>>res)[i]) {
           let tempDesc = (<Array<google.searchReturn>>res)[i].description
           if (tempDesc.length > 27) {
             tempDesc = tempDesc.substr(0, 30) + '...'
