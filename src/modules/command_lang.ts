@@ -3,7 +3,7 @@ import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
-export default class ChatImage extends Command {
+export default class CommandLang extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp('^/(?:언어변경|언어|lang|langset)+(?:@' +

@@ -4,7 +4,7 @@ import { Logger } from 'log4js';
 import Format from '../helper/timeFormat'
 import { Config } from '../config'
 
-export default class ChatImage extends Command {
+export default class CommandUptime extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp('^/(?:작동시간|uptime)+(?:@' +
