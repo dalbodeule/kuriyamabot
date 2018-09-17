@@ -24,7 +24,8 @@ export default class CommandMesinfo extends Command {
         if (msg.reply_to_message) {
           await this.bot.sendMessage(chatid, 
               temp.text('command.msginfo.success') +
-              '\n\n`' + msg.reply_to_message + '`', {
+              '\n\n`' + JSON.stringify(msg.reply_to_message, null, '  ')
+              + '`', {
                 reply_to_message_id: msg.message_id,
                 parse_mode: 'Markdown'
               })
