@@ -11,7 +11,7 @@ export default class MessageWhatanime extends Message {
   }
 
   protected async module (msg: Telegram.Message) {
-    const regex1 = new RegExp('^(?:(:?무슨 ?애니|whatanime|anime)\?*|/(?:무슨애니|whatanime)+(?:@' +
+    const regex1 = new RegExp('^(?:(?:무슨 ?애니|whatanime|anime)\\?*|\\/(?:무슨애니|whatanime)+(?:@' +
       this.config.bot.username + ')? ?)$')
     const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' +
       this.config.bot.username + ')? ?$')
