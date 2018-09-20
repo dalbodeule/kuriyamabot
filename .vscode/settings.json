@@ -2,7 +2,7 @@
     "[javascript]": {
         "editor.tabSize": 2
     },
-    "[vue]": {
+    "[typescript]": {
         "editor.tabSize": 2
     }
 }
