@@ -1,3 +1,4 @@
+import * as model from '../db'
 import helper from '../helper'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
@@ -18,6 +19,7 @@ export default class Command {
     this.logger = logger
     this.helper = helper
     this.regexp = new RegExp('')
+    this.model = model
   }
 
   public run (): void {
