@@ -34,7 +34,6 @@ export default class MessageLeft extends Message{
         } else if (value.leaveMessage === 'off') {
           
         } else {
-          value = value.get({plain: true})
           let leaveMessage = value.leaveMessage || temp.text('message.left')
           await this.bot.sendMessage(chatid, leaveMessage
             .replace(/{roomid}/g, msg.chat.title)
