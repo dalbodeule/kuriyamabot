@@ -15,7 +15,7 @@ export default class CommandHelp extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: help, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
         let [send, temp] = await Promise.all([
@@ -32,11 +32,11 @@ export default class CommandHelp extends Command {
             }
           })
         this.logger.info('command: help, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('command: help, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

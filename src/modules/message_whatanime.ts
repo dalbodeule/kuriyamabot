@@ -80,7 +80,7 @@ export default class MessageWhatanime extends Message {
   async failure (chatid: number, msg: Telegram.Message) {
     try {
       this.logger.info('message: whatanime, chatid: ' + msg.chat.id +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: whatanime, type: failure')
 
       let [send, temp] = await Promise.all([
@@ -173,11 +173,11 @@ export default class MessageWhatanime extends Message {
         ])
       }
       this.logger.info('message: whatanime, chatid: ' + chatid +
-      ', username: ' + this.helper.getuser(msg.from) +
+      ', username: ' + this.helper.getuser(msg.from!) +
       ', command: whatanime, type: success')
     } catch (e) {
       this.logger.error('chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: whatanime, type: error')
       this.logger.debug(e.stack)
     }

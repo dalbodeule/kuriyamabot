@@ -16,9 +16,8 @@ export default class CommandLeaveError extends Command {
       let temp
       try {
         this.logger.info('command: leave, chatid: ' + chatid + 
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
-        // eslint-disable-next-line
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
           this.helper.getlang(msg, this.logger)
@@ -27,7 +26,7 @@ export default class CommandLeaveError extends Command {
           await this.bot.sendMessage(chatid, '❗️ ' +
             temp.text('command.isnotgroup'))
           this.logger.info('command: leave, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: is not group')
         } else {
           await this.bot.sendMessage(chatid, '🔧 ' +
@@ -36,12 +35,12 @@ export default class CommandLeaveError extends Command {
               parse_mode: 'Markdown'
             })
           this.logger.info('command: leave, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
-            ', command: ' + msg.text + ', type: valid')
+            ', username: ' + this.helper.getuser(msg.from!) +
+            ', command: ' + msg.text + ', type: success')
         }
       } catch (e) {
         this.logger.error('command: leave, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

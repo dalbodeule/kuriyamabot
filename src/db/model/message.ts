@@ -1,8 +1,9 @@
 import db from '../table'
+import * as types from '../../types';
 const SUCCESS = true
 
 class Message {
-  static async findLeave (id: number) {
+  static async findLeave (id: number): Promise<types.i18n.returnLeaveMessage> {
     let result = await db.Message.findOne({
       where: {
         id
@@ -14,7 +15,7 @@ class Message {
     return result
   }
 
-  static async createLeave (id: number, leaveMessage: string) {
+  static async createLeave (id: number, leaveMessage: string): Promise<boolean> {
     await db.Message.create({
       id,
       leaveMessage
@@ -23,7 +24,7 @@ class Message {
     return SUCCESS
   }
 
-  static async updateLeave (id: number, leaveMessage: string) {
+  static async updateLeave (id: number, leaveMessage: string): Promise<boolean> {
     await db.Message.update({
       leaveMessage
     }, {
@@ -31,9 +32,11 @@ class Message {
         id
       }
     })
+
+    return SUCCESS
   }
 
-  static async findWelcome (id: number) {
+  static async findWelcome (id: number): Promise<types.i18n.returnWelcomeMessage> {
     let result = await db.Message.findOne({
       where: {
         id
@@ -45,7 +48,7 @@ class Message {
     return result
   }
 
-  static async createWelcome (id: number, welcomeMessage: string) {
+  static async createWelcome (id: number, welcomeMessage: string): Promise<boolean> {
     await db.Message.create({
       id,
       welcomeMessage
@@ -54,7 +57,7 @@ class Message {
     return SUCCESS
   }
 
-  static async updateWelcome (id: number, welcomeMessage: string) {
+  static async updateWelcome (id: number, welcomeMessage: string): Promise<boolean> {
     await db.Message.update({
       welcomeMessage
     }, {
@@ -62,6 +65,8 @@ class Message {
         id
       }
     })
+
+    return SUCCESS
   }
 }
 

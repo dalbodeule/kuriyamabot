@@ -16,7 +16,7 @@ export default class CommandUptime extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: uptime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
         let [send, temp] = await Promise.all([
@@ -34,11 +34,11 @@ export default class CommandUptime extends Command {
               reply_to_message_id: msg.message_id
             })
         this.logger.info('command: uptime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('command: uptime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

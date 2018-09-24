@@ -15,7 +15,7 @@ export default class ChatImage extends Command {
     const chatid = msg.chat.id
     try {
       this.logger.info('command: chat_image, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) + 
+        ', username: ' + this.helper.getuser(msg.from!) + 
         ', command: ' + type + ', type: pending')
 
       let [send, temp] = await Promise.all([
@@ -29,7 +29,7 @@ export default class ChatImage extends Command {
         await this.bot.sendChatAction(chatid, 'typing')
         await this.bot.sendMessage(chatid, '🖼 ' + temp.text('command.img.not_found'), {reply_to_message_id: msg.message_id})
         this.logger.info('command: chat_image, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + type + ', type: valid, response: not found')
       } else {
         try {
@@ -50,34 +50,34 @@ export default class ChatImage extends Command {
             reply_to_message_id: msg.message_id
           })
           this.logger.info('command: chat_image, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + type + ', type: valid, response: search success')
         } catch (e) {
           try {
             await this.bot.sendChatAction(chatid, 'upload_photo')
-            response = await this.helper.image((<RegExpExecArray>match)[1])
+            response = await this.helper.image(match[1])
 
-            await this.bot.sendPhoto(chatid, response.img, {
+            await this.bot.sendPhoto(chatid, response!.img, {
               reply_markup: {
                 inline_keyboard: [[{
                   text: temp.text('command.img.visit_page'),
-                  url: response.url
+                  url: response!.url
                 }, {
                   text: temp.text('command.img.view_image'),
-                  url: response.img
+                  url: response!.img
                 }], [{
                   text: temp.text('command.img.another'),
-                  switch_inline_query_current_chat: 'img ' + (<RegExpExecArray>match)[1]
+                  switch_inline_query_current_chat: 'img ' + match[1]
                 }]]
               },
               reply_to_message_id: msg.message_id
             })
             this.logger.info('command: chat_image, chatid: ' + chatid +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getuser(msg.from!) +
               ', command: ' + type + ', type: valid, response: search success')
           } catch (e) {
             this.logger.error('command: chat_image chatid: ' + chatid +
-              ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
+              ', username: ' + this.helper.getuser(msg.from!) +
               ', command: ' + type + ', type: error')
             this.logger.debug(e.stack)
           }
@@ -85,7 +85,7 @@ export default class ChatImage extends Command {
       }
     } catch (e) {
       this.logger.error('command: chat_image chatid: ' + chatid +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: ' + type + ', type: error')
       this.logger.debug(e.stack)
     }

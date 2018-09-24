@@ -15,7 +15,7 @@ export default class CommandMesinfo extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: msginfo, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
@@ -36,11 +36,11 @@ export default class CommandMesinfo extends Command {
           })
         }
         this.logger.info('command: msginfo, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: valid')
       } catch (e) {
         this.logger.error('command: msginfo, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

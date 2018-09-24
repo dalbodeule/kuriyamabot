@@ -2,6 +2,7 @@ import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
+import * as google from 'google-parser'
 
 export default class messageSearch extends Message {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -22,7 +23,7 @@ export default class messageSearch extends Message {
     const chatid = msg.chat.id
     try {
       this.logger.info('message: search, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: ' + msg.text + ', type: pending')
   
       let [send, temp] = await Promise.all([
@@ -30,7 +31,7 @@ export default class messageSearch extends Message {
         this.helper.getlang(msg, this.logger)
       ])
 
-      let response = await this.helper.search(msg.text)
+      let response = await this.helper.search(msg.text!)
 
       if (!response) {
         await this.bot.sendMessage(chatid, '🔍 ' +
@@ -38,15 +39,15 @@ export default class messageSearch extends Message {
             reply_to_message_id: msg.message_id
           })
         this.logger.info('message: search, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: valid, response: not found')
-      } else if (response.error) {
+      } else if ((<google.error>response).error) {
         this.bot.sendMessage(chatid, '🔍 ' +
           temp.text('command.search.not_found'), {
             reply_to_message_id: msg.message_id
           })
         this.logger.info('message: search, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           'command: ' + msg.text + ', type: valid, response: google bot block')
       } else {
         try {
@@ -67,13 +68,13 @@ export default class messageSearch extends Message {
             }
           })
           this.logger.info('message: search, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: valid, response: search success')
         } catch (e) {
           await this.bot.sendMessage(chatid, '❗️ ' +
               temp.text('command.search.error')
               .replace(/{botid}/g, '@' + this.config.bot.username)
-              .replace(/{keyword}/g, msg.text), {
+              .replace(/{keyword}/g, msg.text!), {
               reply_markup: {
                 inline_keyboard: [[{
                   text: '@' + this.config.bot.username + ' search ' + msg.text,
@@ -84,14 +85,14 @@ export default class messageSearch extends Message {
               parse_mode: 'HTML'
             })
           this.logger.error('message: search chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: error')
           this.logger.debug(e.stack)
         }
       }
     } catch (e) {
       this.logger.error('message: search chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }

@@ -16,11 +16,10 @@ export default class CommandLang extends Command {
       let temp, send
       try {
         this.logger.info('command: lang, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) + 
+          ', username: ' + this.helper.getuser(msg.from!) + 
           ', command: ' + msg.text + ', type: command received')
         let ctype = msg.chat.type
         if (ctype === 'group' || ctype === 'supergroup' || ctype === 'channel') {
-          // eslint-disable-next-line
           let admins, isAdmin = false;
           [send, temp, admins] = await Promise.all([
             this.bot.sendChatAction(chatid, 'typing'),
@@ -34,7 +33,7 @@ export default class CommandLang extends Command {
             await this.bot.sendMessage(chatid, '❗️ ' +
               temp.text('command.lowPermission'))
             this.logger.info('command: lang, chatid: ' + chatid + 
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getuser(msg.from!) +
               ', command: ' + msg.text + ', type: lowPermission')
           } else {
             await this.bot.sendMessage(chatid, '🔤 ' +
@@ -61,11 +60,11 @@ export default class CommandLang extends Command {
             })
         }
         this.logger.info('command: lang, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) + 
-          ', command: ' + msg.text + ', type: valid,')
+          ', username: ' + this.helper.getuser(msg.from!) + 
+          ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('command: lang, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

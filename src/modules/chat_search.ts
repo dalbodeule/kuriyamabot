@@ -2,6 +2,7 @@ import { command as Command } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
+import * as google from 'google-parser'
 
 export default class ChatSearch extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -14,7 +15,7 @@ export default class ChatSearch extends Command {
     const chatid = msg.chat.id
     try {
       this.logger.info('command: chat_search chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', chat command: ' + type + ', type: pending')
       
       let [send, temp] = await Promise.all([
@@ -22,7 +23,7 @@ export default class ChatSearch extends Command {
         this.helper.getlang(msg, this.logger)
       ])
 
-      let response = await this.helper.search((<RegExpExecArray>match)[1])
+      let response = await this.helper.search(match[1])
 
       if (!response) {
         await this.bot.sendMessage(chatid, '🔍 ' +
@@ -30,19 +31,19 @@ export default class ChatSearch extends Command {
             reply_to_message_id: msg.message_id
           })
         this.logger.info('command: chat_search, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', chat command: ' + type + ', type: valid, response: not found')
-      } else if (response.error) {
+      } else if ((<google.error>response).error) {
         await this.bot.sendMessage(chatid, '🔍 ' +
           temp.text('command.search.bot_block'), {
             reply_to_message_id: msg.message_id
           })
         this.logger.info('command: chat_search, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', chat command: ' + type + ', type: valid, response: google bot block')
       } else {
         try {
-          await this.bot.sendMessage(chatid, response, {
+          await this.bot.sendMessage(chatid, (<string>response), {
             parse_mode: 'HTML',
             disable_web_page_preview: true,
             reply_to_message_id: msg.message_id,
@@ -58,18 +59,18 @@ export default class ChatSearch extends Command {
             }
           })
           this.logger.info('command: chat_search, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + type + ', type: valid, response: search success')
         } catch (e) {
           this.logger.error('command: chat_search, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: error')
           this.logger.debug(e.stack)
         }
       }
     } catch (e) {
       this.logger.error('command: chat_search, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }

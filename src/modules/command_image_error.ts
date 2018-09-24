@@ -15,7 +15,7 @@ export default class CommandImageError extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: img, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: command received')
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
@@ -30,17 +30,17 @@ export default class CommandImageError extends Command {
               }
             })
           this.logger.info('commahd: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: success')
         } catch (e) {
           this.logger.error('commahd: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: error')
           this.logger.debug(e.stack)
         }
       } catch (e) {
         this.logger.error('command: img, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

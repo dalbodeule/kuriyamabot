@@ -2,6 +2,7 @@ import { command as Command } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
+import * as google from 'google-parser'
 
 export default class CommandImageSuccess extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -15,7 +16,7 @@ export default class CommandImageSuccess extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: img, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
         let [send, temp] = await Promise.all([
@@ -32,8 +33,8 @@ export default class CommandImageSuccess extends Command {
               reply_to_message_id: msg.message_id
             })
           this.logger.info('command: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
-            ', command: ' + msg.text + ', type: valid, response: not found')
+            ', username: ' + this.helper.getuser(msg.from!) +
+            ', command: ' + msg.text + ', type: success, response: not found')
         } else {
           try {
             await this.bot.sendChatAction(chatid, 'upload_photo')
@@ -54,20 +55,20 @@ export default class CommandImageSuccess extends Command {
               reply_to_message_id: msg.message_id
             })
             this.logger.info('command: img, chatid: ' + chatid +
-              ', username: ' + this.helper.getuser(msg.from) +
-              ', command: ' + msg.text + ', type: valid, resonse: search success')
+              ', username: ' + this.helper.getuser(msg.from!) +
+              ', command: ' + msg.text + ', type: success, resonse: search success')
           } catch (e) {
             try {
               await this.bot.sendChatAction(chatid, 'upload_photo')
               response = await this.helper.image(match[1])
-              await this.bot.sendPhoto(chatid, response.img, {
+              await this.bot.sendPhoto(chatid, (<google.imgReturn>response).img, {
                 reply_markup: {
                   inline_keyboard: [[{
                     text: temp.text('command.img.visit_page'),
-                    url: response.url
+                    url: (<google.imgReturn>response).url
                   }, {
                     text: temp.text('command.img.view_image'),
-                    url: response.img
+                    url: (<google.imgReturn>response).img
                   }],
                   [{
                     text: temp.text('command.img.another'),
@@ -77,11 +78,11 @@ export default class CommandImageSuccess extends Command {
                 reply_to_message_id: msg.message_id
               })
               this.logger.info('command: img, chatid: ' + chatid +
-                ', username: ' + this.helper.getuser(msg.from) +
-                ', command: ' + msg.text + ', type: valid, resonse: search success')
+                ', username: ' + this.helper.getuser(msg.from!) +
+                ', command: ' + msg.text + ', type: success, resonse: search success')
             } catch (e) {
               this.logger.error('command: img, chatid: ' + chatid +
-                ', username: ' + this.helper.getuser(msg.from) +
+                ', username: ' + this.helper.getuser(msg.from!) +
                 ', command: ' + msg.text + ', type: error')
               this.logger.debug(e.stack)
             }
@@ -89,7 +90,7 @@ export default class CommandImageSuccess extends Command {
         }
       } catch (e) {
         this.logger.error('command: img, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

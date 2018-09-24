@@ -2,6 +2,7 @@ import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
+import * as google from 'google-parser'
 
 export default class MessageImage extends Message {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -22,7 +23,7 @@ export default class MessageImage extends Message {
     const chatid = msg.chat.id
     try {
       this.logger.info('message: img, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: ' + msg.text + ', type: pending')
 
       let [send, temp] = await Promise.all([
@@ -30,7 +31,7 @@ export default class MessageImage extends Message {
         this.helper.getlang(msg, this.logger)
       ])
 
-      let response = await this.helper.image(msg.text)
+      let response = await this.helper.image(msg.text!)
       
       if (!response) {
         await this.bot.sendChatAction(chatid, 'typing')
@@ -39,7 +40,7 @@ export default class MessageImage extends Message {
             reply_to_message_id: msg.message_id
           })
         this.logger.info('message: img, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: valid, response: not found')
       } else {
         try {
@@ -61,20 +62,20 @@ export default class MessageImage extends Message {
             reply_to_message_id: msg.message_id
           })
           this.logger.info('message: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: valid, response: search success')
         } catch (e) {
           try {
             await this.bot.sendChatAction(chatid, 'upload_photo')
-            response = await this.helper.image(msg.text)
-            await this.bot.sendPhoto(chatid, response.img, {
+            response = await this.helper.image(msg.text!)
+            await this.bot.sendPhoto(chatid, (<google.imgReturn>response).img, {
               reply_markup: {
                 inline_keyboard: [[{
                   text: temp.text('command.img.visit_page'),
-                  url: response.url
+                  url: (<google.imgReturn>response).url
                 }, {
                   text: temp.text('command.img.view_image'),
-                  url: response.img
+                  url: (<google.imgReturn>response).img
                 }],
                 [{
                   text: temp.text('command.img.another'),
@@ -84,14 +85,14 @@ export default class MessageImage extends Message {
               reply_to_message_id: msg.message_id
             })
             this.logger.info('message: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: valid, response: search success')
           } catch (e) {
             await this.bot.sendChatAction(chatid, 'typing')
             await this.bot.sendMessage(chatid, '❗️ ' +
               temp.text('command.img.error')
               .replace(/{botid}/g, '@' + this.config.bot.username)
-              .replace(/{keyword}/g, msg.text), {
+              .replace(/{keyword}/g, msg.text!), {
               reply_markup: {
                 inline_keyboard: [[{
                   text: '@' + this.config.bot.username + ' img ' + msg.text,
@@ -101,7 +102,7 @@ export default class MessageImage extends Message {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML'})
             this.logger.error('message: img, chatid: ' + chatid +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getuser(msg.from!) +
               ', command: ' + msg.text + ', type: error')
             this.logger.debug(e.stack)
           }
@@ -109,7 +110,7 @@ export default class MessageImage extends Message {
       }
     } catch (e) {
       this.logger.error('message: img, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }
