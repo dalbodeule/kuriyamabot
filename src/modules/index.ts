@@ -31,6 +31,7 @@ import commandStart from './command_start'
 import commandUptime from './command_uptime'
 import commandWelcomeSuccess from './command_welcome_success'
 import commandWelcomeError from './command_welcome_error'
+import commandWhatanime from './command_whatanime'
 
 // inline
 
@@ -80,6 +81,7 @@ const modules: {
   commandUptime,
   commandWelcomeSuccess,
   commandWelcomeError,
+  commandWhatanime,
   inlineHelp,
   inlineImage,
   inlineSearch,

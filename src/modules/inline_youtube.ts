@@ -36,8 +36,8 @@ export default class InlineSearch extends Inline {
         ', username: ' + this.helper.getuser(msg.from) +
         ', command: ' + msg.query + ', type: pending')
       try {
-        let temp = await this.helper.getlang(msg + ' site:youtube.com', this.logger)
-        if (typeof match[2] === 'undefined' || match[2] === '') {
+        let temp = await this.helper.getlang(msg, this.logger)
+        if (!match[2]) {
           try {
             await this.bot.answerInlineQuery(q.id, [{
               type: 'article',
@@ -66,7 +66,7 @@ export default class InlineSearch extends Inline {
           }
         } else {
           try {
-            let response = await google.search(match[2])
+            let response = await google.search(match[2] + ' site:youtube.com')
             if ((<google.error>response).reson == 'antibot') {
               try {
                 await this.bot.answerInlineQuery(q.id, [{

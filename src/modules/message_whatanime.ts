@@ -11,15 +11,13 @@ export default class MessageWhatanime extends Message {
   }
 
   protected async module (msg: Telegram.Message) {
-    const regex1 = new RegExp('^(?:(?:무슨 ?애니|whatanime|anime)\\?*|\\/(?:무슨애니|whatanime)+(?:@' +
+    const regex = new RegExp('^(?:(?:무슨 ?애니|whatanime|anime)\\?*|\\/(?:무슨애니|whatanime)+(?:@' +
       this.config.bot.username + ')? ?)$')
-    const regex2 = new RegExp('/(?:무슨애니|whatanime)+(?:@' +
-      this.config.bot.username + ')? ?$')
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
 
       if (msg.photo) {
-        if (regex1.test((<string>msg.caption))) {
+        if (regex.test((<string>msg.caption))) {
           await this.success(msg.chat.id, msg,
             msg.photo[msg.photo.length - 1].file_id)
           return
@@ -43,14 +41,11 @@ export default class MessageWhatanime extends Message {
           msg.reply_to_message.from.username === this.config.bot.username &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await this.success(msg.chat.id, msg,
-            (<Telegram.PhotoSize>(<Telegram.Video>msg.video).thumb).file_id)
+            msg.video.thumb.file_id)
           return
       }
      } else {
-        if (regex2.test((<string>msg.text))) {
-          await this.failure(msg.chat.id, msg)
-          return
-        } else if (regex1.test((<string>msg.text))) {
+        if (regex.test((<string>msg.text))) {
           if (msg.reply_to_message && msg.reply_to_message.photo) {
             await this.success(msg.chat.id, msg,
               msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1]
@@ -71,45 +66,17 @@ export default class MessageWhatanime extends Message {
       }
     } catch (e) {
       this.logger.error('message: whatanime, chatid: ' + msg.chat.id +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: whatanime, type: error')
       this.logger.debug(e.stack)
     }
   }
-
-  async failure (chatid: number, msg: Telegram.Message) {
-    try {
-      this.logger.info('message: whatanime, chatid: ' + msg.chat.id +
-        ', username: ' + this.helper.getuser(msg.from!) +
-        ', command: whatanime, type: failure')
-
-      let [send, temp] = await Promise.all([
-        this.bot.sendChatAction(chatid, 'typing'),
-        this.helper.getlang(msg, this.logger)
-      ])
-      await this.bot.sendMessage(chatid, '📺❗️ ' + temp.text('command.whatanime.info'), {
-        reply_to_message_id: msg.message_id,
-        parse_mode: 'HTML',
-        reply_markup: {
-          force_reply: true, selective: true
-        }
-      })
-      this.logger.info('message: whatanime, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
-        ', command: whatanime, type: failure send success')
-    } catch (e) {
-      this.logger.error('message: whatanime, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
-        ', command: whatanime, type: failure send error')
-      this.logger.debug(e.stack)
-    }
-  }
-
+  
   private async success(chatid: number, msg: Telegram.Message, photo: string) {
     const query = new Whatanime(this.config.apiKey.whatanime)
     try {
       this.logger.info('message: whatanime, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
+        ', username: ' + this.helper.getuser(msg.from!) +
         ', command: whatanime, type: pending')
 
       let [send, temp] = await Promise.all([
