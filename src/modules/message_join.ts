@@ -27,7 +27,7 @@ export default class MessageJoin extends Message {
         let value = await this.model.message.findWelcome(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.join')
-            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id
           })
@@ -36,7 +36,7 @@ export default class MessageJoin extends Message {
         } else {
           let welcomeMessage = value.welcomeMessage || temp.text('message.join')
           await this.bot.sendMessage(chatid, welcomeMessage
-            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id
           })

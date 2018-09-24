@@ -10,7 +10,7 @@ export default class CallbackHelpHelp extends Callback {
   }
 
   protected async module (msg: Telegram.CallbackQuery) {
-    const answer = (msg: Telegram.CallbackQuery, temp: types.Lang) => {
+    const answer = (msg: Telegram.CallbackQuery, temp: types.language.Lang) => {
       this.bot.answerCallbackQuery(msg.id, {
         text: temp.text('command.help.twice')
       })

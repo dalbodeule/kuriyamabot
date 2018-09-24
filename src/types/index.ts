@@ -1,12 +1,5 @@
-export interface Langs {
-  [index: string]: any
-}
+import * as i18n from './i18n'
+import * as language from './language'
+import * as helper from './helper'
 
-export interface Lang {
-  set (msg: any): Promise<void>,
-  langset (lang: string): Promise<boolean>,
-  inline (code: string): string,
-  help (code: string): string,
-  text (code: string): string,
-  getLangList (): Langs
-}
+export { i18n, language, helper }

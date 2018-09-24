@@ -27,7 +27,7 @@ export default class MessageLeft extends Message{
         let value = await this.model.message.findLeave(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.left')
-            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {
             reply_to_message_id: msg.message_id
           })
@@ -36,7 +36,7 @@ export default class MessageLeft extends Message{
         } else {
           let leaveMessage = value.leaveMessage || temp.text('message.left')
           await this.bot.sendMessage(chatid, leaveMessage
-            .replace(/{roomid}/g, msg.chat.title)
+            .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {
             reply_to_message_id: msg.message_id
           })

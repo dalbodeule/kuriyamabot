@@ -1,8 +1,9 @@
 import db from '../table'
+import * as types from '../../types'
 const SUCCESS = true
 
 class Language {
-  static async find (id: number): Promise<any> {
+  static async find (id: number): Promise<types.i18n.returnLanguage> {
     let result = await db.Language.findOne({
       where: {
         id
@@ -17,7 +18,7 @@ class Language {
     return result
   }
 
-  static async create (id: number, lang: string) {
+  static async create (id: number, lang: string): Promise<boolean> {
     db.Language.create({
       id,
       lang
@@ -26,7 +27,7 @@ class Language {
     return SUCCESS
   }
 
-  static async update (lang: string, id: number) {
+  static async update (lang: string, id: number): Promise<boolean> {
     await db.Language.update({
       lang
     }, {

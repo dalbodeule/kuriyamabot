@@ -15,7 +15,7 @@ export default class CommandWelcomeError extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: welcome, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
         let [send, temp] = await Promise.all([
@@ -26,7 +26,7 @@ export default class CommandWelcomeError extends Command {
           await this.bot.sendMessage(chatid, '❗️ ' +
             temp.text('command.isnotgroup'))
           this.logger.info('command: welcome, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: is not group')
         } else {
           await this.bot.sendMessage(chatid, '🔧 ' +
@@ -35,12 +35,12 @@ export default class CommandWelcomeError extends Command {
               parse_mode: 'Markdown'
             })
           this.logger.info('command: welcome, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getuser(msg.from!) +
             ', command: ' + msg.text + ', type: valid')
         }
       } catch (e) {
         this.logger.error('command: welcome, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

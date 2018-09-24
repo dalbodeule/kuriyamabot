@@ -4,11 +4,11 @@ import * as model from '../db'
 import * as glob from 'glob-promise'
 import * as path from 'path'
 import { Logger } from 'log4js';
-import { Langs } from '../types'
+import { language as Language } from '../types'
 import { config } from '../config';
 import * as Telegram from 'node-telegram-bot-api'
 
-const langs: Langs = {}
+const langs: Language.Langs = {}
 
 export default class {
   id: number;
@@ -47,11 +47,11 @@ export default class {
         this.lang = (<Telegram.Message>msg).from!.language_code!.split('-')[0]
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
-        return query
+        return
       } else {
         this.lang = query.lang
         this.logger.debug('id: ' + this.id + ', lang: ' + this.lang)
-        return query
+        return
       }
     } else if ((<Telegram.CallbackQuery>msg).message) { // callback query 대응
       this.id = (<Telegram.CallbackQuery>msg).message!.chat.type === 'private' ?
@@ -62,11 +62,11 @@ export default class {
         this.lang = (<Telegram.CallbackQuery>msg).from!.language_code!.split('-')[0]
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
-        return query
+        return
       } else {
         this.lang = query.lang
         this.logger.debug('id: ' + this.id + ', lang: ' + this.lang)
-        return query
+        return
       }
     } else { // inline query 대응
       this.id = (<Telegram.InlineQuery>msg).from.id
@@ -75,11 +75,11 @@ export default class {
         this.lang = (<Telegram.InlineQuery>msg).from!.language_code!.split('-')[0]
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
-        return query
+        return
       } else {
         this.lang = query.lang
         this.logger.debug('id: ' + this.id + ', lang: ' + this.lang)
-        return query
+        return
       }
     }
   }
@@ -126,7 +126,7 @@ export default class {
     return (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code))
   }
 
-  getLangList (): Langs {
+  getLangList (): Language.Langs {
     return langs
   }
 }

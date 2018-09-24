@@ -1,19 +1,19 @@
 import search from './search'
 import lang from '../lang'
-import { User } from 'node-telegram-bot-api'
+import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import * as types from '../types'
 import Lang from '../lang'
 
 export default {
-  getuser (user: User): string {
+  getuser (user: Telegram.User): string {
     if (!user.username) {
       return user.first_name
     } else {
       return user.username
     }
   },
-  async getlang (msg: any, logger: Logger): Promise<types.Lang> {
+  async getlang (msg: Telegram.Message | Telegram.InlineQuery | Telegram.CallbackQuery, logger: Logger): Promise<types.language.Lang> {
     try {
       let temp = new Lang(logger)
       await temp.set(msg)
@@ -22,7 +22,7 @@ export default {
       throw (e)
     }
   },
-  commandlist (temp: types.Lang) {
+  commandlist (temp: types.language.Lang): any {
     return [
       [{
         text: '📒 ' + temp.inline('command.help.help.name'),
@@ -65,7 +65,7 @@ export default {
       }]
     ]
   },
-  langlist (temp: lang) {
+  langlist (temp: lang): any {
     let list: any = temp.getLangList()
     let listResult = []
     for (let i in Object.keys(list)) {
