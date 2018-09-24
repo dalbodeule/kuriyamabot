@@ -68,7 +68,7 @@ export default class {
         this.logger.debug('id: ' + this.id + ', lang: ' + this.lang)
         return
       }
-    } else { // inline query 대응
+    } else if ((<Telegram.InlineQuery>msg).query) { // inline query 대응
       this.id = (<Telegram.InlineQuery>msg).from.id
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
@@ -81,6 +81,8 @@ export default class {
         this.logger.debug('id: ' + this.id + ', lang: ' + this.lang)
         return
       }
+    } else {
+      throw Error('unknown message type')
     }
   }
 
