@@ -23,29 +23,34 @@ export default class MessageWhatanime extends Message {
           await this.success(msg.chat.id, msg,
             msg.photo[msg.photo.length - 1].file_id)
           return
-        } else if (msg.reply_to_message && msg.reply_to_message.from &&
+        } else if (msg.reply_to_message && msg.reply_to_message.from && msg.reply_to_message.text &&
           msg.reply_to_message.from.username === this.config.bot.username &&
-          msg.reply_to_message.text &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await this.success(msg.chat.id, msg,
             msg.photo[msg.photo.length - 1].file_id)
           return
         }
-      } else if (msg.video && (<Telegram.Document>msg.document).thumb) {
-        if (regex1.test((<string>msg.caption))) {
-          await this.success(msg.chat.id, msg,
-            (<Telegram.PhotoSize>(<Telegram.Document>msg.document).thumb).file_id)
-          return
-        } else if (msg.reply_to_message && msg.reply_to_message.from &&
+      } else if (msg.document && msg.document.thumb) {
+        if (msg.reply_to_message && msg.reply_to_message.from && msg.reply_to_message.text &&
           msg.reply_to_message.from.username === this.config.bot.username &&
-          msg.reply_to_message.text &&
           msg.reply_to_message.text.match(/📺❗️/)) {
           await this.success(msg.chat.id, msg,
             (<Telegram.PhotoSize>(<Telegram.Document>msg.document).thumb).file_id)
           return
         }
-      } else {
-        if (regex1.test((<string>msg.text))) {
+      } else if (msg.video && msg.video.thumb) {
+        if (msg.reply_to_message && msg.reply_to_message.from && msg.reply_to_message.text &&
+          msg.reply_to_message.from.username === this.config.bot.username &&
+          msg.reply_to_message.text.match(/📺❗️/)) {
+          await this.success(msg.chat.id, msg,
+            (<Telegram.PhotoSize>(<Telegram.Video>msg.video).thumb).file_id)
+          return
+      }
+     } else {
+        if (regex2.test((<string>msg.text))) {
+          await this.failure(msg.chat.id, msg)
+          return
+        } else if (regex1.test((<string>msg.text))) {
           if (msg.reply_to_message && msg.reply_to_message.photo) {
             await this.success(msg.chat.id, msg,
               msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1]
@@ -53,18 +58,15 @@ export default class MessageWhatanime extends Message {
             return
           } else if (msg.reply_to_message && msg.reply_to_message.document &&
               msg.reply_to_message.document.thumb) {
-            await this.success(msg.chat.id, msg, msg.reply_to_message.document.
-              thumb.file_id)
-            return
-          } else if (msg.reply_to_message && msg.reply_to_message.video) {
             await this.success(msg.chat.id, msg,
-              (<Telegram.PhotoSize>(<Telegram.Video>msg.reply_to_message.video)
-              .thumb).file_id)
+              msg.reply_to_message.document.thumb.file_id)
+            return
+          } else if (msg.reply_to_message && msg.reply_to_message.video &&
+            msg.reply_to_message.video.thumb) {
+            await this.success(msg.chat.id, msg,
+              msg.reply_to_message.video.thumb.file_id)
             return
           }
-        } else if (regex2.test((<string>msg.text))) {
-          await this.failure(msg.chat.id, msg)
-          return
         }
       }
     } catch (e) {
