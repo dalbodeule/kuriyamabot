@@ -40,7 +40,7 @@ export default class messageSearch extends Message {
           })
         this.logger.info('message: search, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
-          ', command: ' + msg.text + ', type: valid, response: not found')
+          ', command: ' + msg.text + ', type: success, response: not found')
       } else if ((<google.error>response).error) {
         this.bot.sendMessage(chatid, '🔍 ' +
           temp.text('command.search.not_found'), {
@@ -48,7 +48,7 @@ export default class messageSearch extends Message {
           })
         this.logger.info('message: search, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
-          'command: ' + msg.text + ', type: valid, response: google bot block')
+          'command: ' + msg.text + ', type: success, response: google bot block')
       } else {
         try {
           await this.bot.sendMessage(chatid, '🔍 ' +
@@ -69,7 +69,7 @@ export default class messageSearch extends Message {
           })
           this.logger.info('message: search, chatid: ' + chatid +
             ', username: ' + this.helper.getuser(msg.from!) +
-            ', command: ' + msg.text + ', type: valid, response: search success')
+            ', command: ' + msg.text + ', type: success, response: search success')
         } catch (e) {
           await this.bot.sendMessage(chatid, '❗️ ' +
               temp.text('command.search.error')

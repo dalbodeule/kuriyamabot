@@ -1,6 +1,6 @@
 import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
-import Whatanime from 'whatanimega-helper'
+import Whatanime = require('whatanimega-helper')
 import Format from '../helper/timeFormat'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -88,60 +88,69 @@ export default class MessageWhatanime extends Message {
 
       const response = await query.search(url)
 
-      const result = response.docs[0]
-      let resultMessage = ''
-      if ((<string>result.title_native).toLowerCase() !==
-        (<string>result.title_english).toLowerCase()) {
-        resultMessage = temp.text('command.whatanime.name') +
-          ': <code>' + result.title_native + '</code>\n' +
-          temp.text('command.whatanime.english') + ': <code>'
-          + result.title_english + '</code>\n'
-      } else {
-        resultMessage = temp.text('command.whatanime.name') +
-          ': <code>' + result.title_native + '</code>\n'
-      }
-
-      const time = new Format(result.at)
-      resultMessage = resultMessage +
-        temp.text('command.whatanime.episode') + ' <code>'
-          + result.episode + '</code>\n' +
-          temp.text('command.whatanime.time') + ': <code>' +
-          (time.hour === '00' ? '' : time.hour + ' : ') +
-          time.min + ' : ' + time.sec + '</code>\n' +
-          temp.text('command.whatanime.match') + ': <code>' +
-          (result.similarity * 100).toFixed(2) + '%</code>'
-
-      if (result.similarity < 0.9) {
-        resultMessage = resultMessage + '\n\n<b>' +
-          temp.text('command.whatanime.incorrect') + '</b>'
-      }
-
-      if (result.is_adult) {
-        resultMessage = resultMessage + '\n\n<b>' +
-          temp.text('command.whatanime.isAdult') + '</b>'
-        await this.bot.sendMessage(chatid, resultMessage, {
-          parse_mode: 'HTML',
-          disable_web_page_preview: true,
-          reply_to_message_id: msg.message_id
-        })
-      } else {
-        const animeVideo = await query.previewVideo(result.anilist_id,
-          result.filename, result.at, result.tokenthumb)
-          
-        await Promise.all([
-          this.bot.sendMessage(chatid, resultMessage, {
+      if (!response.docs[0]) {
+        this.bot.sendMessage(chatid, '❗️ ' + 
+          temp.text('command.whatanime.not_found'), {
             parse_mode: 'HTML',
             disable_web_page_preview: true,
             reply_to_message_id: msg.message_id
-          }),
-          this.bot.sendVideo(chatid, animeVideo, {
+          })
+      } else {
+        const result = response.docs[0]
+        let resultMessage = ''
+        if ((<string>result.title_native).toLowerCase() !==
+          (<string>result.title_english).toLowerCase()) {
+          resultMessage = temp.text('command.whatanime.name') +
+            ': <code>' + result.title_native + '</code>\n' +
+            temp.text('command.whatanime.english') + ': <code>'
+            + result.title_english + '</code>\n'
+        } else {
+          resultMessage = temp.text('command.whatanime.name') +
+            ': <code>' + result.title_native + '</code>\n'
+        }
+
+        const time = new Format(result.at)
+        resultMessage = resultMessage +
+          temp.text('command.whatanime.episode') + ' <code>'
+            + result.episode + '</code>\n' +
+            temp.text('command.whatanime.time') + ': <code>' +
+            (time.hour === '00' ? '' : time.hour + ' : ') +
+            time.min + ' : ' + time.sec + '</code>\n' +
+            temp.text('command.whatanime.match') + ': <code>' +
+            (result.similarity * 100).toFixed(2) + '%</code>'
+
+        if (result.similarity < 0.9) {
+          resultMessage = resultMessage + '\n\n<b>' +
+            temp.text('command.whatanime.incorrect') + '</b>'
+        }
+
+        if (result.is_adult) {
+          resultMessage = resultMessage + '\n\n<b>' +
+            temp.text('command.whatanime.isAdult') + '</b>'
+          await this.bot.sendMessage(chatid, resultMessage, {
+            parse_mode: 'HTML',
+            disable_web_page_preview: true,
             reply_to_message_id: msg.message_id
           })
-        ])
+        } else {
+          const animeVideo = await query.previewVideo(result.anilist_id,
+            result.filename, result.at, result.tokenthumb)
+            
+          await Promise.all([
+            this.bot.sendMessage(chatid, resultMessage, {
+              parse_mode: 'HTML',
+              disable_web_page_preview: true,
+              reply_to_message_id: msg.message_id
+            }),
+            this.bot.sendVideo(chatid, animeVideo, {
+              reply_to_message_id: msg.message_id
+            })
+          ])
+        }
       }
       this.logger.info('message: whatanime, chatid: ' + chatid +
-      ', username: ' + this.helper.getuser(msg.from!) +
-      ', command: whatanime, type: success')
+        ', username: ' + this.helper.getuser(msg.from!) +
+        ', command: whatanime, type: success')
     } catch (e) {
       this.logger.error('chatid: ' + chatid +
         ', username: ' + this.helper.getuser(msg.from!) +

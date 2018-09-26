@@ -81,7 +81,7 @@ export default class InlineSearch extends Inline {
                 })
                 this.logger.info('inline: youtube, inlineid: ' + q.id +
                   ', username: ' + this.helper.getuser(msg.from) +
-                  ', command: ' + msg.query + ', type: valid, response: google bot block')
+                  ', command: ' + msg.query + ', type: success, response: google bot block')
               } catch (e) {
                 this.logger.error('inline: youtube, inlineid: ' + q.id +
                   ', username: ' + this.helper.getuser(msg.from) +
@@ -102,7 +102,7 @@ export default class InlineSearch extends Inline {
                 })
                 this.logger.info('inline: youtube, inlineid: ' + q.id +
                   ', username: ' + this.helper.getuser(msg.from) +
-                  ', command: ' + msg.query + ', type: valid, response: not found')
+                  ', command: ' + msg.query + ', type: success, response: not found')
               } catch (e) {
                 this.logger.error('inline: youtube, inlineid: ' + q.id +
                   ', username: ' + this.helper.getuser(msg.from) +
@@ -139,7 +139,7 @@ export default class InlineSearch extends Inline {
                 })
                 this.logger.info('inline: youtube, inlineid: ' + q.id +
                   ', username: ' + this.helper.getuser(msg.from) +
-                  ', command: ' + msg.query + ', type: valid')
+                  ', command: ' + msg.query + ', type: success')
               } catch (e) {
                 try {
                   await this.bot.answerInlineQuery(q.id, [{

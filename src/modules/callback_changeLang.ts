@@ -27,7 +27,7 @@ export default class CallbackChangeLang extends Callback {
           })
           this.logger.info('callback: change_lang, callback id: ' + callid +
             ', username: ' + this.helper.getuser(msg.from) +
-            ', command: ' + msg.data + ', type: valid')
+            ', command: ' + msg.data + ', type: success')
         } else {
           // eslint-disable-next-line
           let admins, isAdmin = false;
@@ -48,7 +48,7 @@ export default class CallbackChangeLang extends Callback {
             })
             this.logger.info('callback: change_lang callback id: ' + callid +
             ', username: ' + this.helper.getuser(msg.from) +
-            ', command: ' + msg.data + ', type: group valid')
+            ', command: ' + msg.data + ', type: group success')
           } else {
             await this.bot.editMessageText(temp.text('command.lowPermission'), {
               chat_id: (<Telegram.Message>msg.message).chat.id,
