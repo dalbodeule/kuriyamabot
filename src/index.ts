@@ -21,7 +21,10 @@ try {
   logger.info('Welcome to telegram bot!')
   logger.debug('Debug Mode!')
 
-  const bot = new Telegram(global.apiKey.telegram, {polling: true})
+  const bot = new Telegram(global.apiKey.telegram, {
+    polling: true,
+    filepath: false
+  })
 
   logger.info('Bot is activated!');
 

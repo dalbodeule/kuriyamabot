@@ -28,6 +28,7 @@ import commandLeaveSuccess from './command_leave_success'
 import commandLeaveError from './command_leave_error'
 import commandMe from './command_me'
 import commandMsginfo from './command_msginfo'
+import commandNigai from './command_nigai'
 import commandSearchSuccess from './command_search_success'
 import commandSearchError from './command_search_error'
 import commandStart from './command_start'
@@ -81,6 +82,7 @@ const modules: {
   commandLeaveError,
   commandMe,
   commandMsginfo,
+  commandNigai,
   commandSearchSuccess,
   commandSearchError,
   commandStart,
