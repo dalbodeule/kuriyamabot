@@ -42,7 +42,8 @@
       "match" :"accuracy",
       "info" :"Please reply with an animated screenshot and you can search what animations are.",
       "incorrect" :"This is not exactly ...",
-      "isAdult" :"For adult animation, it does not provide a preview."
+      "isAdult" :"For adult animation, it does not provide a preview.",
+      "not_found": "No search results."
     },
     "welcome" :{
       "success" :"The message is set up well.",
