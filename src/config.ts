@@ -13,7 +13,8 @@ export interface Config {
     readonly telegram: string,
     readonly whatanime: string
   }
-  readonly bot: Telegram.User
+  readonly bot: Telegram.User,
+  readonly homepage: string
 }
 
 export const config: Config = {
@@ -29,5 +30,6 @@ export const config: Config = {
     telegram: process.env.telegram!,
     whatanime: process.env.whatanime! 
   },
-  bot: null as any as Telegram.User
+  bot: null as any as Telegram.User,
+  homepage: 'https://moribot.mori.space/'
 }

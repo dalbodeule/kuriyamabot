@@ -41,7 +41,7 @@ export default class MessageImage extends Message {
           })
         this.logger.info('message: img, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
-          ', command: ' + msg.text + ', type: valid, response: not found')
+          ', command: ' + msg.text + ', type: success, response: not found')
       } else {
         try {
           await this.bot.sendChatAction(chatid, 'upload_photo')
@@ -63,7 +63,7 @@ export default class MessageImage extends Message {
           })
           this.logger.info('message: img, chatid: ' + chatid +
             ', username: ' + this.helper.getuser(msg.from!) +
-            ', command: ' + msg.text + ', type: valid, response: search success')
+            ', command: ' + msg.text + ', type: success, response: search success')
         } catch (e) {
           try {
             await this.bot.sendChatAction(chatid, 'upload_photo')
@@ -86,7 +86,7 @@ export default class MessageImage extends Message {
             })
             this.logger.info('message: img, chatid: ' + chatid +
             ', username: ' + this.helper.getuser(msg.from!) +
-            ', command: ' + msg.text + ', type: valid, response: search success')
+            ', command: ' + msg.text + ', type: success, response: search success')
           } catch (e) {
             await this.bot.sendChatAction(chatid, 'typing')
             await this.bot.sendMessage(chatid, '❗️ ' +

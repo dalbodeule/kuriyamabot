@@ -29,7 +29,7 @@ export default class CommandStart extends Command {
           })
         this.logger.info('command: start, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
-          ', command: ' + msg.text + ', type: valid')
+          ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('command: start, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +

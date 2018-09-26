@@ -7,10 +7,7 @@
   "command": {
     "start": "안녕하세요. {botname} 입니다.\n당신이 사용하는 언어는 /정보@{botid} 을 사용하면 볼 수 있습니다.\n혹시 다른 언어를 사용하시길 원한다면 /언어@{botid} 을 사용해주세요.",
     "uptime": {
-      "message": "이 봇은 현재 {hour} 시간 {min} 분 {sec} 초 동안 작동중입니다.",
-      "hour": "시간",
-      "min": "분",
-      "sec": "초"
+      "message": "이 봇은 현재 {hour}시간 {min}분 {sec}초 동안 작동중입니다.",
     },
     "search": {
       "not_found": "흠.. 검색 결과가 없습니다!",
@@ -57,6 +54,10 @@
     "msginfo": {
       "success": "원하시는 메세지의 정보입니다.",
       "alert": "원하시는 메세지에 답장으로 명령어를 쳐주세요!"
+    },
+    "homepage": {
+      "message": "여기가 모리봇의 홈페이지입니다.",
+      "button": "바로가기"
     },
     "lowPermission": "당신은 이걸 할 수 있는 권한이 부족합니다.",
     "isnotgroup": "그룹 또는 슈퍼그룹이 아니면 이 행동을 할 수 없습니다.",
@@ -111,6 +112,16 @@
         "name": "커스텀 퇴장메세지",
         "description": "이 방의 퇴장메세지를 정할 수 있습니다.",
         "how": "/leave{botid}"
+      },
+      "msginfo": {
+        "name": "메세지 디버깅 명령어",
+        "description": "메세지의 정보를 볼 수 있습니다.",
+        "how": "/mesinfo{botid}"
+      },
+      "homepage": {
+        "name": "홈페이지로 이동하기!",
+        "description": "모리봇의 홈페이지로 이동할 수 있습니다.",
+        "how": "/homepage{botid}"
       },
       "twice": "이미 보시고 계신 도움말입니다!",
       "contact": "개발자와 연락"

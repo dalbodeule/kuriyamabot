@@ -3,10 +3,10 @@ import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
-export default class CommandMe extends Command {
+export default class CommandHomepage extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
-    this.regexp = new RegExp('^/(?:정보|me)+(?:@'
+    this.regexp = new RegExp('^/(?:홈페이지|homepage)+(?:@'
       + this.config.bot.username + ')? ?$')
   }
   
@@ -17,21 +17,22 @@ export default class CommandMe extends Command {
         this.logger.info('command: me, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
-        // eslint-disable-next-line
+
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
           this.helper.getlang(msg, this.logger)
         ])
-        await this.bot.sendMessage(chatid, '📟' + '\n\n' +
-          temp.text('command.me')
-            .replace(/{userid}/g, '' + msg.from!.id!)
-            .replace(/{fname}/g, (!msg.from!.first_name ? 'none' : msg.from!.first_name))
-            .replace(/{lname}/g, (!msg.from!.last_name ? 'none' : msg.from!.last_name!))
-            .replace(/{name}/g, (!msg.from!.username ? 'none' : '@' + msg.from!.username))
-            .replace(/{lang}/g, msg.from!.language_code!), {
-              reply_to_message_id: msg.message_id,
-              parse_mode: 'Markdown'
-            })
+        await this.bot.sendMessage(chatid, '🌎' + '\n\n' +
+          temp.text('command.homepage.message'), {
+            reply_to_message_id: msg.message_id,
+            parse_mode: 'Markdown',
+            reply_markup: {
+              inline_keyboard: [[{
+                text: temp.text('command.homepage.button'),
+                url: this.config.homepage
+              }]]
+            }
+          })
         this.logger.info('command: me, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: success')

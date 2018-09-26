@@ -30,7 +30,7 @@ export default class ChatImage extends Command {
         await this.bot.sendMessage(chatid, '🖼 ' + temp.text('command.img.not_found'), {reply_to_message_id: msg.message_id})
         this.logger.info('command: chat_image, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
-          ', command: ' + type + ', type: valid, response: not found')
+          ', command: ' + type + ', type: success, response: not found')
       } else {
         try {
           await this.bot.sendChatAction(chatid, 'upload_photo')
@@ -51,7 +51,7 @@ export default class ChatImage extends Command {
           })
           this.logger.info('command: chat_image, chatid: ' + chatid +
             ', username: ' + this.helper.getuser(msg.from!) +
-            ', command: ' + type + ', type: valid, response: search success')
+            ', command: ' + type + ', type: success, response: search success')
         } catch (e) {
           try {
             await this.bot.sendChatAction(chatid, 'upload_photo')
@@ -74,7 +74,7 @@ export default class ChatImage extends Command {
             })
             this.logger.info('command: chat_image, chatid: ' + chatid +
               ', username: ' + this.helper.getuser(msg.from!) +
-              ', command: ' + type + ', type: valid, response: search success')
+              ', command: ' + type + ', type: success, response: search success')
           } catch (e) {
             this.logger.error('command: chat_image chatid: ' + chatid +
               ', username: ' + this.helper.getuser(msg.from!) +

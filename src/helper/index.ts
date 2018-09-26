@@ -60,6 +60,13 @@ export default {
         text: '👋 ' + temp.inline('command.help.leave.name'),
         callback_data: 'help_leave'
       }, {
+        text: '💻 ' + temp.inline('command.help.msginfo.name'),
+        url: 'help_msginfo'
+      }],
+      [{
+        text: '🌎 ' + temp.inline('command.help.homepage.name'),
+        callback_data: 'help_homepage'
+      }, {
         text: '😁 ' + temp.inline('command.help.contact'),
         url: 'https://t.me/small_sunshine'
       }]
