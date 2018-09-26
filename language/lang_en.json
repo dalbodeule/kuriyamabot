@@ -118,7 +118,7 @@
       "msginfo": {
         "name": "Message Debugging Commands",
         "description": "You can see the information of the message.",
-        "how": "/mesinfo{botid}"
+        "how": "/msginfo{botid}"
       },
       "homepage": {
         "name": "Go to the homepage!",

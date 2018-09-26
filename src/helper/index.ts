@@ -61,7 +61,7 @@ export default {
         callback_data: 'help_leave'
       }, {
         text: '💻 ' + temp.inline('command.help.msginfo.name'),
-        url: 'help_msginfo'
+        callback_data: 'help_msginfo'
       }],
       [{
         text: '🌎 ' + temp.inline('command.help.homepage.name'),

@@ -3,10 +3,12 @@
 // callback
 import callbackChangeLang from './callback_changeLang'
 import callbackHelpHelp from './callback_help_help'
+import callbackHelpHomepage from './callback_help_homepage'
 import callbackHelpImage from './callback_help_image'
 import callbackHelpLang from './callback_help_lang'
 import callbackHelpLeave from './callback_help_leave'
 import callbackHelpMe from './callback_help_me'
+import callbackHelpMsginfo from './callback_help_msginfo'
 import callbcakHelpSearch from './callback_help_search'
 import callbackHelpStart from './callback_help_start'
 import callbackHelpUptime from './callback_help_uptime'
@@ -18,6 +20,7 @@ import callbackHelpWhatanime from './callback_help_whatanime'
 import chatImage from './chat_image'
 import chatSearch from './chat_search'
 import commandHelp from './command_help'
+import commandHomepage from './command_homepage'
 import commandImageSuccess from './command_image_success'
 import commandImageError from './command_image_error'
 import commandLang from './command_lang'
@@ -56,10 +59,12 @@ const modules: {
 } = {
   callbackChangeLang,
   callbackHelpHelp,
+  callbackHelpHomepage,
   callbackHelpImage,
   callbackHelpLang,
   callbackHelpLeave,
   callbackHelpMe,
+  callbackHelpMsginfo,
   callbcakHelpSearch,
   callbackHelpStart,
   callbackHelpUptime,
@@ -68,6 +73,7 @@ const modules: {
   chatImage,
   chatSearch,
   commandHelp,
+  commandHomepage,
   commandImageSuccess,
   commandImageError,
   commandLang,

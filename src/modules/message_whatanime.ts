@@ -1,6 +1,6 @@
 import { message as Message } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
-import Whatanime from 'whatanimega-helper'
+import Whatanime = require('whatanimega-helper')
 import Format from '../helper/timeFormat'
 import { Logger } from 'log4js';
 import { Config } from '../config'

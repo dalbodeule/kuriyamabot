@@ -22,7 +22,7 @@ export default class CommandHomepage extends Command {
           this.bot.sendChatAction(chatid, 'typing'),
           this.helper.getlang(msg, this.logger)
         ])
-        await this.bot.sendMessage(chatid, '🌎' + '\n\n' +
+        await this.bot.sendMessage(chatid, '🌎 ' +
           temp.text('command.homepage.message'), {
             reply_to_message_id: msg.message_id,
             parse_mode: 'Markdown',
