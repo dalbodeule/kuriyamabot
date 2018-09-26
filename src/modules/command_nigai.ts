@@ -8,7 +8,7 @@ import * as fs from 'fs'
 export default class CommandNigai extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
-    this.regexp = new RegExp('^(?:써|苦い|にがい|nigai|니가이)$')
+    this.regexp = new RegExp('^(?:苦い|にがい|nigai|니가이)$')
   }
   
   protected async module (msg: Telegram.Message, match: RegExpExecArray) {
