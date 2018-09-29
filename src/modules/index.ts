@@ -28,7 +28,6 @@ import commandLeaveSuccess from './command_leave_success'
 import commandLeaveError from './command_leave_error'
 import commandMe from './command_me'
 import commandMsginfo from './command_msginfo'
-import commandNigai from './command_nigai'
 import commandSearchSuccess from './command_search_success'
 import commandSearchError from './command_search_error'
 import commandStart from './command_start'
@@ -52,6 +51,11 @@ import messageLogger from './message_logger'
 import messageSearch from './message_search'
 import messageWhatanime from './message_whatanime'
 import messageImage from './messgae_image'
+
+// easter eggs
+import commandAmai from './command_amai'
+import commandCherry from './command_cherry'
+import commandNigai from './command_nigai'
 
 // modules end
 
@@ -82,7 +86,6 @@ const modules: {
   commandLeaveError,
   commandMe,
   commandMsginfo,
-  commandNigai,
   commandSearchSuccess,
   commandSearchError,
   commandStart,
@@ -99,7 +102,11 @@ const modules: {
   messageLogger,
   messageSearch,
   messageWhatanime,
-  messageImage
+  messageImage,
+
+  commandAmai,
+  commandCherry,
+  commandNigai
 }
 
 export default modules
