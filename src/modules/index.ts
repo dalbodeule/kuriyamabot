@@ -32,6 +32,8 @@ import commandSearchSuccess from './command_search_success'
 import commandSearchError from './command_search_error'
 import commandStart from './command_start'
 import commandUptime from './command_uptime'
+import commandWeatherSuccess from './command_weather_success'
+import commandWeatherError from './command_weather_error'
 import commandWelcomeSuccess from './command_welcome_success'
 import commandWelcomeError from './command_welcome_error'
 import commandWhatanime from './command_whatanime'
@@ -49,6 +51,7 @@ import messageJoin from './message_join'
 import messageLeft from './message_left'
 import messageLogger from './message_logger'
 import messageSearch from './message_search'
+import messageWeather from './message_weather'
 import messageWhatanime from './message_whatanime'
 import messageImage from './messgae_image'
 
@@ -90,6 +93,8 @@ const modules: {
   commandSearchError,
   commandStart,
   commandUptime,
+  commandWeatherSuccess,
+  commandWeatherError,
   commandWelcomeSuccess,
   commandWelcomeError,
   commandWhatanime,
@@ -101,6 +106,7 @@ const modules: {
   messageLeft,
   messageLogger,
   messageSearch,
+  messageWeather,
   messageWhatanime,
   messageImage,
 

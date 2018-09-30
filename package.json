@@ -1,6 +1,6 @@
 {
   "name": "gjmoribot",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "description": "텔레그램 MoriBot",
   "main": "dist/index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "@types/node": "^10.9.4",
     "@types/node-telegram-bot-api": "^0.30.3",
     "@types/object-path": "^0.9.29",
+    "@types/request-promise": "^4.1.42",
     "@types/sequelize": "^4.27.25",
     "dateformat": "^2.2.0",
     "dom-parser": "^0.1.5",
@@ -34,6 +35,8 @@
     "object-path": "^0.11.4",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "sequelize": "^4.26.0",
     "whatanimega-helper": "^2.1.3"
   },
