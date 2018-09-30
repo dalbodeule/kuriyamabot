@@ -86,6 +86,10 @@ export default class {
     }
   }
 
+  getLocale (): string {
+    return this.lang
+  }
+
   async langset (lang: string): Promise<boolean> {
     let isExist = false
     for (let i in Object.keys(langs)) {

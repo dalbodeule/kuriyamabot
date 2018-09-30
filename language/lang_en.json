@@ -61,6 +61,12 @@
       "message": "Here is Moribot's homepage.",
       "button": "Shortcuts"
     },
+    "weather": {
+      "message": "The weather information you requested.\n\nWind speed: {windSpeed}m/s\nWind direction: {windDeg}\nMinimum temperature: {tempMin}℃\nHighest temperature: {tempMax}℃\nCurrent temperature: {tempCur}℃\nCurrent weather: {weather}",
+      "apierror": "I'm having trouble getting weather information. Please try again in a few minutes.",
+      "blank": "Please enter the name of the city you wish!",
+      "not_found": "I did not find the area! If you have entered in another language, please try again in English!"
+    },
     "lowPermission" :"You lack the authority to do this.",
     "isnotgroup" :"You can not do this unless you are a group or a super group.",
     "me" :"`User ID :{userid}`\n`First name :{fname}`\n`Last name :{lname}`\n`ID :{name}`\n`Use language :{lang}`\n",
