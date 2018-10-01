@@ -12,8 +12,7 @@ export interface Config {
   readonly apiKey: {
     readonly telegram: string,
     readonly whatanime: string,
-    readonly openweather: string,
-    readonly google: string,
+    readonly openweather: string
   }
   readonly bot: Telegram.User,
   readonly homepage: string
@@ -31,8 +30,7 @@ export const config: Config = {
   apiKey: {
     telegram: process.env.telegram!,
     whatanime: process.env.whatanime!,
-    openweather: process.env.openweather!,
-    google: process.env.google!
+    openweather: process.env.openweather!
   },
   bot: null as any as Telegram.User,
   homepage: 'https://moribot.mori.space/'
