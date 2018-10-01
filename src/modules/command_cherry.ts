@@ -21,11 +21,11 @@ export default class CommandCherry extends Command {
 
         await this.bot.sendChatAction(chatid, 'typing')
 
-        const cherry = fs.createReadStream(
-          path.join(__dirname, '..', '..', 'cherry.png'));
-        await this.bot.sendPhoto(chatid, cherry, {
+        await this.bot.sendMessage(chatid,
+          '**꽃돼핀지**를 외치면 꽃핀은 **날씬해진다**' +
+          '\n\n' + 'https://www.youtube.com/watch?v=uZ1iNekkLr0', {
             reply_to_message_id: msg.message_id,
-            caption: '꽃돼핀지를 외치면 꽃핀은 날씬해진다'
+            parse_mode: 'Markdown'
           })
         this.logger.info('command: cherry, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +

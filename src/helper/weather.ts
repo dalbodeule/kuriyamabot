@@ -93,7 +93,7 @@ export interface responseSuccess {
     type: any,
     id: any,
     message: any,
-    countr: string,
+    country: string,
     sunrise: number,
     sunset: number
   },
