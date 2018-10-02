@@ -61,10 +61,14 @@
       "button": "바로가기"
     },
     "weather": {
-      "message": "요청하신 날씨정보입니다.\n\n풍속: {windSpeed}m/s\n풍향: {windDeg}\n최저기온: {tempMin}℃\n최고기온: {tempMax}℃\n현재기온: {tempCur}℃\n현재날씨: {weather}",
+      "message": {
+        "command": "요청하신 `{location}`의 날씨정보입니다.\n\n풍속: {windSpeed}m/s\n풍향: {windDeg}\n습도: {humidity}%\n\n현재기온: {tempCur}℃\n현재날씨: {weather}",
+        "map": "요청하신 날씨정보입니다.\n\n풍속: {windSpeed}m/s\n풍향: {windDeg}\n습도: {humidity}%\n\n현재기온: {tempCur}℃\n현재날씨: {weather}"
+      },
       "apierror": "날씨정보를 받아오는 데 문제가 생겼습니다. 잠시 후 다시 시도해주세요.",
       "blank": "원하시는 도시의 이름을 입력해주세요!",
-      "not_found": "해당하는 지역을 찾지 못했습니다! 혹시 한글로 입력하셨다면 영어로 다시 시도해주세요!"
+      "not_found": "해당하는 지역을 찾지 못했습니다!",
+      "geocode_error": "위치를 찾아올 수 없습니다."
     },
     "lowPermission": "당신은 이걸 할 수 있는 권한이 부족합니다.",
     "isnotgroup": "그룹 또는 슈퍼그룹이 아니면 이 행동을 할 수 없습니다.",
@@ -129,6 +133,11 @@
         "name": "홈페이지로 이동하기!",
         "description": "모리봇의 홈페이지로 이동할 수 있습니다.",
         "how": "/homepage{botid}"
+      },
+      "weather": {
+        "name": "날씨 알아보기!",
+        "description": "원하는 지역의 날씨를 알아볼 수 있습니다.",
+        "how": "/weather{botid}"
       },
       "twice": "이미 보시고 계신 도움말입니다!",
       "contact": "개발자와 연락"

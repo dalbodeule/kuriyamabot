@@ -17,7 +17,7 @@ export default class CommandMe extends Command {
         this.logger.info('command: me, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
-        // eslint-disable-next-line
+
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
           this.helper.getlang(msg, this.logger)
@@ -28,7 +28,7 @@ export default class CommandMe extends Command {
             .replace(/{fname}/g, (!msg.from!.first_name ? 'none' : msg.from!.first_name))
             .replace(/{lname}/g, (!msg.from!.last_name ? 'none' : msg.from!.last_name!))
             .replace(/{name}/g, (!msg.from!.username ? 'none' : '@' + msg.from!.username))
-            .replace(/{lang}/g, msg.from!.language_code!), {
+            .replace(/{lang}/g, (!msg.from!.language_code! ? '??' : msg.from!.language_code!)), {
               reply_to_message_id: msg.message_id,
               parse_mode: 'Markdown'
             })
