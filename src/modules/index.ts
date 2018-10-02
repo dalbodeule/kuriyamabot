@@ -56,9 +56,11 @@ import messageWhatanime from './message_whatanime'
 import messageImage from './messgae_image'
 
 // easter eggs
-import commandAmai from './command_amai'
-import commandCherry from './command_cherry'
-import commandNigai from './command_nigai'
+import easterAmai from './easter_amai'
+import easterCherry from './easter_cherry'
+import easterEren from './easter_eren'
+import easterNigai from './easter_nigai'
+import easterTemm from './easter_temm'
 
 // modules end
 
@@ -110,9 +112,11 @@ const modules: {
   messageWhatanime,
   messageImage,
 
-  commandAmai,
-  commandCherry,
-  commandNigai
+  easterAmai,
+  easterCherry,
+  easterEren,
+  easterNigai,
+  easterTemm
 }
 
 export default modules

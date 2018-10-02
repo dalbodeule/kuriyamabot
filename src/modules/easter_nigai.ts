@@ -5,7 +5,7 @@ import { Config } from '../config'
 import * as path from 'path'
 import * as fs from 'fs'
 
-export default class CommandNigai extends Command {
+export default class EasterNigai extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp('!(?:苦い|にがい|nigai|니가이)')
@@ -15,7 +15,7 @@ export default class CommandNigai extends Command {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       try {
-        this.logger.info('command: nigai, chatid: ' + chatid +
+        this.logger.info('easter: nigai, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
@@ -40,11 +40,11 @@ export default class CommandNigai extends Command {
             this.logger.debug('higai')
         }
         
-        this.logger.info('command: nigai, chatid: ' + chatid +
+        this.logger.info('easter: nigai, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
-        this.logger.error('command: nigai, chatid: ' + chatid +
+        this.logger.error('easter: nigai, chatid: ' + chatid +
           ', username: ' + this.helper.getuser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
