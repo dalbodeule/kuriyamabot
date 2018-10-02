@@ -67,6 +67,10 @@ export default {
         text: '🌎 ' + temp.inline('command.help.homepage.name'),
         callback_data: 'help_homepage'
       }, {
+        text: '🌨 ' + temp.inline('command.help.weather.name'),
+        callback_data: 'help_weather'
+      }],
+      [{
         text: '😁 ' + temp.inline('command.help.contact'),
         url: 'https://t.me/small_sunshine'
       }]

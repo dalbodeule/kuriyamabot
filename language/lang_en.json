@@ -135,6 +135,11 @@
         "description": "You can go to MoriBot's homepage.",
         "how": "/homepage{botid}"
       },
+      "weather": {
+        "name": "Browse the weather!",
+        "description": "Find out the weather in your area.",
+        "how": "/weather{botid}"
+      },
       "twice" :"Here are some tips you already have!",
       "contact" :"Contact Developer"
     }

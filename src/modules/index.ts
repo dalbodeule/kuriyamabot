@@ -12,6 +12,7 @@ import callbackHelpMsginfo from './callback_help_msginfo'
 import callbcakHelpSearch from './callback_help_search'
 import callbackHelpStart from './callback_help_start'
 import callbackHelpUptime from './callback_help_uptime'
+import callbackHelpWeather from './callback_help_weather'
 import callbackHelpWelcome from './callback_help_welcome'
 import callbackHelpWhatanime from './callback_help_whatanime'
 
@@ -59,6 +60,7 @@ import messageImage from './messgae_image'
 import easterAmai from './easter_amai'
 import easterCherry from './easter_cherry'
 import easterEren from './easter_eren'
+import easterGang from './easter_gang'
 import easterNigai from './easter_nigai'
 import easterTemm from './easter_temm'
 
@@ -78,8 +80,10 @@ const modules: {
   callbcakHelpSearch,
   callbackHelpStart,
   callbackHelpUptime,
+  callbackHelpWeather,
   callbackHelpWelcome,
   callbackHelpWhatanime,
+
   chatImage,
   chatSearch,
   commandHelp,
@@ -100,10 +104,12 @@ const modules: {
   commandWelcomeSuccess,
   commandWelcomeError,
   commandWhatanime,
+
   inlineHelp,
   inlineImage,
   inlineSearch,
   inlineYoutube,
+  
   messageJoin,
   messageLeft,
   messageLogger,
@@ -115,6 +121,7 @@ const modules: {
   easterAmai,
   easterCherry,
   easterEren,
+  easterGang,
   easterNigai,
   easterTemm
 }
