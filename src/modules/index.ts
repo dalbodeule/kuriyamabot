@@ -61,6 +61,7 @@ import easterAmai from './easter_amai'
 import easterCherry from './easter_cherry'
 import easterEren from './easter_eren'
 import easterGang from './easter_gang'
+import easterHigai from './easter_higai'
 import easterNigai from './easter_nigai'
 import easterTemm from './easter_temm'
 
@@ -122,6 +123,7 @@ const modules: {
   easterCherry,
   easterEren,
   easterGang,
+  easterHigai,
   easterNigai,
   easterTemm
 }
