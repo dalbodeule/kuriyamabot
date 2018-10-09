@@ -2,8 +2,6 @@ import { command as Command } from '../moduleBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
-import * as path from 'path'
-import * as fs from 'fs'
 
 export default class EasterAmai extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -21,9 +19,7 @@ export default class EasterAmai extends Command {
 
         await this.bot.sendChatAction(chatid, 'upload_photo')
 
-        const stream = fs.createReadStream(
-            path.join(__dirname, '..', '..', '甘い!!.png'));
-        await this.bot.sendPhoto(chatid, stream, {
+        await this.bot.sendPhoto(chatid, 'https://i.imgur.com/hnUnWuS.png', {
             reply_to_message_id: msg.message_id,
             caption: '甘い。。。。'
           })
