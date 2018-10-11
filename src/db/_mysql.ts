@@ -6,7 +6,7 @@ const db = new Sequelize(global.db.database,
   global.db.password,
   {
     host: global.db.host,
-    dialect: global.db.type,
+    dialect: 'mysql',
     pool: {
       max: 5,
       min: 0,

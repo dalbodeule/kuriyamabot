@@ -6,14 +6,13 @@ export interface Config {
     readonly database: string,
     readonly username: string,
     readonly password: string,
-    readonly host: string,
-    readonly type: string
+    readonly host: string
   },
   readonly apiKey: {
     readonly telegram: string,
     readonly whatanime: string,
     readonly openweather: string,
-    readonly locationiq: string
+    readonly kakao: string
   }
   readonly bot: Telegram.User,
   readonly homepage: string
@@ -26,13 +25,12 @@ export const config: Config = {
     username: process.env.dbuser!,
     password: process.env.dbpw!,
     host: process.env.dbhost!,
-    type: process.env.dbtype!
   },
   apiKey: {
     telegram: process.env.telegram!,
     whatanime: process.env.whatanime!,
     openweather: process.env.openweather!,
-    locationiq: process.env.locationiq!
+    kakao: process.env.kakao!
   },
   bot: null as any as Telegram.User,
   homepage: 'https://moribot.mori.space/'
