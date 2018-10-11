@@ -1,4 +1,4 @@
-import { inline as Inline } from '../moduleBase'
+import { inline as Inline } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -17,10 +17,10 @@ export default class InlineHelp extends Inline {
     if (match) {
       try {
         this.logger.info('inline: help, inlineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: pending')
 
-        let temp = await this.helper.getlang(msg, this.logger)
+        let temp = await this.helper.getLang(msg, this.logger)
 
         await this.bot.answerInlineQuery(q.id, [{
           type: 'article',
@@ -49,11 +49,11 @@ export default class InlineHelp extends Inline {
           cache_time: 3
         })
         this.logger.info('inline: help, inlineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: success')
       } catch (e) {
         this.logger.error('inline: help, inlineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: error')
         this.logger.debug(e.stack)
       }

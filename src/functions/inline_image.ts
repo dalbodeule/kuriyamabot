@@ -1,4 +1,4 @@
-import { inline as Inline } from '../moduleBase'
+import { inline as Inline } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as google from 'google-parser'
 import { Logger } from 'log4js';
@@ -31,10 +31,10 @@ export default class InlineImage extends Inline {
       .match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
     if (match) {
       this.logger.info('inline: image, inlineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: pending')
       try {
-        let temp = await this.helper.getlang(msg, this.logger)
+        let temp = await this.helper.getLang(msg, this.logger)
         if (typeof match[2] === 'undefined' || match[2] === '') {
           try {
             await this.bot.answerInlineQuery(q.id, [{
@@ -56,11 +56,11 @@ export default class InlineImage extends Inline {
               cache_time: 3
             })
             this.logger.info('inline: image, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: success, response: help')
           } catch (e) {
             this.logger.error('inline: image, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: error')
             this.logger.debug(e.stack)
           }
@@ -83,11 +83,11 @@ export default class InlineImage extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: image, inlineid: ' + q.id +
-                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', username: ' + this.helper.getUser(msg.from) +
                     ', command: ' + msg.query + ', type: success, response: not found')
               } catch (e) {
                 this.logger.error('inline: image, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: error')
                 this.logger.debug(e.stack)
               }
@@ -123,12 +123,12 @@ export default class InlineImage extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: image, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success')
               } catch (e) {
                 try {
                   this.logger.error('inline: image, inlineid: ' + q.id +
-                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', username: ' + this.helper.getUser(msg.from) +
                     ', command: ' + msg.query + ', type: error')
                   this.logger.debug(e.stack)
                   await this.bot.answerInlineQuery(q.id, [{
@@ -154,7 +154,7 @@ export default class InlineImage extends Inline {
                   })
                 } catch (e) {
                   this.logger.error('inline: image, inlineid: ' + q.id +
-                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', username: ' + this.helper.getUser(msg.from) +
                     ', command: ' + msg.query + ', type: error')
                   this.logger.debug(e.stack)
                 }
@@ -163,7 +163,7 @@ export default class InlineImage extends Inline {
           } catch (e) {
             try {
               this.logger.error('inline: image, inlineid: ' + q.id +
-                ', username: ' + this.helper.getuser(msg.from) +
+                ', username: ' + this.helper.getUser(msg.from) +
                 ', command: ' + msg.query + ', type: error')
               this.logger.debug(e.stack)
               await this.bot.answerInlineQuery(q.id, [{
@@ -189,7 +189,7 @@ export default class InlineImage extends Inline {
               })
             } catch (e) {
               this.logger.error('inline: image, inlineid: ' + q.id +
-                ', username: ' + this.helper.getuser(msg.from) +
+                ', username: ' + this.helper.getUser(msg.from) +
                 ', command: ' + msg.query + ', type: error')
               this.logger.debug(e.stack)
             }
@@ -197,7 +197,7 @@ export default class InlineImage extends Inline {
         }
       } catch (e) {
         this.logger.error('inline: image, inlineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: error')
         this.logger.debug(e.stack)
       }

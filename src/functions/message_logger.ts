@@ -1,4 +1,4 @@
-import { message as Message } from '../moduleBase'
+import { message as Message } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -15,7 +15,7 @@ export default class MessageLogger extends Message {
     if (typeof msg.text !== 'undefined') {
       this.logger.debug('chatid: ' + msg.chat.id +
       ', text: ' + msg.text.replace(/\n/g, '\\n') +
-      ', username: ' + this.helper.getuser((<Telegram.User>msg.from)))
+      ', username: ' + this.helper.getUser((<Telegram.User>msg.from)))
     }
   }
 }

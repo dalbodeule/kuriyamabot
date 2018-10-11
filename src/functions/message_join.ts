@@ -1,4 +1,4 @@
-import { message as Message } from '../moduleBase'
+import { message as Message } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -20,7 +20,7 @@ export default class MessageJoin extends Message {
 
       let [send, temp] = await Promise.all([
         this.bot.sendChatAction(chatid, 'typing'),
-        this.helper.getlang(msg, this.logger)
+        this.helper.getLang(msg, this.logger)
       ])
       
       if (msg.new_chat_members[0].id !== this.config.bot.id) {

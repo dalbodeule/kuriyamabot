@@ -1,5 +1,5 @@
 import * as model from '../db'
-import helper from '../helper'
+import * as helper from '../modules'
 import { Logger } from 'log4js'
 import * as Telegram from 'node-telegram-bot-api'
 import * as types from '../types'

@@ -1,4 +1,4 @@
-import { inline as Inline } from '../moduleBase'
+import { inline as Inline } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as google from 'google-parser'
 import { language as Language } from '../types';
@@ -33,10 +33,10 @@ export default class InlineSearch extends Inline {
       .match(/^(?:([search|google|query|검색|구글]+)(?:| (.*)+))$/)
     if (match) {
       this.logger.info('inline: search, inlineid: ' + q.id +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getUser(msg.from) +
         ', command: ' + msg.query + ', type: pending')
       try {
-        let temp = await this.helper.getlang(msg, this.logger)
+        let temp = await this.helper.getLang(msg, this.logger)
         if (typeof match[2] === 'undefined' || match[2] === '') {
           try {
             await this.bot.answerInlineQuery(q.id, [{
@@ -58,11 +58,11 @@ export default class InlineSearch extends Inline {
               cache_time: 3
             })
             this.logger.info('inline: search, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: success, response: help')
           } catch (e) {
             this.logger.error('inline: search, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: error')
             this.logger.debug(e.stack)
           }
@@ -82,11 +82,11 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: search, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success, response: google bot block')
               } catch (e) {
                 this.logger.error('inline: search, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: error')
                 this.logger.debug(e.stack)
               }
@@ -103,11 +103,11 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: search, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success, response: not found')
               } catch (e) {
                 this.logger.error('inline: search, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: error')
                 this.logger.debug(e.stack)
               }
@@ -142,7 +142,7 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: search, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success')
               } catch (e) {
                 await this.bot.answerInlineQuery(q.id, [{
@@ -162,7 +162,7 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.error('inline: search, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: error')
                 this.logger.debug(e.stack)
               }
@@ -185,14 +185,14 @@ export default class InlineSearch extends Inline {
               cache_time: 3
             })
             this.logger.error('inline: search, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: error')
             this.logger.debug(e.stack)
           }
         }
       } catch (e) {
         this.logger.error('inline: search, ilineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: error')
         this.logger.debug(e.stack)
       }

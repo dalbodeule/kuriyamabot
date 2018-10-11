@@ -1,4 +1,4 @@
-import { command as Command } from '../moduleBase'
+import { command as Command } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -14,7 +14,7 @@ export default class EasterTemm extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('easter: temm, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
         await this.bot.sendChatAction(chatid, 'typing')
@@ -26,11 +26,11 @@ export default class EasterTemm extends Command {
             parse_mode: 'Markdown'
           })
         this.logger.info('easter: temm, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('easter: temm, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

@@ -1,4 +1,4 @@
-import { callback as Callback } from '../moduleBase'
+import { callback as Callback } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as types from '../types'
 import { Logger } from 'log4js';
@@ -17,27 +17,27 @@ export default class CallbackHelpHelp extends Callback {
     }
     const callid = msg.id
     try {
-      let temp = await this.helper.getlang(msg, this.logger)
+      let temp = await this.helper.getLang(msg, this.logger)
       if (msg.data === 'help_welcome') {
         if (msg.message!.text !== '✅ ' + temp.help('command.help.welcome')) {
           this.logger.info('callback: help_welcome, callback id: ' + callid +
-            ', username: ' + this.helper.getuser(msg.from) +
+            ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
-            temp = await this.helper.getlang(msg, this.logger)
+            temp = await this.helper.getLang(msg, this.logger)
             await this.bot.editMessageText('✅ ' + temp.help('command.help.welcome'), {
               chat_id: msg.message!.chat.id,
               message_id: msg.message!.message_id,
               parse_mode: 'HTML',
               reply_markup: {
-                inline_keyboard: this.helper.commandlist(temp)
+                inline_keyboard: this.helper.commandList(temp)
               }})
             this.logger.info('callback: help_welcome, callback id: ' + callid +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.data + ', type: syccess')
           } catch (e) {
             this.logger.error('callback: help_welcome, callback id: ' + callid +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
                ', command: ' + msg.data + ', type: error')
             this.logger.debug(e)
           }
@@ -47,7 +47,7 @@ export default class CallbackHelpHelp extends Callback {
       }
     } catch (e) {
       this.logger.error('callback: help_welcome, callback id: ' + callid + 
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getUser(msg.from) +
         ', command: ' + msg.data + ', type: error')
       this.logger.debug(e)
     }

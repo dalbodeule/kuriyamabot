@@ -1,7 +1,7 @@
-import { message as Message } from '../moduleBase'
+import { message as Message } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import Whatanime = require('whatanimega-helper')
-import Format from '../helper/timeFormat'
+import Format from '../modules/timeFormat'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
@@ -66,7 +66,7 @@ export default class MessageWhatanime extends Message {
       }
     } catch (e) {
       this.logger.error('message: whatanime, chatid: ' + msg.chat.id +
-        ', username: ' + this.helper.getuser(msg.from!) +
+        ', username: ' + this.helper.getUser(msg.from!) +
         ', command: whatanime, type: error')
       this.logger.debug(e.stack)
     }
@@ -76,12 +76,12 @@ export default class MessageWhatanime extends Message {
     const query = new Whatanime(this.config.apiKey.whatanime)
     try {
       this.logger.info('message: whatanime, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from!) +
+        ', username: ' + this.helper.getUser(msg.from!) +
         ', command: whatanime, type: pending')
 
       let [send, temp] = await Promise.all([
         this.bot.sendChatAction(chatid, 'typing'),
-        this.helper.getlang(msg, this.logger)
+        this.helper.getLang(msg, this.logger)
       ])
 
       const url = await this.bot.getFileLink(photo)
@@ -149,11 +149,11 @@ export default class MessageWhatanime extends Message {
         }
       }
       this.logger.info('message: whatanime, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from!) +
+        ', username: ' + this.helper.getUser(msg.from!) +
         ', command: whatanime, type: success')
     } catch (e) {
       this.logger.error('chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from!) +
+        ', username: ' + this.helper.getUser(msg.from!) +
         ', command: whatanime, type: error')
       this.logger.debug(e.stack)
     }

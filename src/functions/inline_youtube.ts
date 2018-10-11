@@ -1,4 +1,4 @@
-import { inline as Inline } from '../moduleBase'
+import { inline as Inline } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as google from 'google-parser'
 import { language as Language } from '../types';
@@ -33,10 +33,10 @@ export default class InlineSearch extends Inline {
       .match(/^(?:([youtube|yt|유튜브]+)(?:| (.*)+))$/)
     if (match) {
       this.logger.info('inline: youtube, inlineid: ' + q.id +
-        ', username: ' + this.helper.getuser(msg.from) +
+        ', username: ' + this.helper.getUser(msg.from) +
         ', command: ' + msg.query + ', type: pending')
       try {
-        let temp = await this.helper.getlang(msg, this.logger)
+        let temp = await this.helper.getLang(msg, this.logger)
         if (!match[2]) {
           try {
             await this.bot.answerInlineQuery(q.id, [{
@@ -56,11 +56,11 @@ export default class InlineSearch extends Inline {
               cache_time: 3
             })
             this.logger.info('inline: youtube, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: success, responseponse: help')
           } catch (e) {
             this.logger.error('inline: youtube, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: error')
             this.logger.debug(e.stack)
           }
@@ -80,11 +80,11 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: youtube, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success, response: google bot block')
               } catch (e) {
                 this.logger.error('inline: youtube, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: error')
                 this.logger.debug(e.stack)
               }
@@ -101,11 +101,11 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: youtube, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success, response: not found')
               } catch (e) {
                 this.logger.error('inline: youtube, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: error')
                 this.logger.debug(e.stack)
               }
@@ -138,7 +138,7 @@ export default class InlineSearch extends Inline {
                   cache_time: 3
                 })
                 this.logger.info('inline: youtube, inlineid: ' + q.id +
-                  ', username: ' + this.helper.getuser(msg.from) +
+                  ', username: ' + this.helper.getUser(msg.from) +
                   ', command: ' + msg.query + ', type: success')
               } catch (e) {
                 try {
@@ -159,12 +159,12 @@ export default class InlineSearch extends Inline {
                     cache_time: 3
                   })
                   this.logger.error('inline: youtube, inlineid: ' + q.id +
-                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', username: ' + this.helper.getUser(msg.from) +
                     ', command: ' + msg.query + ', type: error')
                   this.logger.debug(e.stack)
                 } catch (e) {
                   this.logger.error('inline: youtube, inlineid: ' + q.id +
-                    ', username: ' + this.helper.getuser(msg.from) +
+                    ', username: ' + this.helper.getUser(msg.from) +
                     ', command: ' + msg.query + ', type: error send error')
                   this.logger.debug(e.stack)
                 }
@@ -188,14 +188,14 @@ export default class InlineSearch extends Inline {
               cache_time: 3
             })
             this.logger.error('inline: youtube, inlineid: ' + q.id +
-              ', username: ' + this.helper.getuser(msg.from) +
+              ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: error')
             this.logger.debug(e.stack)
           }
         }
       } catch (e) {
         this.logger.error('inline: youtube, inlineid: ' + q.id +
-          ', username: ' + this.helper.getuser(msg.from) +
+          ', username: ' + this.helper.getUser(msg.from) +
           ', command: ' + msg.query + ', type: error')
         this.logger.debug(e.stack)
       }

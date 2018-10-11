@@ -1,4 +1,4 @@
-import { message as Message } from '../moduleBase'
+import { message as Message } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -23,15 +23,15 @@ export default class MessageImage extends Message {
     const chatid = msg.chat.id
     try {
       this.logger.info('message: img, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from!) +
+        ', username: ' + this.helper.getUser(msg.from!) +
         ', command: ' + msg.text + ', type: pending')
 
       let [send, temp] = await Promise.all([
         this.bot.sendChatAction(chatid, 'upload_photo'),
-        this.helper.getlang(msg, this.logger)
+        this.helper.getLang(msg, this.logger)
       ])
 
-      let response = await this.helper.image(msg.text!)
+      let response = await this.helper.search.image(msg.text!)
       
       if (!response) {
         await this.bot.sendChatAction(chatid, 'typing')
@@ -40,7 +40,7 @@ export default class MessageImage extends Message {
             reply_to_message_id: msg.message_id
           })
         this.logger.info('message: img, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success, response: not found')
       } else {
         try {
@@ -62,12 +62,12 @@ export default class MessageImage extends Message {
             reply_to_message_id: msg.message_id
           })
           this.logger.info('message: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from!) +
+            ', username: ' + this.helper.getUser(msg.from!) +
             ', command: ' + msg.text + ', type: success, response: search success')
         } catch (e) {
           try {
             await this.bot.sendChatAction(chatid, 'upload_photo')
-            response = await this.helper.image(msg.text!)
+            response = await this.helper.search.image(msg.text!)
             await this.bot.sendPhoto(chatid, (<google.imgReturn>response).img, {
               reply_markup: {
                 inline_keyboard: [[{
@@ -85,7 +85,7 @@ export default class MessageImage extends Message {
               reply_to_message_id: msg.message_id
             })
             this.logger.info('message: img, chatid: ' + chatid +
-            ', username: ' + this.helper.getuser(msg.from!) +
+            ', username: ' + this.helper.getUser(msg.from!) +
             ', command: ' + msg.text + ', type: success, response: search success')
           } catch (e) {
             await this.bot.sendChatAction(chatid, 'typing')
@@ -102,7 +102,7 @@ export default class MessageImage extends Message {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML'})
             this.logger.error('message: img, chatid: ' + chatid +
-              ', username: ' + this.helper.getuser(msg.from!) +
+              ', username: ' + this.helper.getUser(msg.from!) +
               ', command: ' + msg.text + ', type: error')
             this.logger.debug(e.stack)
           }
@@ -110,7 +110,7 @@ export default class MessageImage extends Message {
       }
     } catch (e) {
       this.logger.error('message: img, chatid: ' + chatid +
-        ', username: ' + this.helper.getuser(msg.from!) +
+        ', username: ' + this.helper.getUser(msg.from!) +
         ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }

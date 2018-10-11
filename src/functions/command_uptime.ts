@@ -1,7 +1,7 @@
-import { command as Command } from '../moduleBase'
+import { command as Command } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
-import Format from '../helper/timeFormat'
+import Format from '../modules/timeFormat'
 import { Config } from '../config'
 
 export default class CommandUptime extends Command {
@@ -16,12 +16,12 @@ export default class CommandUptime extends Command {
       const chatid = msg.chat.id
       try {
         this.logger.info('command: uptime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
-          this.helper.getlang(msg, this.logger)
+          this.helper.getLang(msg, this.logger)
         ])
 
         let uptime = new Format(process.uptime())
@@ -34,11 +34,11 @@ export default class CommandUptime extends Command {
               reply_to_message_id: msg.message_id
             })
         this.logger.info('command: uptime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('command: uptime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }

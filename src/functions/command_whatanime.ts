@@ -1,4 +1,4 @@
-import { command as Command } from '../moduleBase'
+import { command as Command } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -14,13 +14,18 @@ export default class CommandWhatanime extends Command {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       try {
+        if (msg.document || msg.photo || msg.video) return
+        if (msg.reply_to_message) {
+          if (msg.reply_to_message.photo || msg.reply_to_message.document ||
+            msg.reply_to_message.video) return
+        }
         this.logger.info('message: whatanime, chatid: ' + msg.chat.id +
-          ', username: ' + this.helper.getuser(msg.from!) +
-          ', command: whatanime, type: failure')
+        ', username: ' + this.helper.getUser(msg.from!) +
+        ', command: whatanime, type: failure')
 
         let [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, 'typing'),
-          this.helper.getlang(msg, this.logger)
+          this.helper.getLang(msg, this.logger)
         ])
         await this.bot.sendMessage(chatid, '📺❗️ ' + temp.text('command.whatanime.info'), {
           reply_to_message_id: msg.message_id,
@@ -30,11 +35,11 @@ export default class CommandWhatanime extends Command {
           }
         })
         this.logger.info('message: whatanime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
+          ', username: ' + this.helper.getUser((<Telegram.User>msg.from)) +
           ', command: whatanime, type: failure send success')
       } catch (e) {
         this.logger.error('message: whatanime, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser((<Telegram.User>msg.from)) +
+          ', username: ' + this.helper.getUser((<Telegram.User>msg.from)) +
           ', command: whatanime, type: failure send error')
         this.logger.debug(e.stack)
       }

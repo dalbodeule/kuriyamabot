@@ -3,10 +3,10 @@ import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
-export default class EasterEren extends Command {
+export default class EasterKizuna extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
-    this.regexp = new RegExp('^에부장님?$')
+    this.regexp = new RegExp('^fuck you|FUCK YOU|퍽유|뻐큐|법규|뻑유?$')
   }
   
   protected async module (msg: Telegram.Message, match: RegExpExecArray) {
@@ -20,8 +20,8 @@ export default class EasterEren extends Command {
         await this.bot.sendChatAction(chatid, 'typing')
 
         await this.bot.sendMessage(chatid,
-          '**에부장님**오셨다!! **다들 웃어라**!!!!' +
-          '\n\n' + 'https://www.youtube.com/watch?v=OoW6XQBp3lc', {
+          '**키즈나 아이**의 **FUCK YOU!!!!**' +
+          '\n\n' + 'https://www.youtube.com/watch?v=v356qVlvSkU', {
             reply_to_message_id: msg.message_id,
             parse_mode: 'Markdown'
           })

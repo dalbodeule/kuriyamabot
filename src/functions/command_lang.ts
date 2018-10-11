@@ -1,4 +1,4 @@
-import { command as Command } from '../moduleBase'
+import { command as Command } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
@@ -16,14 +16,14 @@ export default class CommandLang extends Command {
       let temp, send
       try {
         this.logger.info('command: lang, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) + 
+          ', username: ' + this.helper.getUser(msg.from!) + 
           ', command: ' + msg.text + ', type: command received')
         let ctype = msg.chat.type
         if (ctype === 'group' || ctype === 'supergroup' || ctype === 'channel') {
           let admins, isAdmin = false;
           [send, temp, admins] = await Promise.all([
             this.bot.sendChatAction(chatid, 'typing'),
-            this.helper.getlang(msg, this.logger),
+            this.helper.getLang(msg, this.logger),
             this.bot.getChatAdministrators(chatid)
           ])
           isAdmin = isAdmin = admins.some((v) => {
@@ -33,7 +33,7 @@ export default class CommandLang extends Command {
             await this.bot.sendMessage(chatid, '❗️ ' +
               temp.text('command.lowPermission'))
             this.logger.info('command: lang, chatid: ' + chatid + 
-              ', username: ' + this.helper.getuser(msg.from!) +
+              ', username: ' + this.helper.getUser(msg.from!) +
               ', command: ' + msg.text + ', type: lowPermission')
           } else {
             await this.bot.sendMessage(chatid, '🔤 ' +
@@ -41,30 +41,30 @@ export default class CommandLang extends Command {
                 reply_to_message_id: msg.message_id,
                 parse_mode: 'HTML',
                 reply_markup: {
-                  inline_keyboard: this.helper.langlist(temp)
+                  inline_keyboard: this.helper.langList(temp)
                 }
               })
           }
         } else {
           [send, temp] = await Promise.all([
             this.bot.sendChatAction(chatid, 'typing'),
-            this.helper.getlang(msg, this.logger)
+            this.helper.getLang(msg, this.logger)
           ])
           await this.bot.sendMessage(chatid, '🔤 ' +
             temp.text('command.lang.announce'), {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML',
               reply_markup: {
-                inline_keyboard: this.helper.langlist(temp)
+                inline_keyboard: this.helper.langList(temp)
               }
             })
         }
         this.logger.info('command: lang, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) + 
+          ', username: ' + this.helper.getUser(msg.from!) + 
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
         this.logger.error('command: lang, chatid: ' + chatid +
-          ', username: ' + this.helper.getuser(msg.from!) +
+          ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
       }
