@@ -35,7 +35,7 @@ export const config: Config = {
     port: parseInt(process.env.dbport!) || 3306
   },
   redis: {
-    database: parseInt(process.env.rport!) || 0,
+    database: parseInt(process.env.rdb!) || 0,
     password: process.env.rpw!,
     host: process.env.rhost!,
     port: parseInt(process.env.rport!) || 6379
