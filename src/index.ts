@@ -1,8 +1,8 @@
 import * as Telegram from 'node-telegram-bot-api'
 import * as log4js from 'log4js'
 import { config as global, Config } from './config'
-import modules from './modules'
-import * as moduleBase from './moduleBase';
+import functions from './functions'
+import * as functionBase from './functionBase';
 
 const logger = log4js.getLogger()
 
@@ -32,14 +32,17 @@ try {
     try {
       (global.bot as Partial<Config['bot']>)= await bot.getMe()
 
-      const loadModules: {
+      const loadfunctions: {
         [index: string]:
-          moduleBase.message | moduleBase.inline | moduleBase.command | moduleBase.callback
-        } = {}
+        functionBase.message |
+        functionBase.inline |
+        functionBase.command |
+        functionBase.callback
+      } = {}
 
-      for(let key in modules) {
-        loadModules[key] = new modules[key](bot, logger, global)
-        loadModules[key].run()
+      for(let key in functions) {
+        loadfunctions[key] = new functions[key](bot, logger, global)
+        loadfunctions[key].run()
 
         logger.debug('module ' + key + 'successfuly load')
       }

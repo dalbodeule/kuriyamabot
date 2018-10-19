@@ -1,18 +1,34 @@
 import db from '../table'
+import redis from '../_redis'
 import * as types from '../../types';
+
 const SUCCESS = true
+const LEAVE_RPEFIX = 'leave:'
+const WELCOME_PREFIX = 'welcome:'
+const EXPIRE = 60*60*24
 
 class Message {
   static async findLeave (id: number): Promise<types.i18n.returnLeaveMessage> {
-    let result = await db.Message.findOne({
-      where: {
-        id
-      },
-      attributes: ['id', 'leaveMessage'],
-      raw: true
-    })
+    let query = await redis.getAsync(LEAVE_RPEFIX + id)
 
-    return result
+    if (query) {
+      return {
+        id,
+        leaveMessage: query
+      }
+    } else {
+      let result = await db.Message.findOne({
+        where: {
+          id
+        },
+        attributes: ['id', 'leaveMessage'],
+        raw: true
+      })
+
+      redis.setAsync(LEAVE_RPEFIX + id, result.leaveMessage, 'EX', EXPIRE)
+
+      return result
+    }
   }
 
   static async createLeave (id: number, leaveMessage: string): Promise<boolean> {
@@ -20,6 +36,8 @@ class Message {
       id,
       leaveMessage
     })
+
+    redis.setAsync(LEAVE_RPEFIX + id, leaveMessage, 'EX', EXPIRE)
 
     return SUCCESS
   }
@@ -33,19 +51,32 @@ class Message {
       }
     })
 
+    redis.setAsync(LEAVE_RPEFIX + id, leaveMessage, 'EX', EXPIRE)
+
     return SUCCESS
   }
 
   static async findWelcome (id: number): Promise<types.i18n.returnWelcomeMessage> {
-    let result = await db.Message.findOne({
-      where: {
-        id
-      },
-      attributes: ['id', 'welcomeMessage'],
-      raw: true
-    })
+    let query = await redis.getAsync(WELCOME_PREFIX + id)
 
-    return result
+    if (query) {
+      return {
+        id,
+        welcomeMessage: query
+      }
+    } else {
+      let result = await db.Message.findOne({
+        where: {
+          id
+        },
+        attributes: ['id', 'welcomeMessage'],
+        raw: true
+      })
+
+      redis.setAsync(WELCOME_PREFIX + id, result.welcomeMessage, 'EX', EXPIRE)
+
+      return result
+    }
   }
 
   static async createWelcome (id: number, welcomeMessage: string): Promise<boolean> {
@@ -53,6 +84,8 @@ class Message {
       id,
       welcomeMessage
     })
+
+    redis.setAsync(WELCOME_PREFIX + id, welcomeMessage, 'EX', EXPIRE)
 
     return SUCCESS
   }
@@ -65,6 +98,8 @@ class Message {
         id
       }
     })
+
+    redis.setAsync(WELCOME_PREFIX + id, welcomeMessage, 'EX', EXPIRE)
 
     return SUCCESS
   }
