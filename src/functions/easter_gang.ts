@@ -21,7 +21,7 @@ export default class EasterGang extends Command {
 
         await this.bot.sendMessage(chatid,
           '다들 <b>힘차게</b> 외쳐봅시다. <b>강.지.공.주.</b>' +
-          '\n\n' + 'https://www.youtube.com/watch?v=Mp9MR_JaZMM', {
+          '\n\n' + 'https://www.youtube.com/watch?v=CJuXrJynYZE', {
             reply_to_message_id: msg.message_id,
             parse_mode: 'HTML'
           })

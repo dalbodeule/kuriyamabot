@@ -6,7 +6,14 @@ export interface Config {
     readonly database: string,
     readonly username: string,
     readonly password: string,
-    readonly host: string
+    readonly host: string,
+    readonly port: number,
+  },
+  readonly redis: {
+    readonly database: number,
+    readonly password: string,
+    readonly host: string,
+    readonly port: number
   },
   readonly apiKey: {
     readonly telegram: string,
@@ -25,6 +32,13 @@ export const config: Config = {
     username: process.env.dbuser!,
     password: process.env.dbpw!,
     host: process.env.dbhost!,
+    port: parseInt(process.env.dbport!) || 3306
+  },
+  redis: {
+    database: parseInt(process.env.rport!) || 0,
+    password: process.env.rpw!,
+    host: process.env.rhost!,
+    port: parseInt(process.env.rport!) || 6379
   },
   apiKey: {
     telegram: process.env.telegram!,
