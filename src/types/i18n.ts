@@ -3,6 +3,7 @@ export interface i18n {
     find (id: number): Promise<returnLanguage>
     create (id: number, lang: string): Promise<boolean>
     update (lang: string, id: number): Promise<boolean>
+    delete (id: number): Promise<boolean>
   },
   message: {
     findLeave (id: number): Promise<returnLeaveMessage>
@@ -12,6 +13,8 @@ export interface i18n {
     findWelcome (id: number): Promise<returnWelcomeMessage>
     createWelcome (id: number, welcomeMessage: string): Promise<boolean>
     updateWelcome (id: number, welcomeMessage: string): Promise<boolean>
+
+    deleteAll (id: number): Promise<boolean>
   }
 }
 

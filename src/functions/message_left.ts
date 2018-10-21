@@ -44,6 +44,9 @@ export default class MessageLeft extends Message{
         this.logger.info('message: chat left, chatid: ' + chatid + 
           ', userid: ' + msg.left_chat_member.id + 'status: success')
       } else {
+        await this.model.language.delete(chatid)
+        await this.model.message.deleteAll(chatid)
+
         this.logger.info('message: chat left, chatid: ' + chatid +
           ', I\'m has left, status: success')
       }

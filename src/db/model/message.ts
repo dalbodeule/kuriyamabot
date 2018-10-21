@@ -25,8 +25,10 @@ class Message {
         raw: true
       })
 
-      redis.setAsync(LEAVE_RPEFIX + id, result.leaveMessage, 'EX', EXPIRE)
-
+      if (result && result.leaveMessage) {
+        redis.setAsync(LEAVE_RPEFIX + id, result.leaveMessage, 'EX', EXPIRE)
+      }
+      
       return result
     }
   }
@@ -72,8 +74,10 @@ class Message {
         attributes: ['id', 'welcomeMessage'],
         raw: true
       })
-
-      redis.setAsync(WELCOME_PREFIX + id, result.welcomeMessage, 'EX', EXPIRE)
+      
+      if (result && result.welcomeMessage) {
+        redis.setAsync(WELCOME_PREFIX + id, result.welcomeMessage, 'EX', EXPIRE)
+      }
 
       return result
     }
@@ -101,6 +105,16 @@ class Message {
 
     redis.setAsync(WELCOME_PREFIX + id, welcomeMessage, 'EX', EXPIRE)
 
+    return SUCCESS
+  }
+
+  static async deleteAll (id: number): Promise<boolean> {
+    await db.Message.destroy({
+      where: {
+        id
+      }
+    })
+    
     return SUCCESS
   }
 }
