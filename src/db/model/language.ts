@@ -27,8 +27,10 @@ class Language {
         ]
       })
 
-      redis.setAsync(LANG_RPEFIX + id, result.lang, 'EX', EXPIRE)
-
+      if (result && result.lang) {
+        redis.setAsync(LANG_RPEFIX + id, result.lang, 'EX', EXPIRE)
+      }
+      
       return result
     }
   }
@@ -55,6 +57,16 @@ class Language {
 
     redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
 
+    return SUCCESS
+  }
+
+  static async delete (id: number): Promise<boolean> {
+    await db.Message.destroy({
+      where: {
+        id
+      }
+    })
+    
     return SUCCESS
   }
 }

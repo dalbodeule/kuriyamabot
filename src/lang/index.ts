@@ -44,7 +44,7 @@ export default class {
         (<Telegram.Message>msg).chat.id)
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
-        this.lang = (<Telegram.Message>msg).from!.language_code!.split('-')[0]
+        this.lang = this.getISOCode((<Telegram.Message>msg).from!.language_code!)
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
         return
@@ -59,7 +59,7 @@ export default class {
         (<Telegram.CallbackQuery>msg).message!.chat.id
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
-        this.lang = (<Telegram.CallbackQuery>msg).from!.language_code!.split('-')[0]
+        this.lang = this.getISOCode((<Telegram.CallbackQuery>msg).from!.language_code!)
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
         return
@@ -72,7 +72,7 @@ export default class {
       this.id = (<Telegram.InlineQuery>msg).from.id
       let query = await model.language.find(this.id)
       if (!query || !query.lang) {
-        this.lang = (<Telegram.InlineQuery>msg).from!.language_code!.split('-')[0]
+        this.lang = this.getISOCode((<Telegram.InlineQuery>msg).from!.language_code!)
         this.logger.debug(this.id + ' ' + this.lang)
         model.language.create(this.id, this.lang)
         return
@@ -134,5 +134,19 @@ export default class {
 
   getLangList (): Language.Langs {
     return langs
+  }
+
+  private getISOCode (originCode: string|null, defaultCode?: string) {
+    if (originCode) {
+      let code = originCode.match(/^([a-z]{2})/)
+
+      if (code && code[1]) {
+        return code[1]
+      } else {
+        return (defaultCode ? defaultCode : 'en')
+      }
+    } else {
+      return (defaultCode ? defaultCode : 'en')
+    }
   }
 }
