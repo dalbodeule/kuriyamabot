@@ -1,13 +1,17 @@
 import { message as Message } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
-import Whatanime = require('whatanimega-helper')
+import TraceMoe = require('tracemoe-helper')
 import Format from '../modules/timeFormat'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
 export default class MessageWhatanime extends Message {
+  private TraceMoe: TraceMoe
+
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
+
+    this.TraceMoe = new TraceMoe(this.config.apiKey.whatanime)
   }
 
   protected async module (msg: Telegram.Message) {
@@ -73,7 +77,6 @@ export default class MessageWhatanime extends Message {
   }
   
   private async success(chatid: number, msg: Telegram.Message, photo: string) {
-    const query = new Whatanime(this.config.apiKey.whatanime)
     try {
       this.logger.info('message: whatanime, chatid: ' + chatid +
         ', username: ' + this.helper.getUser(msg.from!) +
@@ -86,7 +89,7 @@ export default class MessageWhatanime extends Message {
 
       const url = await this.bot.getFileLink(photo)
 
-      const response = await query.search(url)
+      const response = await this.TraceMoe.search(url)
 
       if (!response.docs[0]) {
         this.bot.sendMessage(chatid, '❗️ ' + 
@@ -133,7 +136,7 @@ export default class MessageWhatanime extends Message {
             reply_to_message_id: msg.message_id
           })
         } else {
-          const animeVideo = await query.previewVideo(result.anilist_id,
+          const animeVideo = await this.TraceMoe.previewVideo(result.anilist_id,
             result.filename, result.at, result.tokenthumb)
             
           await Promise.all([
