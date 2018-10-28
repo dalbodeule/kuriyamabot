@@ -85,7 +85,7 @@
     "help" :{
       "help" :{
         "name" :"Help",
-        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!",
+        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!\nThe current version of MoriBot is {version}.",
         "how" :"/help{botid}"
       },
       "img" :{

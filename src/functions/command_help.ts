@@ -3,6 +3,8 @@ import * as Telegram from 'node-telegram-bot-api'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
+const version: string = require('../../package.json').version
+
 export default class CommandHelp extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
@@ -24,13 +26,14 @@ export default class CommandHelp extends Command {
         ])
 
         await this.bot.sendMessage(chatid, '📒 ' +
-          temp.help('command.help.help'), {
-            reply_to_message_id: msg.message_id,
-            parse_mode: 'HTML',
-            reply_markup: {
-              inline_keyboard: this.helper.commandList(temp)
-            }
-          })
+          temp.help('command.help.help')
+            .replace(/{version}/, version), {
+              reply_to_message_id: msg.message_id,
+              parse_mode: 'HTML',
+              reply_markup: {
+                inline_keyboard: this.helper.commandList(temp)
+              }
+            })
         this.logger.info('command: help, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success')

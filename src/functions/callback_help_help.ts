@@ -4,6 +4,8 @@ import * as types from '../types'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
+const version: string = require('../../package.json').version
+
 export default class CallbackHelpHelp extends Callback {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
@@ -24,14 +26,15 @@ export default class CallbackHelpHelp extends Callback {
             ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
-            await this.bot.editMessageText('📒 ' + temp.help('command.help.help'), {
-              chat_id: msg.message!.chat.id,
-              message_id: msg.message!.message_id,
-              parse_mode: 'HTML',
-              reply_markup: {
-                inline_keyboard: this.helper.commandList(temp)
-              }
-            })
+            await this.bot.editMessageText('📒 ' + temp.help('command.help.help')
+              .replace(/{version}/, version), {
+                chat_id: msg.message!.chat.id,
+                message_id: msg.message!.message_id,
+                parse_mode: 'HTML',
+                reply_markup: {
+                  inline_keyboard: this.helper.commandList(temp)
+                }
+              })
             this.logger.info('callback: help_help, callback id: ' + callid +
               ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.data + ', type: success')
