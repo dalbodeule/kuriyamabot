@@ -1,6 +1,6 @@
 {
   "name": "gjmoribot",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "텔레그램 MoriBot",
   "main": "dist/index.js",
   "scripts": {
