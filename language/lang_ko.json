@@ -70,6 +70,10 @@
       "not_found": "해당하는 지역을 찾지 못했습니다!",
       "geocode_error": "위치를 찾아올 수 없습니다."
     },
+    "google": {
+      "info": "답장으로 번역하실 메세지를 보내주세요!",
+      "language": "지원되지 않는 언어입니다."
+    },
     "lowPermission": "당신은 이걸 할 수 있는 권한이 부족합니다.",
     "isnotgroup": "그룹 또는 슈퍼그룹이 아니면 이 행동을 할 수 없습니다.",
     "me": "`유저 아이디: {userid}`\n`이름: {fname}`\n`성: {lname}`\n`아이디: {name}`\n`사용언어: {lang}`\n",

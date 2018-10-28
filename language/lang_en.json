@@ -71,6 +71,10 @@
       "not_found": "I did not find the area!",
       "geocode_error": "Unable to get location!"
     },
+    "google": {
+      "info": "Please send me a message to translate in reply!",
+      "language": "Unsupported language."
+    },
     "lowPermission" :"You lack the authority to do this.",
     "isnotgroup" :"You can not do this unless you are a group or a super group.",
     "me" :"`User ID :{userid}`\n`First name :{fname}`\n`Last name :{lname}`\n`ID :{name}`\n`Use language :{lang}`\n",
