@@ -20,6 +20,8 @@ import callbackHelpWhatanime from './callback_help_whatanime'
 
 import chatImage from './chat_image'
 import chatSearch from './chat_search'
+import commandCalcSuccess from './command_calc_success'
+import commandCalcError from './command_calc_error'
 import commandHelp from './command_help'
 import commandHomepage from './command_homepage'
 import commandImageSuccess from './command_image_success'
@@ -50,6 +52,7 @@ import inlineYoutube from './inline_youtube'
 
 // message
 
+import messageCalc from './message_calc'
 import messageJoin from './message_join'
 import messageLeft from './message_left'
 import messageLogger from './message_logger'
@@ -91,6 +94,8 @@ const modules: {
 
   chatImage,
   chatSearch,
+  commandCalcSuccess,
+  commandCalcError,
   commandHelp,
   commandHomepage,
   commandImageSuccess,
@@ -117,6 +122,7 @@ const modules: {
   inlineSearch,
   inlineYoutube,
   
+  messageCalc,
   messageJoin,
   messageLeft,
   messageLogger,

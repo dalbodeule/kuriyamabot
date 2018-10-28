@@ -8,7 +8,7 @@ import translate = require('google-translate-api')
 export default class CommandTranslateSuccess extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
-    this.regexp = new RegExp('^/(?:tr|번역/translate)+(?:@' +
+    this.regexp = new RegExp('^/(?:tr|번역|translate)+(?:@' +
       this.config.bot.username + ')? (.+)$')
   }
   
@@ -16,7 +16,7 @@ export default class CommandTranslateSuccess extends Command {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       try {
-        this.logger.info('command: translate, chatid: ' + chatid +
+        this.logger.info('message: calc, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
@@ -56,7 +56,7 @@ export default class CommandTranslateSuccess extends Command {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML'
             })
-          this.logger.info('command: translate, chatid: ' + chatid +
+          this.logger.info('message: calc, chatid: ' + chatid +
             ', username: ' + this.helper.getUser(msg.from!) +
             ', command: ' + msg.text + ', type: success')
         } catch (e) {
@@ -65,19 +65,19 @@ export default class CommandTranslateSuccess extends Command {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML'
             })
-            this.logger.info('command: translate, chatid: ' + chatid +
+            this.logger.info('message: calc, chatid: ' + chatid +
               ', username: ' + this.helper.getUser(msg.from!) +
               ', command: ' + msg.text + ', type: language error')
             this.logger.debug(e.message)
           } else {
-            this.logger.info('command: translate, chatid: ' + chatid +
+            this.logger.info('message: calc, chatid: ' + chatid +
             ', username: ' + this.helper.getUser(msg.from!) +
             ', command: ' + msg.text + ', type: error')
             this.logger.debug(e)
           }
         }
       } catch (e) {
-        this.logger.error('command: translate, chatid: ' + chatid +
+        this.logger.error('message: calc, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
