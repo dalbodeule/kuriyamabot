@@ -1,6 +1,6 @@
-# gjmoribot
+# kuriyamabot
  
-telegram [https://t.me/gjmoribot](https://t.me/gjmoribot)
+telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
 
 ## 제작 및 번역도움
 

@@ -1,15 +1,15 @@
 {
-  "name": "gjmoribot",
-  "version": "1.2.3",
-  "description": "텔레그램 MoriBot",
+  "name": "kuriyamabot",
+  "version": "2.0.0",
+  "description": "텔레그램 KuriyamaBot",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
   },
-  "bugs": "https://git.mori.space/small-sunshine/gjmoribot/issues",
+  "bugs": "https://github.com/small-sunshines/kuriyamabot/issues",
   "repository": {
     "type": "git",
-    "url": "https://git.mori.space/small-sunshine/gjmoribot.git"
+    "url": "https://github.com/small-sunshines/kuriyamabot.git"
   },
   "engines": {
     "node": "<= 10.0.0"
