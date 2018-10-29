@@ -19,6 +19,9 @@ telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
  - [x] /help - 도움말 명령어
  - [x] /whatanime - whatanime.ga 검색
  - [x] /whatanime - GIF/동영상 검색
+ - [x] /msginfo - 메세지 디버깅용 명령어
+ - [x] /homepage - 홈페이지 명령어
+ - [x] /weather - 날씨 검색 명령어
 
 ### 어드민커맨드
  - [x] /welcome - 커스텀 입장메세지
@@ -42,16 +45,20 @@ telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
  - [x] 유저별 언어변경
  - [x] 그룹별 언어변경
  - [x] 도움말
- -- [x] /help
- -- [x] /image
- -- [x] /lang
- -- [x] /me
- -- [x] /gg
- -- [x] /start
- -- [x] /uptime
+ - - [x] /help
+ - - [x] /image
+ - - [x] /lang
+ - - [x] /me
+ - - [x] /gg
+ - - [x] /start
+ - - [x] /uptime
+ - - [x] /whatanime
+ - - [x] /msginfo
+ - - [x] /homepage
+ - - [x] /weather
  - [x] TextCommand
- -- [x] 구글 검색
- -- [x] 구글 이미지검색
+ - - [x] 구글 검색
+ - - [x] 구글 이미지검색
 
 ### 제작자 기능
  - [ ] /msginfo - 메세지 정보보기
@@ -64,8 +71,8 @@ telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
  - [ ] 러시아어
 
 ### 웹페이지
- - [ ] 초대버튼
- - [ ] 명령어
+ - [x] 초대버튼
+ - [x] 명령어
 
 ## License
 AGPL-3.0
