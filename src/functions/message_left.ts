@@ -12,6 +12,8 @@ export default class MessageLeft extends Message{
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     if (!msg.left_chat_member) return
 
+    console.log(msg)
+
     const chatid = msg.chat.id
 
     try {
@@ -23,19 +25,24 @@ export default class MessageLeft extends Message{
         this.helper.getLang(msg, this.logger)
       ])
       
-      if (msg.left_chat_member.id !== this.config.bot.id) {
-        let value = await this.model.message.findLeave(chatid)
+      if (msg.left_chat_member.id == this.config.bot.id) {
+        await this.model.user.delete(chatid)
+
+        this.logger.info('message: chat left, chatid: ' + chatid +
+          ', I\'m has left, status: success')
+      } else {
+        let value = await this.model.leaveMessage.find(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.left')
             .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {
             reply_to_message_id: msg.message_id
           })
-        } else if (value.leaveMessage === 'off') {
+        } else if (value.message === 'off') {
           
         } else {
-          let leaveMessage = value.leaveMessage || temp.text('message.left')
-          await this.bot.sendMessage(chatid, leaveMessage
+          let message = value.message || temp.text('message.left')
+          await this.bot.sendMessage(chatid, message
             .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.left_chat_member.first_name), {
             reply_to_message_id: msg.message_id
@@ -43,12 +50,6 @@ export default class MessageLeft extends Message{
         }
         this.logger.info('message: chat left, chatid: ' + chatid + 
           ', userid: ' + msg.left_chat_member.id + 'status: success')
-      } else {
-        await this.model.language.delete(chatid)
-        await this.model.message.deleteAll(chatid)
-
-        this.logger.info('message: chat left, chatid: ' + chatid +
-          ', I\'m has left, status: success')
       }
     } catch (e) {
       this.logger.error('message: chat left, chatid: ' + chatid +

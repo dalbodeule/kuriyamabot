@@ -41,9 +41,9 @@ export default class CommandWelcomeSuccess extends Command {
               ', username: ' + this.helper.getUser(msg.from!) +
               ', command: ' + msg.text + ', type: low Permission')
           } else {
-            let value = await this.model.message.findWelcome(chatid)
+            let value = await this.model.welcomeMessage.find(chatid)
             if (!value) {
-              await this.model.message.createWelcome(chatid, match[1])
+              await this.model.welcomeMessage.create(chatid, match[1])
               await this.bot.sendMessage(chatid, ' ' +
                 temp.text('command.welcome.success'), {
                   reply_to_message_id: msg.message_id
@@ -52,8 +52,8 @@ export default class CommandWelcomeSuccess extends Command {
                 ', username: ' + this.helper.getUser(msg.from!) +
                 ', command: ' + msg.text + ', type: create success')
             } else {
-              if (value && !value.welcomeMessage) {
-                await this.model.message.updateLeave(chatid, match[1])
+              if (value && !value.message) {
+                await this.model.welcomeMessage.update(chatid, match[1])
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.welcome.success'), {
                     reply_to_message_id: msg.message_id
@@ -62,7 +62,7 @@ export default class CommandWelcomeSuccess extends Command {
                   ', username: ' + this.helper.getUser(msg.from!) +
                   ', command: ' + msg.text + ', type: update success')
               } else {
-                await this.model.message.updateWelcome(chatid, match[1])
+                await this.model.welcomeMessage.update(chatid, match[1])
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.welcome.success'), {
                     reply_to_message_id: msg.message_id

@@ -7,13 +7,7 @@ export let config = {
 }
 
 export let table = {
-  id: {
-    type: Sequelize.BIGINT,
-    allowNull: false,
-    unique: true,
-    primaryKey: true
-  },
   lang: {
-    type: Sequelize.STRING, allowNull: false
+    type: Sequelize.STRING(2), allowNull: false
   }
 }

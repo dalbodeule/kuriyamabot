@@ -24,18 +24,18 @@ export default class MessageJoin extends Message {
       ])
       
       if (msg.new_chat_members[0].id !== this.config.bot.id) {
-        let value = await this.model.message.findWelcome(chatid)
+        let value = await this.model.welcomeMessage.find(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.join')
             .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id
           })
-        } else if (value.welcomeMessage === 'off') {
+        } else if (value.message === 'off') {
 
         } else {
-          let welcomeMessage = value.welcomeMessage || temp.text('message.join')
-          await this.bot.sendMessage(chatid, welcomeMessage
+          let message = value.message || temp.text('message.join')
+          await this.bot.sendMessage(chatid, message
             .replace(/{roomid}/g, msg.chat.title!)
             .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id
@@ -48,6 +48,7 @@ export default class MessageJoin extends Message {
         await this.bot.sendMessage(chatid, '👋 ' + temp.text('message.botjoin'))
         this.logger.info('message: chat join, chatid: ' + chatid +
           ', i\'m join room!, status: success')
+        await this.model.user.create(chatid)
       }
     } catch (e) {
       this.logger.error('message: chat join, chatid: ' + chatid +
