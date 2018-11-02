@@ -44,7 +44,7 @@ try {
         loadfunctions[key] = new functions[key](bot, logger, global)
         loadfunctions[key].run()
 
-        logger.debug(`module  ${key} successfuly load`)
+        logger.debug(`module '${key}' successfuly load`)
       }
       
       logger.info('Ready!')
