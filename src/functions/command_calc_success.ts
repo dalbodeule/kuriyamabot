@@ -35,9 +35,11 @@ export default class CommandCalcSuccess extends Command {
             } = {}
 
             string[1].split(',').forEach((value, index, array) => {
+              value = value.replace(/\ /g, '')
               let variable = value.split('=')
-              if (typeof variable[0].replace(/\ /, '') != 'number')
-                scope[variable[0].replace(/\ /g, '')] = variable[1]
+              if (typeof variable[0] != 'number') {
+                scope[variable[0]] = variable[1]
+              }
             })
 
             result = math.eval(string[0], scope)

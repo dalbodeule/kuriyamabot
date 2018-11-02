@@ -12,25 +12,25 @@ export default class MessageLeft extends Message{
     if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) return
     if (!msg.left_chat_member) return
 
-    console.log(msg)
-
     const chatid = msg.chat.id
 
     try {
       this.logger.info('message: chat left, chatid: ' + chatid + 
         ', userid: ' + msg.left_chat_member.id + 'status: pending')
-
-      let [send, temp] = await Promise.all([
-        this.bot.sendChatAction(chatid, 'typing'),
-        this.helper.getLang(msg, this.logger)
-      ])
       
+      this.logger.debug(`msg.left_chat_member: ${msg.left_chat_member.id}`)
+      this.logger.debug(`this.config: ${this.config.bot.id}`)
       if (msg.left_chat_member.id == this.config.bot.id) {
         await this.model.user.delete(chatid)
 
         this.logger.info('message: chat left, chatid: ' + chatid +
           ', I\'m has left, status: success')
       } else {
+        let [send, temp] = await Promise.all([
+          this.bot.sendChatAction(chatid, 'typing'),
+          this.helper.getLang(msg, this.logger)
+        ])
+
         let value = await this.model.leaveMessage.find(chatid)
         if (!value) {
           await this.bot.sendMessage(chatid, temp.text('message.left')

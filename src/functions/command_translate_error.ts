@@ -14,7 +14,7 @@ export default class CommandTranslateError extends Command {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       try {
-        this.logger.info('message: calc, chatid: ' + chatid +
+        this.logger.info('command: translate, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
@@ -35,7 +35,7 @@ export default class CommandTranslateError extends Command {
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
-        this.logger.error('message: calc, chatid: ' + chatid +
+        this.logger.error('command: translate, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)

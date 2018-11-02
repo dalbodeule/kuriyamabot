@@ -23,7 +23,7 @@ export default class messageTranslate extends Message {
 
     const chatid = msg.chat.id
     try {
-      this.logger.info('message: search, chatid: ' + chatid +
+      this.logger.info('message: translate, chatid: ' + chatid +
         ', username: ' + this.helper.getUser(msg.from!) +
         ', command: ' + msg.text + ', type: pending')
   
@@ -37,20 +37,23 @@ export default class messageTranslate extends Message {
 
         let result
         if (string[1]) {
-          let lang
+          let lang = string[1].toLocaleLowerCase()
 
-          if (string[1] == 'cn' || string[1] == 'Chinese') {
-            lang = 'zh-cn'
-          } else if (string[1] == 'tw' || string[1].toLocaleLowerCase() == 'kanji') {
-            lang = 'zh-tw'
-          } else if (string[1] == 'kr') {
-            lang = 'ko'
-          } else if (string[1] == 'jp') {
-            lang = 'ja'
-          } else {
-            lang = string[1]
-          }
-          result = await translate(string[0], {to: lang })
+            if (string[1].match(/\uD83C[\uDDE6-\uDDFF]\uD83C[\uDDE6-\uDDFF]/)) {
+              lang = this.getCodeFromFlag(string[1])
+            }
+            
+            if (lang == 'cn' || lang == 'Chinese') {
+              lang = 'zh-cn'
+            } else if (lang == 'tw' || lang == 'kanji') {
+              lang = 'zh-tw'
+            } else if (lang == 'kr') {
+              lang = 'ko'
+            } else if (lang == 'jp') {
+              lang = 'ja'
+            }
+
+            result = await translate(string[0], {to: lang })
         } else {
           if(msg.text!.match(/[ㄱ-ㅎ가-힣]+/) !== null) {
             result = await translate(msg.text!, {to: 'en'})
@@ -63,7 +66,7 @@ export default class messageTranslate extends Message {
             reply_to_message_id: msg.message_id,
             parse_mode: 'HTML'
           })
-        this.logger.info('command: translate, chatid: ' + chatid +
+        this.logger.info('message: translate, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
@@ -72,22 +75,37 @@ export default class messageTranslate extends Message {
             reply_to_message_id: msg.message_id,
             parse_mode: 'HTML'
           })
-          this.logger.info('command: translate, chatid: ' + chatid +
+          this.logger.info('message: translate, chatid: ' + chatid +
             ', username: ' + this.helper.getUser(msg.from!) +
             ', command: ' + msg.text + ', type: language error')
           this.logger.debug(e.message)
         } else {
-          this.logger.info('command: translate, chatid: ' + chatid +
+          this.logger.info('message: translate, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
           this.logger.debug(e)
         }
       }
     } catch (e) {
-      this.logger.error('message: search chatid: ' + chatid +
+      this.logger.error('message: translate chatid: ' + chatid +
         ', username: ' + this.helper.getUser(msg.from!) +
         ', command: ' + msg.text + ', type: error')
       this.logger.debug(e.stack)
     }
+  }
+
+  private getCodeFromFlag(flag: string): string {
+    flag = flag.replace(/\uD83C/gm, '')
+    //this.logger.debug(`flag: ${flag}, length: ${flag.length}`)
+    
+    let result = ''
+
+    for(let i=0; i < flag.length; i++) {
+      //this.logger.debug(`no: ${i}, code: ${(flag.charAt(i).codePointAt(0)!- '\uDDE6'.codePointAt(0)!) + 97}`)
+      result += String.fromCharCode((flag.charAt(i).codePointAt(0)!- '\uDDE6'.codePointAt(0)!) + 97)
+    }
+
+    //this.logger.debug(`result: ${result}, length: ${result.length}`)
+    return result
   }
 }
