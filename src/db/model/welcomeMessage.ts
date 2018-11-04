@@ -17,13 +17,12 @@ class Message {
       }
     } else {
       let result = await db.WelcomeMessage.findOne({
-        where: {
-          _id: id
-        },
-        attributes: [
-          'id',
-          'message'
-        ],
+        include: [{
+          model: db.User,
+          where: {
+            id
+          }
+        }],
         raw: true
       })
 
@@ -37,8 +36,14 @@ class Message {
 
   static async create (id: number, message: string): Promise<boolean> {
     await db.WelcomeMessage.create({
-      _id: id,
+      user: {
+        id
+      },
       message
+    }, {
+      include: [{
+        model: db.User
+      }]
     })
 
     redis.setAsync(PREFIX + id, message, 'EX', EXPIRE)
@@ -51,7 +56,7 @@ class Message {
       message
     }, {
       where: {
-        _id: id
+        userId: id
       }
     })
 
