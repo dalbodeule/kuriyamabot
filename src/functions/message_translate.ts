@@ -38,22 +38,18 @@ export default class messageTranslate extends Message {
         let result
         if (string[1]) {
           let lang = string[1].toLocaleLowerCase()
+          
+          if (lang == 'cn' || lang == 'Chinese') {
+            lang = 'zh-cn'
+          } else if (lang == 'tw' || lang == 'kanji') {
+            lang = 'zh-tw'
+          } else if (lang == 'kr') {
+            lang = 'ko'
+          } else if (lang == 'jp') {
+            lang = 'ja'
+          }
 
-            if (string[1].match(/\uD83C[\uDDE6-\uDDFF]\uD83C[\uDDE6-\uDDFF]/)) {
-              lang = this.getCodeFromFlag(string[1])
-            }
-            
-            if (lang == 'cn' || lang == 'Chinese') {
-              lang = 'zh-cn'
-            } else if (lang == 'tw' || lang == 'kanji') {
-              lang = 'zh-tw'
-            } else if (lang == 'kr') {
-              lang = 'ko'
-            } else if (lang == 'jp') {
-              lang = 'ja'
-            }
-
-            result = await translate(string[0], {to: lang })
+          result = await translate(string[0], {to: lang })
         } else {
           if(msg.text!.match(/[ㄱ-ㅎ가-힣]+/) !== null) {
             result = await translate(msg.text!, {to: 'en'})

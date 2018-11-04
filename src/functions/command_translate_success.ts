@@ -31,10 +31,6 @@ export default class CommandTranslateSuccess extends Command {
           let result
           if (string[1]) {
             let lang = string[1].toLocaleLowerCase()
-
-            if (string[1].match(/\uD83C[\uDDE6-\uDDFF]\uD83C[\uDDE6-\uDDFF]/)) {
-              lang = this.getCodeFromFlag(string[1])
-            }
             
             if (lang == 'cn' || lang == 'Chinese') {
               lang = 'zh-cn'
