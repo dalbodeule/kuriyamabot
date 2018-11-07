@@ -20,12 +20,12 @@ export default class InlineSearch extends Inline {
       if (shot !== null) {
         return 'https://youtu.be/' + shot[1]
       } else if (description === '') {
-        return temp.text('command.search.desc_null')
+        return temp.inline('command.search.desc_null')
       } else {
-        if (description.length > 27) {
-          description = description.substr(0, 30) + '...'.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        if (description.length > 87) {
+          description = description.substr(0, 87) + '...'.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         }
-        return description
+        return `<a href="${url}">${title}</a>\n\n${description || ''}`
       }
     }
 
@@ -46,7 +46,9 @@ export default class InlineSearch extends Inline {
               id: 'help',
               input_message_content: {
                 message_text: '@' + this.config.bot.username +
-                  ' (search|google|query) (keyword)', parse_mode: 'HTML', disable_web_page_preview: true
+                  ' (search|google|query) (keyword)',
+                parse_mode: 'HTML',
+                disable_web_page_preview: true
               },
               reply_markup: {
                 inline_keyboard: [[{
@@ -64,7 +66,7 @@ export default class InlineSearch extends Inline {
             this.logger.error('inline: search, inlineid: ' + q.id +
               ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.query + ', type: error')
-            this.logger.debug(e.stack)
+            this.logger.debug(e)
           }
         } else {
           try {
@@ -112,7 +114,7 @@ export default class InlineSearch extends Inline {
                 this.logger.debug(e.stack)
               }
             } else {
-              (<Array<google.searchReturn>>response).splice(50)
+              (<Array<google.searchReturn>>response).splice(30)
               let results: Array<Telegram.InlineQueryResult> = []
               let i: any = 0
               for (i in response) {
@@ -137,6 +139,7 @@ export default class InlineSearch extends Inline {
                   }
                 })
               }
+
               try {
                 await this.bot.answerInlineQuery(q.id, results, {
                   cache_time: 3
