@@ -18,7 +18,7 @@ export default class CallbackHelpLCalc extends Callback {
     const callid = msg.id
     try {
       let temp = await this.helper.getLang(msg, this.logger)
-      if (msg.data === 'help_leave') {
+      if (msg.data === 'help_calc') {
         if (msg.message!.text !== '⌨️ ' + temp.help('command.help.calc')) {
           this.logger.info('callback: help_calc, callback id: ' + callid +
             ', username: ' + this.helper.getUser(msg.from) +
