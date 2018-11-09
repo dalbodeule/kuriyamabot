@@ -11,6 +11,9 @@ export let table = {
     type: Sequelize.BIGINT,
     allowNull: false,
     unique: true,
-    primaryKey: true
+    primaryKey: true,
+    validate: {
+      isInt: true
+    }
   }
 }

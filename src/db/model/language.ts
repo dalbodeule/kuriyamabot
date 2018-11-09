@@ -17,12 +17,9 @@ class Language {
       }
     } else {
       let result = await db.Language.findOne({
-        include: [{
-          model: db.User,
-          where: {
-            id
-          }
-        }],
+        where: {
+          userId: id
+        },
         raw: true
       })
 
@@ -36,14 +33,8 @@ class Language {
 
   static async create (id: number, lang: string): Promise<boolean> {
     db.Language.create({
-      user: {
-        id
-      },
+      userId: id,
       lang
-    }, {
-      include: [{
-        model: db.User
-      }]
     })
 
     redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
