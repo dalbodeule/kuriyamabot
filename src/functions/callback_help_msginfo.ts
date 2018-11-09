@@ -19,12 +19,12 @@ export default class CallbackHelpMsginfo extends Callback {
     try {
       let temp = await this.helper.getLang(msg, this.logger)
       if (msg.data === 'help_msginfo') {
-        if (msg.message!.text !== '📒 ' + temp.help('command.help.msginfo')) {
+        if (msg.message!.text !== '💻 ' + temp.help('command.help.msginfo')) {
           this.logger.info('callback: help_msginfo, callback id: ' + callid +
             ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
-            await this.bot.editMessageText('📒 ' + temp.help('command.help.msginfo'), {
+            await this.bot.editMessageText('💻 ' + temp.help('command.help.msginfo'), {
               chat_id: msg.message!.chat.id,
               message_id: msg.message!.message_id,
               parse_mode: 'HTML',

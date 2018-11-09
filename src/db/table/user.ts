@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize'
 
-export let name = 'message'
+export let name = 'user'
 
 export let config = {
   timestamps: false
@@ -12,15 +12,5 @@ export let table = {
     allowNull: false,
     unique: true,
     primaryKey: true
-  },
-  welcomeMessage: {
-    type: Sequelize.TEXT,
-    allowNull: true,
-    unique: false
-  },
-  leaveMessage: {
-    type: Sequelize.TEXT,
-    allowNull: true,
-    unique: false
   }
 }

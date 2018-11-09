@@ -1,15 +1,15 @@
 {
-  "name": "gjmoribot",
-  "version": "1.2.2",
-  "description": "텔레그램 MoriBot",
+  "name": "kuriyamabot",
+  "version": "2.0.0",
+  "description": "텔레그램 KuriyamaBot",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
   },
-  "bugs": "https://git.mori.space/small-sunshine/gjmoribot/issues",
+  "bugs": "https://github.com/small-sunshines/kuriyamabot/issues",
   "repository": {
     "type": "git",
-    "url": "https://git.mori.space/small-sunshine/gjmoribot.git"
+    "url": "https://github.com/small-sunshines/kuriyamabot.git"
   },
   "engines": {
     "node": "<= 10.0.0"
@@ -18,20 +18,24 @@
   "author": "small_sunshine",
   "license": "AGPL-3.0",
   "dependencies": {
+    "@types/google-translate-api": "^2.3.0",
+    "@types/mathjs": "^4.4.1",
     "@types/node": "^10.12.0",
     "@types/node-telegram-bot-api": "^0.30.3",
     "@types/object-path": "^0.9.29",
     "@types/redis": "^2.8.7",
     "@types/request-promise": "^4.1.42",
-    "@types/sequelize": "^4.27.28",
+    "@types/sequelize": "^4.27.29",
     "bluebird": "^3.5.2",
     "dateformat": "^3.0.3",
     "dom-parser": "^0.1.5",
     "glob": "^7.1.3",
     "glob-promise": "^3.3.0",
     "google-parser": "^2.0.4",
+    "google-translate-api": "github:vitalets/google-translate-api",
     "languages": "^0.1.3",
     "log4js": "^3.0.6",
+    "mathjs": "^5.2.2",
     "mysql2": "^1.6.1",
     "node-telegram-bot-api": "^0.30.0",
     "object-path": "^0.11.4",

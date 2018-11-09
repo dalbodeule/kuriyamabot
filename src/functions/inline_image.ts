@@ -14,19 +14,6 @@ export default class InlineImage extends Inline {
       id: msg.id, query: msg.query
     }
 
-    function removeMatching (originalArray: Array<google.imgReturn>, regex: RegExp) {
-      let j = 0
-      while (j < originalArray.length) {
-        if (regex.test(originalArray[j].img)) {
-          originalArray.splice(j, 1)
-        } else {
-          j++
-        }
-      }
-      return originalArray
-    }
-    // https://stackoverflow.com/a/3661083
-
     const match = q.query
       .match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
     if (match) {
@@ -93,22 +80,28 @@ export default class InlineImage extends Inline {
               }
             } else {
               res.splice(50)
-              res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
+
+              let middle: Array<google.imgReturn> = []
+              res.forEach((value, index, array) => {
+                if (value.url.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
+                  middle.push(value)
+                }
+              })
 
               let results: Array<Telegram.InlineQueryResult> = []
-              for (let i in res) {
+              for (let i in middle) {
                 results.push({
                   type: 'photo',
-                  photo_url: res[i].img,
-                  thumb_url: res[i].img,
+                  photo_url: middle[i].img,
+                  thumb_url: middle[i].img,
                   id: q.id + '/photo/' + i,
                   reply_markup: {
                     inline_keyboard: [[{
                       text: temp.inline('command.img.visit_page'),
-                      url: res[i].url
+                      url: middle[i].url
                     }, {
                       text: temp.inline('command.img.view_image'),
-                      url: res[i].img
+                      url: middle[i].img
                     }],
                     [{
                       text: temp.inline('command.img.another'),

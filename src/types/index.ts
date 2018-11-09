@@ -1,5 +1,5 @@
-import * as i18n from './i18n'
+import * as model from './model'
 import * as language from './language'
 import * as helper from './helper'
 
-export { i18n, language, helper }
+export { model, language, helper }

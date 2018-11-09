@@ -2,9 +2,10 @@
 
 // callback
 import callbackChangeLang from './callback_changeLang'
+import callbackHelpCalc from './callback_help_calc'
 import callbackHelpHelp from './callback_help_help'
 import callbackHelpHomepage from './callback_help_homepage'
-import callbackHelpImage from './callback_help_image'
+import callbackHelpImg from './callback_help_img'
 import callbackHelpLang from './callback_help_lang'
 import callbackHelpLeave from './callback_help_leave'
 import callbackHelpMe from './callback_help_me'
@@ -20,6 +21,8 @@ import callbackHelpWhatanime from './callback_help_whatanime'
 
 import chatImage from './chat_image'
 import chatSearch from './chat_search'
+import commandCalcSuccess from './command_calc_success'
+import commandCalcError from './command_calc_error'
 import commandHelp from './command_help'
 import commandHomepage from './command_homepage'
 import commandImageSuccess from './command_image_success'
@@ -32,6 +35,8 @@ import commandMsginfo from './command_msginfo'
 import commandSearchSuccess from './command_search_success'
 import commandSearchError from './command_search_error'
 import commandStart from './command_start'
+import commandTranslateSuccess from './command_translate_success'
+import commandTranslateError from './command_translate_error'
 import commandUptime from './command_uptime'
 import commandWeatherSuccess from './command_weather_success'
 import commandWeatherError from './command_weather_error'
@@ -48,10 +53,12 @@ import inlineYoutube from './inline_youtube'
 
 // message
 
+import messageCalc from './message_calc'
 import messageJoin from './message_join'
 import messageLeft from './message_left'
 import messageLogger from './message_logger'
 import messageSearch from './message_search'
+import messageTranslate from './message_translate'
 import messageWeather from './message_weather'
 import messageWhatanime from './message_whatanime'
 import messageImage from './messgae_image'
@@ -72,9 +79,10 @@ const modules: {
   [index: string]: any
 } = {
   callbackChangeLang,
+  callbackHelpCalc,
   callbackHelpHelp,
   callbackHelpHomepage,
-  callbackHelpImage,
+  callbackHelpImg,
   callbackHelpLang,
   callbackHelpLeave,
   callbackHelpMe,
@@ -88,6 +96,8 @@ const modules: {
 
   chatImage,
   chatSearch,
+  commandCalcSuccess,
+  commandCalcError,
   commandHelp,
   commandHomepage,
   commandImageSuccess,
@@ -100,6 +110,8 @@ const modules: {
   commandSearchSuccess,
   commandSearchError,
   commandStart,
+  commandTranslateSuccess,
+  commandTranslateError,
   commandUptime,
   commandWeatherSuccess,
   commandWeatherError,
@@ -112,10 +124,12 @@ const modules: {
   inlineSearch,
   inlineYoutube,
   
+  messageCalc,
   messageJoin,
   messageLeft,
   messageLogger,
   messageSearch,
+  messageTranslate,
   messageWeather,
   messageWhatanime,
   messageImage,

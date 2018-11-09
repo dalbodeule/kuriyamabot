@@ -27,28 +27,21 @@ export default class Search {
     function getRandomIntInclusive (min: number, max: number) {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }
-    function removeMatching (originalArray: Array<google.imgReturn>, regex: RegExp) {
-      let j = 0
-      while (j < originalArray.length) {
-        if (regex.test(originalArray[j].img)) {
-          originalArray.splice(j, 1)
-        } else {
-          j++
-        }
-      }
-      return originalArray
-    }
-    // https://stackoverflow.com/a/3661083
 
     let res = await google.img(keyword + ' -site:ilbe.com')
 
-    res = removeMatching(res, /^x-raw-image:\/\/\/.*$/)
+    let result: Array<google.imgReturn> = []
+    res.forEach((value, index, array) => {
+      if (value.url.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
+        result.push(value)
+      }
+    })
 
-    if (typeof res[0] === 'undefined') {
+    if (typeof result[0] === 'undefined') {
       return undefined
     } else {
-      let random = getRandomIntInclusive(0, (res.length < 20 ? res.length - 1 : 19))
-      return {img: res[random].img, url: res[random].url}
+      let random = getRandomIntInclusive(0, (result.length < 20 ? result.length - 1 : 19))
+      return {img: result[random].img, url: result[random].url}
     }
   }
 }

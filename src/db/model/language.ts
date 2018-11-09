@@ -7,7 +7,7 @@ const LANG_RPEFIX = 'lang:'
 const EXPIRE = 60*60*24
 
 class Language {
-  static async find (id: number): Promise<types.i18n.returnLanguage> {
+  static async find (id: number): Promise<types.model.returnLanguage> {
     let query = await redis.getAsync(LANG_RPEFIX + id)
 
     if (query) {
@@ -17,14 +17,13 @@ class Language {
       }
     } else {
       let result = await db.Language.findOne({
-        where: {
-          id
-        },
-        raw: true,
-        attributes: [
-          'id',
-          'lang'
-        ]
+        include: [{
+          model: db.User,
+          where: {
+            id
+          }
+        }],
+        raw: true
       })
 
       if (result && result.lang) {
@@ -37,8 +36,14 @@ class Language {
 
   static async create (id: number, lang: string): Promise<boolean> {
     db.Language.create({
-      id,
+      user: {
+        id
+      },
       lang
+    }, {
+      include: [{
+        model: db.User
+      }]
     })
 
     redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
@@ -51,22 +56,12 @@ class Language {
       lang
     }, {
       where: {
-        id
+        userId: id
       }
     })
 
     redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
 
-    return SUCCESS
-  }
-
-  static async delete (id: number): Promise<boolean> {
-    await db.Message.destroy({
-      where: {
-        id
-      }
-    })
-    
     return SUCCESS
   }
 }

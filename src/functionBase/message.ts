@@ -11,7 +11,7 @@ export default class Message {
   protected bot: Telegram;
   protected logger: Logger;
   protected helper: types.helper.default;
-  protected model: types.i18n.i18n
+  protected model: types.model.default
 
   constructor (bot: Telegram, logger: Logger, config: Config) {
     this.config = config

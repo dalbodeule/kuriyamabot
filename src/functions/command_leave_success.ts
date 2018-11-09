@@ -41,10 +41,10 @@ export default class CommandLeaveSuccess extends Command {
               ', username: ' + this.helper.getUser(msg.from!) +
               ', command: ' + msg.text + ', type: low Permission')
           } else {
-            let value = await this.model.message.findLeave(chatid)
+            let value = await this.model.leaveMessage.find(chatid)
 
             if (!value) {
-              await this.model.message.createLeave(chatid, match[1])
+              await this.model.leaveMessage.create(chatid, match[1])
               await this.bot.sendMessage(chatid, ' ' +
                 temp.text('command.leave.success'), {
                   reply_to_message_id: msg.message_id
@@ -53,8 +53,8 @@ export default class CommandLeaveSuccess extends Command {
                 ', username: ' + this.helper.getUser(msg.from!) +
                 ', command: ' + msg.text + ', type: create success')
             } else {
-              if (value && !value.leaveMessage) {
-                await this.model.message.updateLeave(chatid, match[1])
+              if (value && !value.message) {
+                await this.model.leaveMessage.update(chatid, match[1])
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.leave.success'), {
                     reply_to_message_id: msg.message_id
@@ -63,7 +63,7 @@ export default class CommandLeaveSuccess extends Command {
                   ', username: ' + this.helper.getUser(msg.from!) +
                   ', command: ' + msg.text + ', type: update success')
               } else {
-                await this.model.message.updateLeave(chatid, match[1])
+                await this.model.leaveMessage.update(chatid, match[1])
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.leave.success'), {
                     reply_to_message_id: msg.message_id

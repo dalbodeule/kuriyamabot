@@ -71,13 +71,21 @@
       "not_found": "I did not find the area!",
       "geocode_error": "Unable to get location!"
     },
+    "google": {
+      "info": "Please send me a message to translate in reply!",
+      "language": "Unsupported language."
+    },
+    "calc": {
+      "info": "Please enter a formula to calculate by reply!",
+      "error": "An error occurred during the calculation."
+    },
     "lowPermission" :"You lack the authority to do this.",
     "isnotgroup" :"You can not do this unless you are a group or a super group.",
     "me" :"`User ID :{userid}`\n`First name :{fname}`\n`Last name :{lname}`\n`ID :{name}`\n`Use language :{lang}`\n",
     "help" :{
       "help" :{
         "name" :"Help",
-        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!",
+        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!\nThe current version of MoriBot is {version}.",
         "how" :"/help{botid}"
       },
       "img" :{
@@ -139,6 +147,11 @@
         "name": "Browse the weather!",
         "description": "Find out the weather in your area.",
         "how": "/weather{botid}"
+      },
+      "calc": {
+        "name": "Calculation!",
+        "description": "You can calculate the expression you want.",
+        "how": "/calc{botid}"
       },
       "twice" :"Here are some tips you already have!",
       "contact" :"Contact Developer"

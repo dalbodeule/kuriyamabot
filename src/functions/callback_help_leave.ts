@@ -19,13 +19,13 @@ export default class CallbackHelpLeave extends Callback {
     try {
       let temp = await this.helper.getLang(msg, this.logger)
       if (msg.data === 'help_leave') {
-        if (msg.message!.text !== '✅ ' + temp.help('command.help.leave')) {
+        if (msg.message!.text !== '👋 ' + temp.help('command.help.leave')) {
           this.logger.info('callback: help_leave, callback id: ' + callid +
             ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
             temp = await this.helper.getLang(msg, this.logger)
-            await this.bot.editMessageText('✅ ' + temp.help('command.help.leave'), {
+            await this.bot.editMessageText('👋 ' + temp.help('command.help.leave'), {
               chat_id: msg.message!.chat.id,
               message_id: msg.message!.message_id,
               parse_mode: 'HTML',

@@ -49,6 +49,10 @@ export default (temp: types.language.Lang): any => {
       callback_data: 'help_weather'
     }],
     [{
+      text: '⌨️ ' + temp.inline('command.help.calc.name'),
+      callback_data: 'help_calc'
+    }],
+    [{
       text: '😁 ' + temp.inline('command.help.contact'),
       url: 'https://t.me/small_sunshine'
     }]

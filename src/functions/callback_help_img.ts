@@ -4,7 +4,7 @@ import * as types from '../types'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
-export default class CallbackHelpHelp extends Callback {
+export default class CallbackHelpImg extends Callback {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
   }
