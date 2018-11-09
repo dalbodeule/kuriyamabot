@@ -19,12 +19,12 @@ export default class CallbackHelpHomepage extends Callback {
     try {
       let temp = await this.helper.getLang(msg, this.logger)
       if (msg.data === 'help_homepage') {
-        if (msg.message!.text !== '📒 ' + temp.help('command.help.homepage')) {
+        if (msg.message!.text !== '🌎 ' + temp.help('command.help.homepage')) {
           this.logger.info('callback: help_homepage, callback id: ' + callid +
             ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
-            await this.bot.editMessageText('📒 ' + temp.help('command.help.homepage'), {
+            await this.bot.editMessageText('🌎 ' + temp.help('command.help.homepage'), {
               chat_id: msg.message!.chat.id,
               message_id: msg.message!.message_id,
               parse_mode: 'HTML',

@@ -4,7 +4,7 @@ import * as types from '../types'
 import { Logger } from 'log4js';
 import { Config } from '../config'
 
-export default class CallbackHelpLeave extends Callback {
+export default class CallbackHelpLCalc extends Callback {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
   }
@@ -19,24 +19,24 @@ export default class CallbackHelpLeave extends Callback {
     try {
       let temp = await this.helper.getLang(msg, this.logger)
       if (msg.data === 'help_leave') {
-        if (msg.message!.text !== '👋 ' + temp.help('command.help.leave')) {
-          this.logger.info('callback: help_leave, callback id: ' + callid +
+        if (msg.message!.text !== '⌨️ ' + temp.help('command.help.calc')) {
+          this.logger.info('callback: help_calc, callback id: ' + callid +
             ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
             temp = await this.helper.getLang(msg, this.logger)
-            await this.bot.editMessageText('👋 ' + temp.help('command.help.leave'), {
+            await this.bot.editMessageText('⌨️ ' + temp.help('command.help.calc'), {
               chat_id: msg.message!.chat.id,
               message_id: msg.message!.message_id,
               parse_mode: 'HTML',
               reply_markup: {
                 inline_keyboard: this.helper.commandList(temp)
               }})
-            this.logger.info('callback: help_leave, callback id: ' + callid +
+            this.logger.info('callback: help_calc, callback id: ' + callid +
               ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.data + ', type: success')
           } catch (e) {
-            this.logger.error('callback: help_leave, callback id: ' + callid +
+            this.logger.error('callback: help_calc, callback id: ' + callid +
               ', username: ' + this.helper.getUser(msg.from) +
               ', command: ' + msg.data + ', type: error')
             this.logger.debug(e)
@@ -46,7 +46,7 @@ export default class CallbackHelpLeave extends Callback {
         }
       }
     } catch (e) {
-      this.logger.error('callback: help_leave, callback id: ' + callid +
+      this.logger.error('callback: help_calc, callback id: ' + callid +
         ', username: ' + this.helper.getUser(msg.from) +
         ', command: ' + msg.data + ', type: error')
       this.logger.debug(e)

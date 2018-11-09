@@ -147,6 +147,11 @@
         "description": "원하는 지역의 날씨를 알아볼 수 있습니다.",
         "how": "/weather{botid}"
       },
+      "calc": {
+        "name": "계산하기!",
+        "description": "원하는 식을 계산할 수 있습니다.",
+        "how": "/calc{botid}"
+      },
       "twice": "이미 보시고 계신 도움말입니다!",
       "contact": "개발자와 연락"
     }

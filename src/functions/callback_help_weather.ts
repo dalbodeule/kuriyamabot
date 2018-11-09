@@ -19,12 +19,12 @@ export default class CallbackHelpWeather extends Callback {
     try {
       let temp = await this.helper.getLang(msg, this.logger)
       if (msg.data === 'help_weather') {
-        if (msg.message!.text !== '📒 ' + temp.help('command.help.weather')) {
+        if (msg.message!.text !== '🌨 ' + temp.help('command.help.weather')) {
           this.logger.info('ecallback: help_weather, callback id: ' + callid +
             ', username: ' + this.helper.getUser(msg.from) +
             ', command: ' + msg.data + ', type: pending')
           try {
-            await this.bot.editMessageText('📒 ' + temp.help('command.help.weather'), {
+            await this.bot.editMessageText('🌨 ' + temp.help('command.help.weather'), {
               chat_id: msg.message!.chat.id,
               message_id: msg.message!.message_id,
               parse_mode: 'HTML',

@@ -2,9 +2,10 @@
 
 // callback
 import callbackChangeLang from './callback_changeLang'
+import callbackHelpCalc from './callback_help_calc'
 import callbackHelpHelp from './callback_help_help'
 import callbackHelpHomepage from './callback_help_homepage'
-import callbackHelpImage from './callback_help_image'
+import callbackHelpImg from './callback_help_img'
 import callbackHelpLang from './callback_help_lang'
 import callbackHelpLeave from './callback_help_leave'
 import callbackHelpMe from './callback_help_me'
@@ -78,9 +79,10 @@ const modules: {
   [index: string]: any
 } = {
   callbackChangeLang,
+  callbackHelpCalc,
   callbackHelpHelp,
   callbackHelpHomepage,
-  callbackHelpImage,
+  callbackHelpImg,
   callbackHelpLang,
   callbackHelpLeave,
   callbackHelpMe,

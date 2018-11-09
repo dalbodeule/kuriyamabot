@@ -148,6 +148,11 @@
         "description": "Find out the weather in your area.",
         "how": "/weather{botid}"
       },
+      "calc": {
+        "name": "Calculation!",
+        "description": "You can calculate the expression you want.",
+        "how": "/calc{botid}"
+      },
       "twice" :"Here are some tips you already have!",
       "contact" :"Contact Developer"
     }
