@@ -79,13 +79,13 @@
       "info": "Please enter a formula to calculate by reply!",
       "error": "An error occurred during the calculation."
     },
-    "lowPermission" :"You lack the right to use this feature.",
+    "lowPermission" :"You lack the authority to do this.",
     "isnotgroup" :"You can not do this unless you are a group or a super group.",
     "me" :"`User ID :{userid}`\n`First name :{fname}`\n`Last name :{lname}`\n`ID :{name}`\n`Use language :{lang}`\n",
     "help" :{
       "help" :{
         "name" :"Help",
-        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!\nThe current version of this bot is {version}.",
+        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!\nThe current version of MoriBot is {version}.",
         "how" :"/help{botid}"
       },
       "img" :{
