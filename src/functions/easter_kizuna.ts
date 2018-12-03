@@ -13,7 +13,7 @@ export default class EasterKizuna extends Command {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
       try {
-        this.logger.info('easter: eren, chatid: ' + chatid +
+        this.logger.info('easter: kizuna, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: pending')
 
@@ -25,11 +25,11 @@ export default class EasterKizuna extends Command {
             reply_to_message_id: msg.message_id,
             parse_mode: 'Markdown'
           })
-        this.logger.info('easter: eren, chatid: ' + chatid +
+        this.logger.info('easter: kizuna, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: success')
       } catch (e) {
-        this.logger.error('easter: eren, chatid: ' + chatid +
+        this.logger.error('easter: kizuna, chatid: ' + chatid +
           ', username: ' + this.helper.getUser(msg.from!) +
           ', command: ' + msg.text + ', type: error')
         this.logger.debug(e.stack)
