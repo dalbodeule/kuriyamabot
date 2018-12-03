@@ -135,8 +135,8 @@ const modules: {
   messageImage,
 
   easterAmai,
-  easterCherry,
-  easterEren,
+  /* easterCherry,
+  easterEren, */
   easterGang,
   easterHigai,
   easterKizuna,
