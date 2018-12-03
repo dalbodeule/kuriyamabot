@@ -6,7 +6,7 @@ import { Config } from '../config'
 export default class EasterKizuna extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
-    this.regexp = new RegExp('^fuck you|FUCK YOU|퍽유|뻐큐|법규|뻑유?$')
+    this.regexp = new RegExp('!(?:fuck you|FUCK YOU|퍽유|뻐큐|법규|뻑유)')
   }
   
   protected async module (msg: Telegram.Message, match: RegExpExecArray) {
