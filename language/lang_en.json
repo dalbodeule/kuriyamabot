@@ -17,7 +17,7 @@
       "visit_page" :"Visit Page",
       "another" :"Other Search Results",
       "desc_null" :"Go to the URL for more information!",
-      "bot_blcok" :"Due to Google's anti-bot policy, it is not searchable. Please try again in a few minutes.",
+      "bot_block" :"Due to Google's anti-bot policy, it is not searchable. Please try again in a few minutes.",
       "visit_google" :"Search by Google"
     },
     "img" :{

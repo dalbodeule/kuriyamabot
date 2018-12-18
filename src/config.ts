@@ -47,5 +47,5 @@ export const config: Config = {
     kakao: process.env.kakao!
   },
   bot: null as any as Telegram.User,
-  homepage: 'https://moribot.mori.space/'
+  homepage: 'https://kuriyama.mori.space/'
 }
