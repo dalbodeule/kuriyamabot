@@ -1,6 +1,6 @@
 {
   "name": "kuriyamabot",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "description": "텔레그램 KuriyamaBot",
   "main": "dist/index.js",
   "scripts": {
