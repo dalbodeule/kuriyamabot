@@ -25,14 +25,27 @@ export default class CommandTranslateSuccess extends Command {
           this.helper.getLang(msg, this.logger)
         ])
 
+        let translateText:string
+        let translateTo:string
+
+        if (msg.reply_to_message &&
+          (msg.reply_to_message.text ||
+            msg.reply_to_message.caption)) {
+          
+          translateText = msg.reply_to_message.text! ||
+            msg.reply_to_message.caption!
+          translateTo = match[1]
+        } else {
+          [ translateText, translateTo ] = match[1].split('|')
+        }
+
         try {
-          let string = match[1].split('|')
 
           let result
-          if (string[1]) {
-            let lang = string[1].toLocaleLowerCase()
+          if (translateTo) {
+            let lang = translateTo.toLocaleLowerCase()
             
-            if (lang == 'cn' || lang == 'Chinese') {
+            if (lang == 'cn' || lang == 'Chinese' || lang == 'zh') {
               lang = 'zh-cn'
             } else if (lang == 'tw' || lang == 'kanji') {
               lang = 'zh-tw'
@@ -42,12 +55,12 @@ export default class CommandTranslateSuccess extends Command {
               lang = 'ja'
             }
 
-            result = await translate(string[0], {to: lang })
+            result = await translate(translateText, {to: lang })
           } else {
-            if(match[1].match(/[ㄱ-ㅎ가-힣]+/) !== null) {
-              result = await translate(match[1], {to: 'en'})
+            if(translateText.match(/[ㄱ-ㅎ가-힣]+/) !== null) {
+              result = await translate(translateText, {to: 'en'})
             } else {
-              result = await translate(match[1], {to: 'ko'})
+              result = await translate(translateText, {to: 'ko'})
             }
           }
 
