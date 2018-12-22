@@ -32,6 +32,12 @@ class Message {
   }
 
   static async create (id: number, message: string): Promise<boolean> {
+    await db.User.findOrCreate({
+      where: {
+        id
+      }
+    })
+
     await db.WelcomeMessage.create({
       userId: id,
       message
