@@ -32,6 +32,12 @@ class Language {
   }
 
   static async create (id: number, lang: string): Promise<boolean> {
+    await db.User.findOrCreate({
+      where: {
+        id
+      }
+    })
+
     db.Language.create({
       userId: id,
       lang
