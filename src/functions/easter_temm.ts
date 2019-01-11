@@ -6,7 +6,7 @@ import { Config } from '../config'
 export default class EasterTemm extends Command {
   constructor (bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
-    this.regexp = new RegExp('^탬꼬탬마$')
+    this.regexp = new RegExp('^울울버린$')
   }
   
   protected async module (msg: Telegram.Message, match: RegExpExecArray) {
@@ -20,8 +20,8 @@ export default class EasterTemm extends Command {
         await this.bot.sendChatAction(chatid, 'typing')
 
         await this.bot.sendMessage(chatid,
-          '**탬탬버린 키**는 **154cm**!!!!' +
-          '\n\n' + 'https://www.youtube.com/watch?v=uPEEci7cWtk', {
+          '**치킨 잘못와서 우는사람**은 누구???? 탬탬버린!!!!' +
+          '\n\n' + 'https://www.youtube.com/watch?v=aQJumgvINbY', {
             reply_to_message_id: msg.message_id,
             parse_mode: 'Markdown'
           })
