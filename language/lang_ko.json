@@ -153,7 +153,8 @@
         "how": "/calc{botid}"
       },
       "twice": "이미 보시고 계신 도움말입니다!",
-      "contact": "개발자와 연락"
+      "contact": "개발자와 연락",
+      "donate": "후원"
     }
   },
   "message": {

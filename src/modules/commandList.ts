@@ -1,6 +1,7 @@
 import * as types from '../types'
+import * as Telegram from 'node-telegram-bot-api'
 
-export default (temp: types.language.Lang): any => {
+export default (temp: types.language.Lang): Telegram.InlineKeyboardButton[][] => {
   return [
     [{
       text: '📒 ' + temp.inline('command.help.help.name'),
@@ -55,6 +56,10 @@ export default (temp: types.language.Lang): any => {
     [{
       text: '😁 ' + temp.inline('command.help.contact'),
       url: 'https://t.me/small_sunshine'
+    }],
+    [{
+      text: '👍 ' + temp.inline('command.help.donate'),
+      url: 'https://liberapay.com/small_sunshine'
     }]
   ]
 }

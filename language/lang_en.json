@@ -154,7 +154,8 @@
         "how": "/calc{botid}"
       },
       "twice" :"Here are some tips you already have!",
-      "contact" :"Contact Developer"
+      "contact" :"Contact Developer",
+      "donate": "Donate"
     }
   },
   "message" :{
