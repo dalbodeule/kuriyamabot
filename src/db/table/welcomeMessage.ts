@@ -1,15 +1,18 @@
 import * as Sequelize from 'sequelize'
+import sequelize from '../_mysql'
 
-export let name = 'welcomeMessage'
+class WelcomeMessage extends Sequelize.Model{}
 
-export let config = {
-  timestamps: false
-}
-
-export let table = {
+WelcomeMessage.init({
   message: {
     type: Sequelize.TEXT,
     allowNull: true,
     unique: false
   }
-}
+}, {
+  sequelize,
+  timestamps: false,
+  underscored: true
+})
+
+export default WelcomeMessage

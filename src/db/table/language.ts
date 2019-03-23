@@ -1,13 +1,16 @@
 import * as Sequelize from 'sequelize'
+import sequelize from '../_mysql'
 
-export let name = 'language'
+class Language extends Sequelize.Model{}
 
-export let config = {
-  timestamps: false
-}
-
-export let table = {
+Language.init({
   lang: {
     type: Sequelize.STRING(2), allowNull: false
   }
-}
+}, {
+  sequelize,
+  timestamps: false,
+  underscored: true
+})
+
+export default Language

@@ -8,7 +8,7 @@ export default interface helper {
   commandList (temp: types.language.Lang): any
   getLang (msg: any, logger: Logger): Promise<types.language.Lang>
   getUser (user: Telegram.User): string,
-  langList (temp: types.language.Lang): any,
+  langList (temp: types.language.Lang, userId: number): any,
   search: {
     search (keyword: string): Promise<string | google.error | undefined>
     image (keyword: string): Promise<google.imgReturn | undefined>

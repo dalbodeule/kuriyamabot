@@ -41,7 +41,11 @@ export default class CommandLang extends Command {
                 reply_to_message_id: msg.message_id,
                 parse_mode: 'HTML',
                 reply_markup: {
-                  inline_keyboard: this.helper.langList(temp)
+                  inline_keyboard:
+                    this.helper.langList(
+                      temp,
+                      msg.from!.id
+                    )
                 }
               })
           }
@@ -55,7 +59,11 @@ export default class CommandLang extends Command {
               reply_to_message_id: msg.message_id,
               parse_mode: 'HTML',
               reply_markup: {
-                inline_keyboard: this.helper.langList(temp)
+                inline_keyboard:
+                  this.helper.langList(
+                    temp,
+                    msg.from!.id
+                  )
               }
             })
         }

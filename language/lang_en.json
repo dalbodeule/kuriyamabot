@@ -163,7 +163,8 @@
     "join" :"{userid}, welcome to {roomid}.",
     "left" :"{userid} has left {roomid}.",
     "botjoin" :"Hello, Thank you for allowing me to work in this room. Thank you very much.",
-    "error" :"Something's wrong!"
+    "error" :"Something's wrong!",
+    "not_request": "You are not the user who requested this feature."
   },
   "tobot" :"Go to bot"
 }

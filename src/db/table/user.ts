@@ -1,12 +1,9 @@
 import * as Sequelize from 'sequelize'
+import sequelize from '../_mysql'
 
-export let name = 'user'
+class User extends Sequelize.Model{}
 
-export let config = {
-  timestamps: false
-}
-
-export let table = {
+User.init({
   id: {
     type: Sequelize.BIGINT,
     allowNull: false,
@@ -16,4 +13,9 @@ export let table = {
       isInt: true
     }
   }
-}
+}, {
+  sequelize,
+  timestamps: false
+})
+
+export default User

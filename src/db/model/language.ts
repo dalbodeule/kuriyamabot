@@ -3,61 +3,66 @@ import redis from '../_redis'
 import * as types from '../../types'
 
 const SUCCESS = true
-const LANG_RPEFIX = 'lang:'
+const PREFIX = 'lang:'
 const EXPIRE = 60*60*24
 
 class Language {
-  static async find (id: number): Promise<types.model.returnLanguage> {
-    let query = await redis.getAsync(LANG_RPEFIX + id)
+  static async find (user_id: number): Promise<types.model.returnLanguage | undefined> {
+    let query = await redis.getAsync(PREFIX + user_id)
 
     if (query) {
       return {
-        id,
+        user_id,
         lang: query
       }
     } else {
       let result = await db.Language.findOne({
         where: {
-          userId: id
-        },
-        raw: true
+          user_id
+        }
       })
 
-      if (result && result.lang) {
-        redis.setAsync(LANG_RPEFIX + id, result.lang, 'EX', EXPIRE)
+      let temp
+      if (result) {
+        temp = (<types.model.returnLanguage>result.toJSON())
+        redis.setAsync(PREFIX + user_id, temp.lang, 'EX', EXPIRE)
       }
       
-      return result
+      return temp
     }
   }
 
-  static async create (id: number, lang: string): Promise<boolean> {
+  static async create (user_id: number, lang: string): Promise<boolean> {
     await db.User.findOrCreate({
       where: {
-        id
+        id: user_id
       }
     })
 
-    db.Language.create({
-      userId: id,
-      lang
+    await db.Language.findOrCreate({
+      where: {
+        user_id
+      },
+      defaults: {
+        lang
+      }
     })
 
-    redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)
 
     return SUCCESS
   }
 
-  static async update (lang: string, id: number): Promise<boolean> {
+  static async update (user_id: number, lang: string): Promise<boolean> {
     await db.Language.update({
       lang
     }, {
       where: {
-        userId: id
+        user_id
       }
     })
 
-    redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)
 
     return SUCCESS
   }
