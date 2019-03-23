@@ -1,4 +1,4 @@
-import * as Sequelize from 'sequelize'
+import { Sequelize } from 'sequelize'
 import { config as global, config } from '../config'
 
 const db = new Sequelize(global.db.database,
@@ -13,7 +13,6 @@ const db = new Sequelize(global.db.database,
       acquire: 30000,
       idle: 10000
     },
-    operatorsAliases: false,
     logging: false
   })
 

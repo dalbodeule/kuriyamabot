@@ -1,16 +1,16 @@
 export default interface model {
   language: {
-    find (id: number): Promise<returnLanguage>
+    find (id: number): Promise<returnLanguage | undefined>
     create (id: number, lang: string): Promise<boolean>
     update (lang: string, id: number): Promise<boolean>
   },
   leaveMessage: {
-    find (id: number): Promise<returnLeaveMessage>
+    find (id: number): Promise<returnLeaveMessage | undefined>
     create (id: number, leaveMessage: string): Promise<boolean>
     update (id: number, leaveMessage: string): Promise<boolean>
   },
   welcomeMessage: {
-    find (id: number): Promise<returnWelcomeMessage>
+    find (id: number): Promise<returnWelcomeMessage | undefined>
     create (id: number, welcomeMessage: string): Promise<boolean>
     update (id: number, welcomeMessage: string): Promise<boolean>
   },

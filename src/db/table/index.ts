@@ -1,22 +1,15 @@
 import mysql from '../_mysql'
 
-import * as language from './language'
-import * as leaveMessage from './leaveMessage'
-import * as welcomeMessage from './welcomeMessage'
-import * as user from './user'
-import { Sequelize } from 'sequelize';
-
-const defineTable = (tableConfig: { name: any, table: any, config: any }):
-  Sequelize['Model'] => {
-    const { name, table, config } = tableConfig
-    return mysql.define(name, table, config)
-  }
+import language from './language'
+import leaveMessage from './leaveMessage'
+import welcomeMessage from './welcomeMessage'
+import user from './user'
 
 const tables = {
-  User: defineTable(user),
-  Language: defineTable(language),
-  LeaveMessage: defineTable(leaveMessage),
-  WelcomeMessage: defineTable(welcomeMessage)
+  User: user,
+  Language: language,
+  LeaveMessage: leaveMessage,
+  WelcomeMessage: welcomeMessage
 }
 
 tables.User.hasMany(tables.Language, {

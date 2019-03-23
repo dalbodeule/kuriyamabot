@@ -3,12 +3,12 @@ import redis from '../_redis'
 import * as types from '../../types'
 
 const SUCCESS = true
-const LANG_RPEFIX = 'lang:'
+const PREFIX = 'lang:'
 const EXPIRE = 60*60*24
 
 class Language {
-  static async find (id: number): Promise<types.model.returnLanguage> {
-    let query = await redis.getAsync(LANG_RPEFIX + id)
+  static async find (id: number): Promise<types.model.returnLanguage | undefined> {
+    let query = await redis.getAsync(PREFIX + id)
 
     if (query) {
       return {
@@ -19,15 +19,16 @@ class Language {
       let result = await db.Language.findOne({
         where: {
           userId: id
-        },
-        raw: true
+        }
       })
 
-      if (result && result.lang) {
-        redis.setAsync(LANG_RPEFIX + id, result.lang, 'EX', EXPIRE)
+      let temp
+      if (result) {
+        temp = (<types.model.returnLanguage>result.toJSON())
+        redis.setAsync(PREFIX + id, temp.lang, 'EX', EXPIRE)
       }
       
-      return result
+      return temp
     }
   }
 
@@ -43,7 +44,7 @@ class Language {
       lang
     })
 
-    redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + id, lang, 'EX', EXPIRE)
 
     return SUCCESS
   }
@@ -57,7 +58,7 @@ class Language {
       }
     })
 
-    redis.setAsync(LANG_RPEFIX + id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + id, lang, 'EX', EXPIRE)
 
     return SUCCESS
   }

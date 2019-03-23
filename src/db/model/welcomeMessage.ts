@@ -7,7 +7,7 @@ const PREFIX = 'welcome:'
 const EXPIRE = 60*60*24
 
 class Message {
-  static async find (id: number): Promise<types.model.returnWelcomeMessage> {
+  static async find (id: number): Promise<types.model.returnWelcomeMessage | undefined> {
     let query = await redis.getAsync(PREFIX + id)
 
     if (query) {
@@ -19,15 +19,16 @@ class Message {
       let result = await db.WelcomeMessage.findOne({
         where: {
           userId: id
-        },
-        raw: true
+        }
       })
 
-      if (result && result.message) {
-        redis.setAsync(PREFIX + id, result.message, 'EX', EXPIRE)
+      let temp
+      if (result) {
+        temp = (<types.model.returnLeaveMessage>result.toJSON())
+        redis.setAsync(PREFIX + id, temp.message, 'EX', EXPIRE)
       }
       
-      return result
+      return temp
     }
   }
 

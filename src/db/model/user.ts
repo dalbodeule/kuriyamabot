@@ -17,12 +17,12 @@ class User {
     let result = await db.WelcomeMessage.findOne({
       where: {
         id
-      },
-      raw: true
+      }
     })
 
-    return result.id
+    return (result ? (<{id: number}>result.get()).id : 0)
   }
+  
   static async delete (id: number): Promise<boolean> {
     await db.User.destroy({
       where: {
