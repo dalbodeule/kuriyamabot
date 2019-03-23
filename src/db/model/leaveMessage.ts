@@ -18,13 +18,14 @@ class Message {
     } else {
       let result = await db.LeaveMessage.findOne({
         where: {
-          id
+          user_id: id
         }
       })
 
       let temp
       if (result) {
         temp = (<types.model.returnLeaveMessage>result.toJSON())
+        temp.id = (<any>temp).user_id
         redis.setAsync(PREFIX + id, temp.message, 'EX', EXPIRE)
       }
       
@@ -35,12 +36,12 @@ class Message {
   static async create (id: number, message: string): Promise<boolean> {
     await db.User.findOrCreate({
       where: {
-        id
+        user_id: id
       }
     })
 
     await db.LeaveMessage.create({
-      id,
+      user_id: id,
       message
     })
 
@@ -54,7 +55,7 @@ class Message {
       message
     }, {
       where: {
-        id
+        user_id: id
       }
     })
 

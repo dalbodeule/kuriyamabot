@@ -18,13 +18,14 @@ class Language {
     } else {
       let result = await db.Language.findOne({
         where: {
-          id
+          user_id: id
         }
       })
 
       let temp
       if (result) {
         temp = (<types.model.returnLanguage>result.toJSON())
+        temp.id = (<any>temp).user_id
         redis.setAsync(PREFIX + id, temp.lang, 'EX', EXPIRE)
       }
       
@@ -33,8 +34,14 @@ class Language {
   }
 
   static async create (id: number, lang: string): Promise<boolean> {
-    db.Language.create({
-      id,
+    await db.User.findOrCreate({
+      where: {
+        user_id: id
+      }
+    })
+
+    await db.Language.create({
+      user_id: id,
       lang
     })
 
@@ -48,7 +55,7 @@ class Language {
       lang
     }, {
       where: {
-        id
+        user_id: id
       }
     })
 

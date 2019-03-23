@@ -13,13 +13,13 @@ const tables = {
 }
 
 tables.User.hasOne(tables.Language, {
-  foreignKey: 'id'
+  foreignKey: 'user_id'
 })
 tables.User.hasOne(tables.LeaveMessage, {
-  foreignKey: 'id'
+  foreignKey: 'user_id'
 })
 tables.User.hasOne(tables.WelcomeMessage, {
-  foreignKey: 'id'
+  foreignKey: 'user_id'
 })
 
 tables.Language.belongsTo(tables.User)
