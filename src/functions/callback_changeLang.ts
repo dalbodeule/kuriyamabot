@@ -9,7 +9,8 @@ export default class CallbackChangeLang extends Callback {
   }
 
   protected async module (msg: Telegram.CallbackQuery) {
-    let test = (<string>msg.data).match(/changelang_([a-zA-Z]{2})/)
+    let test = (<string>msg.data).match(/changelang_([0-9]+)_([a-zA-Z]{2})/)
+    
     if (test) {
       const callid = msg.id
       try {
@@ -20,7 +21,7 @@ export default class CallbackChangeLang extends Callback {
 
         if ((<Telegram.Message>msg.message).chat.type === 'private') {
           temp = await this.helper.getLang(msg, this.logger)
-          await temp.langset(test[1])
+          await temp.langset(test[2])
           await this.bot.editMessageText(temp.text('command.lang.success'), {chat_id: (<Telegram.Message>msg.message).chat.id,
             message_id: (<Telegram.Message>msg.message).message_id,
             parse_mode: 'HTML'
@@ -34,29 +35,39 @@ export default class CallbackChangeLang extends Callback {
             this.helper.getLang(msg, this.logger),
             this.bot.getChatAdministrators((<Telegram.Message>msg.message).chat.id)
           ])
-          isAdmin = admins.some((v) => {
-            return v.user.id === msg.from.id
-          })
-          if (isAdmin) {
-            temp = await this.helper.getLang(msg, this.logger)
-            await temp.langset(test[1])
-            await this.bot.editMessageText(temp.text('command.lang.success'), {
-              chat_id: (<Telegram.Message>msg.message).chat.id,
-              message_id: (<Telegram.Message>msg.message).message_id,
-              parse_mode: 'HTML'
+
+          if (test[1] !== msg.from.id.toString()) {
+            this.bot.answerCallbackQuery(msg.id, {
+              text: temp.text('message.not_request')
             })
             this.logger.info('callback: change_lang callback id: ' + callid +
-            ', username: ' + this.helper.getUser(msg.from) +
-            ', command: ' + msg.data + ', type: group success')
+              ', username: ' + this.helper.getUser(msg.from) +
+              ', command: ' + msg.data + ', type: not requested user')
           } else {
-            await this.bot.editMessageText(temp.text('command.lowPermission'), {
-              chat_id: (<Telegram.Message>msg.message).chat.id,
-              message_id: (<Telegram.Message>msg.message).message_id,
-              parse_mode: 'HTML'
+            isAdmin = admins.some((v) => {
+              return v.user.id === msg.from.id
             })
-            this.logger.info('callback: change_lang callback id: ' + callid +
-            ', username: ' + this.helper.getUser(msg.from) +
-            ', command: ' + msg.data + ', type: group lowPermission')
+            if (isAdmin) {
+              temp = await this.helper.getLang(msg, this.logger)
+              await temp.langset(test[2])
+              await this.bot.editMessageText(temp.text('command.lang.success'), {
+                chat_id: (<Telegram.Message>msg.message).chat.id,
+                message_id: (<Telegram.Message>msg.message).message_id,
+                parse_mode: 'HTML'
+              })
+              this.logger.info('callback: change_lang callback id: ' + callid +
+              ', username: ' + this.helper.getUser(msg.from) +
+              ', command: ' + msg.data + ', type: group success')
+            } else {
+              await this.bot.editMessageText(temp.text('command.lowPermission'), {
+                chat_id: (<Telegram.Message>msg.message).chat.id,
+                message_id: (<Telegram.Message>msg.message).message_id,
+                parse_mode: 'HTML'
+              })
+              this.logger.info('callback: change_lang callback id: ' + callid +
+              ', username: ' + this.helper.getUser(msg.from) +
+              ', command: ' + msg.data + ', type: group lowPermission')
+            }
           }
         }
       } catch (e) {
