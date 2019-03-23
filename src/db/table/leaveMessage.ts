@@ -11,7 +11,8 @@ LeaveMessage.init({
     }
 }, {
   sequelize,
-  timestamps: false
+  timestamps: false,
+  underscored: true
 })
 
 export default LeaveMessage

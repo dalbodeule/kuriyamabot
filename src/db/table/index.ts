@@ -12,17 +12,14 @@ const tables = {
   WelcomeMessage: welcomeMessage
 }
 
-tables.User.hasMany(tables.Language, {
-  onDelete: 'cascade',
-  onUpdate: 'cascade'
+tables.User.hasOne(tables.Language, {
+  foreignKey: 'id'
 })
-tables.User.hasMany(tables.LeaveMessage, {
-  onDelete: 'cascade',
-  onUpdate: 'cascade'
+tables.User.hasOne(tables.LeaveMessage, {
+  foreignKey: 'id'
 })
-tables.User.hasMany(tables.WelcomeMessage, {
-  onDelete: 'cascade',
-  onUpdate: 'cascade'
+tables.User.hasOne(tables.WelcomeMessage, {
+  foreignKey: 'id'
 })
 
 tables.Language.belongsTo(tables.User)

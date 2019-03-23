@@ -18,7 +18,7 @@ class Language {
     } else {
       let result = await db.Language.findOne({
         where: {
-          userId: id
+          id
         }
       })
 
@@ -33,14 +33,8 @@ class Language {
   }
 
   static async create (id: number, lang: string): Promise<boolean> {
-    await db.User.findOrCreate({
-      where: {
-        id
-      }
-    })
-
     db.Language.create({
-      userId: id,
+      id,
       lang
     })
 
@@ -54,7 +48,7 @@ class Language {
       lang
     }, {
       where: {
-        userId: id
+        id
       }
     })
 

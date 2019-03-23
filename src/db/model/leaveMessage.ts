@@ -18,7 +18,7 @@ class Message {
     } else {
       let result = await db.LeaveMessage.findOne({
         where: {
-          userId: id
+          id
         }
       })
 
@@ -40,7 +40,7 @@ class Message {
     })
 
     await db.LeaveMessage.create({
-      userId: id,
+      id,
       message
     })
 
@@ -54,7 +54,7 @@ class Message {
       message
     }, {
       where: {
-        userId: id
+        id
       }
     })
 
