@@ -7,59 +7,58 @@ const PREFIX = 'leave:'
 const EXPIRE = 60*60*24
 
 class Message {
-  static async find (id: number): Promise<types.model.returnLeaveMessage | undefined> {
-    let query = await redis.getAsync(PREFIX + id)
+  static async find (user_id: number): Promise<types.model.returnLeaveMessage | undefined> {
+    let query = await redis.getAsync(PREFIX + user_id)
 
     if (query) {
       return {
-        id,
+        user_id,
         message: query
       }
     } else {
       let result = await db.LeaveMessage.findOne({
         where: {
-          user_id: id
+          user_id
         }
       })
 
       let temp
       if (result) {
         temp = (<types.model.returnLeaveMessage>result.toJSON())
-        temp.id = (<any>temp).user_id
-        redis.setAsync(PREFIX + id, temp.message, 'EX', EXPIRE)
+        redis.setAsync(PREFIX + user_id, temp.message, 'EX', EXPIRE)
       }
       
       return temp
     }
   }
 
-  static async create (id: number, message: string): Promise<boolean> {
+  static async create (user_id: number, message: string): Promise<boolean> {
     await db.User.findOrCreate({
       where: {
-        user_id: id
+        id: user_id
       }
     })
 
     await db.LeaveMessage.create({
-      user_id: id,
+      user_id,
       message
     })
 
-    redis.setAsync(PREFIX + id, message, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + user_id, message, 'EX', EXPIRE)
 
     return SUCCESS
   }
 
-  static async update (id: number, message: string): Promise<boolean> {
+  static async update (user_id: number, message: string): Promise<boolean> {
     await db.LeaveMessage.update({
       message
     }, {
       where: {
-        user_id: id
+        user_id
       }
     })
 
-    redis.setAsync(PREFIX + id, message, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + user_id, message, 'EX', EXPIRE)
 
     return SUCCESS
   }

@@ -1,18 +1,18 @@
 export default interface model {
   language: {
-    find (id: number): Promise<returnLanguage | undefined>
-    create (id: number, lang: string): Promise<boolean>
-    update (lang: string, id: number): Promise<boolean>
+    find (user_id: number): Promise<returnLanguage | undefined>
+    create (user_id: number, lang: string): Promise<boolean>
+    update (user_id: number, lang: string): Promise<boolean>
   },
   leaveMessage: {
-    find (id: number): Promise<returnLeaveMessage | undefined>
-    create (id: number, leaveMessage: string): Promise<boolean>
-    update (id: number, leaveMessage: string): Promise<boolean>
+    find (user_id: number): Promise<returnLeaveMessage | undefined>
+    create (user_id: number, leaveMessage: string): Promise<boolean>
+    update (user_id: number, leaveMessage: string): Promise<boolean>
   },
   welcomeMessage: {
-    find (id: number): Promise<returnWelcomeMessage | undefined>
-    create (id: number, welcomeMessage: string): Promise<boolean>
-    update (id: number, welcomeMessage: string): Promise<boolean>
+    find (user_id: number): Promise<returnWelcomeMessage | undefined>
+    create (user_id: number, welcomeMessage: string): Promise<boolean>
+    update (user_id: number, welcomeMessage: string): Promise<boolean>
   },
   user: {
     create (id: number): Promise<boolean>
@@ -22,16 +22,16 @@ export default interface model {
 }
 
 export interface returnLanguage {
-  id: number,
+  user_id: number,
   lang: string
 }
 
 export interface returnLeaveMessage {
-  id: number,
+  user_id: number,
   message: string
 }
 
 export interface returnWelcomeMessage {
-  id: number,
+  user_id: number,
   message: string
 }

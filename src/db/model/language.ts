@@ -7,59 +7,58 @@ const PREFIX = 'lang:'
 const EXPIRE = 60*60*24
 
 class Language {
-  static async find (id: number): Promise<types.model.returnLanguage | undefined> {
-    let query = await redis.getAsync(PREFIX + id)
+  static async find (user_id: number): Promise<types.model.returnLanguage | undefined> {
+    let query = await redis.getAsync(PREFIX + user_id)
 
     if (query) {
       return {
-        id,
+        user_id,
         lang: query
       }
     } else {
       let result = await db.Language.findOne({
         where: {
-          user_id: id
+          user_id
         }
       })
 
       let temp
       if (result) {
         temp = (<types.model.returnLanguage>result.toJSON())
-        temp.id = (<any>temp).user_id
-        redis.setAsync(PREFIX + id, temp.lang, 'EX', EXPIRE)
+        redis.setAsync(PREFIX + user_id, temp.lang, 'EX', EXPIRE)
       }
       
       return temp
     }
   }
 
-  static async create (id: number, lang: string): Promise<boolean> {
+  static async create (user_id: number, lang: string): Promise<boolean> {
     await db.User.findOrCreate({
       where: {
-        user_id: id
+        id: user_id
       }
     })
 
     await db.Language.create({
-      user_id: id,
+      user_id,
       lang
     })
 
-    redis.setAsync(PREFIX + id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)
 
     return SUCCESS
   }
 
-  static async update (lang: string, id: number): Promise<boolean> {
+  static async update (user_id: number, lang: string): Promise<boolean> {
     await db.Language.update({
       lang
     }, {
       where: {
-        user_id: id
+        user_id
       }
     })
 
-    redis.setAsync(PREFIX + id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)
 
     return SUCCESS
   }

@@ -101,7 +101,7 @@ export default class {
       throw Error(lang + ' is not a valid value')
     }
     try {
-      await model.language.update(lang, this.id)
+      await model.language.update(this.id, lang)
       this.lang = lang
       this.logger.debug({id: this.id, lang: this.lang})
       return true
