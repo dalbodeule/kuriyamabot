@@ -39,9 +39,13 @@ class Language {
       }
     })
 
-    await db.Language.create({
-      user_id,
-      lang
+    await db.Language.findOrCreate({
+      where: {
+        user_id
+      },
+      defaults: {
+        lang
+      }
     })
 
     redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)

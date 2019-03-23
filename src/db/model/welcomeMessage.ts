@@ -39,9 +39,13 @@ class Message {
       }
     })
 
-    await db.WelcomeMessage.create({
-      user_id,
-      message
+    await db.WelcomeMessage.findOrCreate({
+      where: {
+        user_id
+      },
+      defaults: {
+        message
+      }
     })
 
     redis.setAsync(PREFIX + user_id, message, 'EX', EXPIRE)
