@@ -86,7 +86,7 @@ export default class InlineImage extends Inline {
                 }
               })
 
-              middle.splice(50, 100)
+              middle.splice(30, 100)
 
               let results: Array<Telegram.InlineQueryResult> = []
               for (let i in middle) {
