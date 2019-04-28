@@ -79,14 +79,14 @@ export default class InlineImage extends Inline {
                 this.logger.debug(e.stack)
               }
             } else {
-              res.splice(50)
-
               let middle: Array<google.imgReturn> = []
               res.forEach((value, index, array) => {
-                if (value.url.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
+                if (value.img.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
                   middle.push(value)
                 }
               })
+
+              middle.splice(30, 100)
 
               let results: Array<Telegram.InlineQueryResult> = []
               for (let i in middle) {

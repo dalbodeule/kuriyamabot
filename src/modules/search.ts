@@ -32,7 +32,7 @@ export default class Search {
 
     let result: Array<google.imgReturn> = []
     res.forEach((value, index, array) => {
-      if (value.url.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
+      if (value.img.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
         result.push(value)
       }
     })
