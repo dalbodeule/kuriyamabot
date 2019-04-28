@@ -79,7 +79,7 @@ export default class InlineImage extends Inline {
                 this.logger.debug(e.stack)
               }
             } else {
-              res.splice(50)
+              res.splice(30)
 
               let middle: Array<google.imgReturn> = []
               res.forEach((value, index, array) => {

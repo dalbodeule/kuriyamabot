@@ -63,16 +63,6 @@ import messageWeather from './message_weather'
 import messageWhatanime from './message_whatanime'
 import messageImage from './messgae_image'
 
-// easter eggs
-import easterAmai from './easter_amai'
-import easterCherry from './easter_cherry'
-import easterEren from './easter_eren'
-import easterGang from './easter_gang'
-import easterHigai from './easter_higai'
-import easterKizuna from './easter_kizuna'
-import easterNigai from './easter_nigai'
-import easterTemm from './easter_temm'
-
 // modules end
 
 const modules: {
@@ -132,16 +122,7 @@ const modules: {
   messageTranslate,
   messageWeather,
   messageWhatanime,
-  messageImage,
-
-  easterAmai,
-  easterCherry,
-  easterEren,
-  easterGang,
-  easterHigai,
-  easterKizuna,
-  easterNigai,
-  easterTemm
+  messageImage
 }
 
 export default modules
