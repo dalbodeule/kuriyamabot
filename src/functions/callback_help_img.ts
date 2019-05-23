@@ -1,8 +1,8 @@
 import { callback as Callback } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
-import * as types from '../types'
 import { Logger } from 'log4js';
 import { Config } from '../config'
+import Lang from '../lang'
 
 export default class CallbackHelpImg extends Callback {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -10,7 +10,7 @@ export default class CallbackHelpImg extends Callback {
   }
 
   protected async module (msg: Telegram.CallbackQuery) {
-    const answer = (msg: Telegram.CallbackQuery, temp: types.language.Lang) => {
+    const answer = (msg: Telegram.CallbackQuery, temp: Lang) => {
       this.bot.answerCallbackQuery(msg.id, {
         text: temp.text('command.help.twice')
       })

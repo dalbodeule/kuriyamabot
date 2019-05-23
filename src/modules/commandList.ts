@@ -1,7 +1,7 @@
-import * as types from '../types'
+import Lang from '../lang'
 import * as Telegram from 'node-telegram-bot-api'
 
-export default (temp: types.language.Lang): Telegram.InlineKeyboardButton[][] => {
+export default (temp: Lang): Telegram.InlineKeyboardButton[][] => {
   return [
     [{
       text: '📒 ' + temp.inline('command.help.help.name'),

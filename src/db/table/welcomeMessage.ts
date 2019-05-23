@@ -8,6 +8,12 @@ WelcomeMessage.init({
     type: Sequelize.TEXT,
     allowNull: true,
     unique: false
+  },
+  isEnabled: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    unique: false,
+    defaultValue: true
   }
 }, {
   sequelize,

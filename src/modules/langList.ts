@@ -1,6 +1,5 @@
 import lang from '../lang'
 import * as telegram from 'node-telegram-bot-api'
-import * as types from '../types'
 
 export default (temp: lang, userId: number): telegram.InlineKeyboardButton[][] => {
   let list: any = temp.getLangList()

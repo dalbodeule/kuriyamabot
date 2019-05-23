@@ -12,6 +12,16 @@ User.init({
     validate: {
       isInt: true
     }
+  },
+  title: {
+    type: Sequelize.STRING(40),
+    allowNull: true,
+    unique: false
+  },
+  type: {
+    type: Sequelize.STRING(10),
+    allowNull: true,
+    unique: false
   }
 }, {
   sequelize,

@@ -1,9 +1,9 @@
 import { inline as Inline } from '../functionBase'
 import * as Telegram from 'node-telegram-bot-api'
 import * as google from 'google-parser'
-import { language as Language } from '../types';
 import { Logger } from 'log4js';
 import { Config } from '../config'
+import Lang from '../lang'
 
 export default class InlineSearch extends Inline {
   constructor (bot: Telegram, logger: Logger, config: Config) {
@@ -15,7 +15,7 @@ export default class InlineSearch extends Inline {
       id: msg.id, query: msg.query
     }
 
-    function getdesc (description: string, url: string, title: string, temp: Language.Lang) {
+    function getdesc (description: string, url: string, title: string, temp: Lang) {
       let shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/)
       if (shot !== null) {
         return 'https://youtu.be/' + shot[1]

@@ -4,13 +4,16 @@ import * as model from '../db'
 import * as glob from 'glob-promise'
 import * as path from 'path'
 import { Logger } from 'log4js';
-import { language as Language } from '../types'
 import { config } from '../config';
 import * as Telegram from 'node-telegram-bot-api'
 
-const langs: Language.Langs = {}
+interface Langs {
+  [index: string]: any
+}
 
-export default class {
+const langs: Langs = {}
+
+export default class Lang {
   id: number;
   lang: string;
   logger: Logger;
@@ -43,6 +46,7 @@ export default class {
         (<Telegram.Message>msg).from!.id :
         (<Telegram.Message>msg).chat.id)
       let query = await model.language.find(this.id)
+      model.user.update(this.id, (<Telegram.Message>msg).chat.title!, (<Telegram.Message>msg).chat.type)
       if (!query || !query.lang) {
         this.lang = this.getISOCode((<Telegram.Message>msg).from!.language_code!)
         this.logger.debug(this.id + ' ' + this.lang)
@@ -132,7 +136,7 @@ export default class {
     return (<string>objectPath.get(langs[language.getLanguageInfo(this.lang).name], code))
   }
 
-  getLangList (): Language.Langs {
+  getLangList (): Langs {
     return langs
   }
 

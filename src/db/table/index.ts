@@ -4,12 +4,14 @@ import language from './language'
 import leaveMessage from './leaveMessage'
 import welcomeMessage from './welcomeMessage'
 import user from './user'
+import options from './options'
 
 const tables = {
   User: user,
   Language: language,
   LeaveMessage: leaveMessage,
-  WelcomeMessage: welcomeMessage
+  WelcomeMessage: welcomeMessage,
+  Options: options
 }
 
 tables.User.hasOne(tables.Language, {
@@ -21,10 +23,14 @@ tables.User.hasOne(tables.LeaveMessage, {
 tables.User.hasOne(tables.WelcomeMessage, {
   foreignKey: 'user_id'
 })
+tables.User.hasOne(tables.Options, {
+  foreignKey: 'user_id'
+})
 
 tables.Language.belongsTo(tables.User)
 tables.LeaveMessage.belongsTo(tables.User)
 tables.WelcomeMessage.belongsTo(tables.User)
+tables.Options.belongsTo(tables.User)
 
 mysql.sync()
 

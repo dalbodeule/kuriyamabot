@@ -11,9 +11,12 @@ class Message {
     let query = await redis.getAsync(PREFIX + user_id)
 
     if (query) {
+      let [message, isEnabled] = JSON.parse(query)
+      
       return {
         user_id,
-        message: query
+        message,
+        isEnabled
       }
     } else {
       let result = await db.LeaveMessage.findOne({
@@ -25,7 +28,7 @@ class Message {
       let temp
       if (result) {
         temp = (<types.model.returnLeaveMessage>result.toJSON())
-        redis.setAsync(PREFIX + user_id, temp.message, 'EX', EXPIRE)
+        redis.setAsync(PREFIX + user_id, JSON.stringify([temp.message, temp.isEnabled]), 'EX', EXPIRE)
       }
       
       return temp
@@ -53,16 +56,21 @@ class Message {
     return SUCCESS
   }
 
-  static async update (user_id: number, message: string): Promise<boolean> {
-    await db.LeaveMessage.update({
-      message
-    }, {
+  static async update (user_id: number, message: string|null, isEnabled: boolean|null): Promise<boolean> {
+    let updateData
+
+    if ( message && isEnabled ) updateData = { message, isEnabled }
+    else if ( message ) updateData = { message }
+    else if ( isEnabled ) updateData = { isEnabled }
+    else return false
+
+    await db.LeaveMessage.update(updateData, {
       where: {
         user_id
       }
     })
 
-    redis.setAsync(PREFIX + user_id, message, 'EX', EXPIRE)
+    await this.find(user_id)
 
     return SUCCESS
   }

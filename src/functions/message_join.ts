@@ -48,7 +48,7 @@ export default class MessageJoin extends Message {
         await this.bot.sendMessage(chatid, '👋 ' + temp.text('message.botjoin'))
         this.logger.info('message: chat join, chatid: ' + chatid +
           ', i\'m join room!, status: success')
-        await this.model.user.create(chatid)
+        await this.model.user.create(chatid, msg.chat.title || '', msg.chat.type)
       }
     } catch (e) {
       this.logger.error('message: chat join, chatid: ' + chatid +

@@ -54,7 +54,7 @@ export default class CommandLeaveSuccess extends Command {
                 ', command: ' + msg.text + ', type: create success')
             } else {
               if (value && !value.message) {
-                await this.model.leaveMessage.update(chatid, match[1])
+                await this.model.leaveMessage.update(chatid, match[1], null)
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.leave.success'), {
                     reply_to_message_id: msg.message_id
@@ -63,7 +63,7 @@ export default class CommandLeaveSuccess extends Command {
                   ', username: ' + this.helper.getUser(msg.from!) +
                   ', command: ' + msg.text + ', type: update success')
               } else {
-                await this.model.leaveMessage.update(chatid, match[1])
+                await this.model.leaveMessage.update(chatid, match[1], null)
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.leave.success'), {
                     reply_to_message_id: msg.message_id

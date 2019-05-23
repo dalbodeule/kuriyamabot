@@ -53,7 +53,7 @@ export default class CommandWelcomeSuccess extends Command {
                 ', command: ' + msg.text + ', type: create success')
             } else {
               if (value && !value.message) {
-                await this.model.welcomeMessage.update(chatid, match[1])
+                await this.model.welcomeMessage.update(chatid, match[1], null)
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.welcome.success'), {
                     reply_to_message_id: msg.message_id
@@ -62,7 +62,7 @@ export default class CommandWelcomeSuccess extends Command {
                   ', username: ' + this.helper.getUser(msg.from!) +
                   ', command: ' + msg.text + ', type: update success')
               } else {
-                await this.model.welcomeMessage.update(chatid, match[1])
+                await this.model.welcomeMessage.update(chatid, match[1], null)
                 await this.bot.sendMessage(chatid, ' ' +
                   temp.text('command.welcome.success'), {
                     reply_to_message_id: msg.message_id
