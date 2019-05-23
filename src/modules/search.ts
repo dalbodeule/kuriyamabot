@@ -14,7 +14,7 @@ const search = async (keyword: string): Promise<string | google.error | undefine
         if (tempDesc.length > 27) {
           tempDesc = tempDesc.substr(0, 30) + "..."
         }
-        tempDesc.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        tempDesc = tempDesc.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '')
         response = response + "\n" + '<a href="' + (res as google.searchReturn[])[i].link + '">' +
           (res as google.searchReturn[])[i].title + "</a>" + "\n" +
           (!(res as google.searchReturn[])[i].description ? "" : tempDesc + "\n\n")

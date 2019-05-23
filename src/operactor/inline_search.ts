@@ -16,6 +16,7 @@ export default class InlineSearch extends Inline {
     }
 
     function getdesc(description: string, url: string, title: string, temp: Lang) {
+      description = description.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '')
       const shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/)
       if (shot !== null) {
         return "https://youtu.be/" + shot[1]
@@ -23,7 +24,7 @@ export default class InlineSearch extends Inline {
         return temp.inline("command.search.desc_null")
       } else {
         if (description.length > 87) {
-          description = description.substr(0, 87) + "...".replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+          description = description.substr(0, 87) + "..."
         }
         return `<a href="${url}">${title}</a>\n\n${description || ""}`
       }
@@ -123,9 +124,12 @@ export default class InlineSearch extends Inline {
                   title: (response as google.searchReturn[])[i].title,
                   id: q.id + "/document/" + i,
                   input_message_content: {
-                    message_text: getdesc((response as google.searchReturn[])[i]
-                      .description, (response as google.searchReturn[])[i].link,
-                      (response as google.searchReturn[])[i].title, temp),
+                    message_text: getdesc(
+                      (response as google.searchReturn[])[i].description,
+                      (response as google.searchReturn[])[i].link,
+                      (response as google.searchReturn[])[i].title,
+                      temp
+                    ),
                     parse_mode: "HTML",
                   },
                   reply_markup: {
@@ -139,6 +143,8 @@ export default class InlineSearch extends Inline {
                   },
                 })
               }
+
+              this.logger.debug(results)
 
               try {
                 await this.bot.answerInlineQuery(q.id, results, {
