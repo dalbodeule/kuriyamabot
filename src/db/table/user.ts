@@ -1,5 +1,5 @@
-import * as Sequelize from "sequelize";
-import sequelize from "../_mysql";
+import * as Sequelize from "sequelize"
+import sequelize from "../_mysql"
 
 class User extends Sequelize.Model {}
 
@@ -26,6 +26,6 @@ User.init({
 }, {
   sequelize,
   timestamps: false,
-});
+})
 
-export default User;
+export default User

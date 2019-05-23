@@ -1,27 +1,27 @@
-import * as google from "google-parser";
-import { Logger } from "log4js";
-import * as Telegram from "node-telegram-bot-api";
-import { Config } from "../config";
-import { inline as Inline } from "../operactorBase";
+import * as google from "google-parser"
+import { Logger } from "log4js"
+import * as Telegram from "node-telegram-bot-api"
+import { Config } from "../config"
+import { inline as Inline } from "../operactorBase"
 
 export default class InlineImage extends Inline {
   constructor(bot: Telegram, logger: Logger, config: Config) {
-    super (bot, logger, config);
+    super (bot, logger, config)
   }
 
   protected async module(msg: Telegram.InlineQuery) {
     const q = {
       id: msg.id, query: msg.query,
-    };
+    }
 
     const match = q.query
-      .match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/);
+      .match(/^(?:([photo|image|img|짤|사진|이미지]+)(?:| (.*)+))$/)
     if (match) {
       this.logger.info("inline: image, inlineid: " + q.id +
           ", username: " + this.helper.getUser(msg.from) +
-          ", command: " + msg.query + ", type: pending");
+          ", command: " + msg.query + ", type: pending")
       try {
-        const temp = await this.helper.getLang(msg, this.logger);
+        const temp = await this.helper.getLang(msg, this.logger)
         if (typeof match[2] === "undefined" || match[2] === "") {
           try {
             await this.bot.answerInlineQuery(q.id, [{
@@ -41,19 +41,19 @@ export default class InlineImage extends Inline {
               },
             }], {
               cache_time: 3,
-            });
+            })
             this.logger.info("inline: image, inlineid: " + q.id +
               ", username: " + this.helper.getUser(msg.from) +
-              ", command: " + msg.query + ", type: success, response: help");
+              ", command: " + msg.query + ", type: success, response: help")
           } catch (e) {
             this.logger.error("inline: image, inlineid: " + q.id +
               ", username: " + this.helper.getUser(msg.from) +
-              ", command: " + msg.query + ", type: error");
-            this.logger.debug(e.stack);
+              ", command: " + msg.query + ", type: error")
+            this.logger.debug(e.stack)
           }
         } else {
           try {
-            const res = await google.img(match[2]);
+            const res = await google.img(match[2])
 
             if (typeof res[0] === "undefined") {
               try {
@@ -68,27 +68,27 @@ export default class InlineImage extends Inline {
                   },
                 }], {
                   cache_time: 3,
-                });
+                })
                 this.logger.info("inline: image, inlineid: " + q.id +
                     ", username: " + this.helper.getUser(msg.from) +
-                    ", command: " + msg.query + ", type: success, response: not found");
+                    ", command: " + msg.query + ", type: success, response: not found")
               } catch (e) {
                 this.logger.error("inline: image, inlineid: " + q.id +
                   ", username: " + this.helper.getUser(msg.from) +
-                  ", command: " + msg.query + ", type: error");
-                this.logger.debug(e.stack);
+                  ", command: " + msg.query + ", type: error")
+                this.logger.debug(e.stack)
               }
             } else {
-              const middle: google.imgReturn[] = [];
+              const middle: google.imgReturn[] = []
               res.forEach((value, index, array) => {
                 if (value.img.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
-                  middle.push(value);
+                  middle.push(value)
                 }
-              });
+              })
 
-              middle.splice(30, 100);
+              middle.splice(30, 100)
 
-              const results: Telegram.InlineQueryResult[] = [];
+              const results: Telegram.InlineQueryResult[] = []
               for (const i in middle) {
                 results.push({
                   type: "photo",
@@ -108,22 +108,22 @@ export default class InlineImage extends Inline {
                       switch_inline_query_current_chat: "img " + match[2],
                     }]],
                   },
-                });
+                })
               }
 
               try {
                 await this.bot.answerInlineQuery(q.id, results, {
                   cache_time: 3,
-                });
+                })
                 this.logger.info("inline: image, inlineid: " + q.id +
                   ", username: " + this.helper.getUser(msg.from) +
-                  ", command: " + msg.query + ", type: success");
+                  ", command: " + msg.query + ", type: success")
               } catch (e) {
                 try {
                   this.logger.error("inline: image, inlineid: " + q.id +
                     ", username: " + this.helper.getUser(msg.from) +
-                    ", command: " + msg.query + ", type: error");
-                  this.logger.debug(e.stack);
+                    ", command: " + msg.query + ", type: error")
+                  this.logger.debug(e.stack)
                   await this.bot.answerInlineQuery(q.id, [{
                     type: "article",
                     title: temp.text("command.img.error")
@@ -144,12 +144,12 @@ export default class InlineImage extends Inline {
                     },
                   }], {
                     cache_time: 0,
-                  });
+                  })
                 } catch (e) {
                   this.logger.error("inline: image, inlineid: " + q.id +
                     ", username: " + this.helper.getUser(msg.from) +
-                    ", command: " + msg.query + ", type: error");
-                  this.logger.debug(e.stack);
+                    ", command: " + msg.query + ", type: error")
+                  this.logger.debug(e.stack)
                 }
               }
             }
@@ -157,8 +157,8 @@ export default class InlineImage extends Inline {
             try {
               this.logger.error("inline: image, inlineid: " + q.id +
                 ", username: " + this.helper.getUser(msg.from) +
-                ", command: " + msg.query + ", type: error");
-              this.logger.debug(e.stack);
+                ", command: " + msg.query + ", type: error")
+              this.logger.debug(e.stack)
               await this.bot.answerInlineQuery(q.id, [{
                 type: "article",
                 title: temp.text("command.img.error")
@@ -179,20 +179,20 @@ export default class InlineImage extends Inline {
                 },
               }], {
                 cache_time: 0,
-              });
+              })
             } catch (e) {
               this.logger.error("inline: image, inlineid: " + q.id +
                 ", username: " + this.helper.getUser(msg.from) +
-                ", command: " + msg.query + ", type: error");
-              this.logger.debug(e.stack);
+                ", command: " + msg.query + ", type: error")
+              this.logger.debug(e.stack)
             }
           }
         }
       } catch (e) {
         this.logger.error("inline: image, inlineid: " + q.id +
           ", username: " + this.helper.getUser(msg.from) +
-          ", command: " + msg.query + ", type: error");
-        this.logger.debug(e.stack);
+          ", command: " + msg.query + ", type: error")
+        this.logger.debug(e.stack)
       }
     }
   }

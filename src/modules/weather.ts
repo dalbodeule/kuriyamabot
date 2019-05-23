@@ -1,31 +1,31 @@
-import * as weatherHelper from "./weatherHelper";
+import * as weatherHelper from "./weatherHelper"
 
 export default class Weather {
-  private OpenWeather: weatherHelper.weather.default;
-  private KakaoMap: weatherHelper.geocode.default;
+  private OpenWeather: weatherHelper.weather.default
+  private KakaoMap: weatherHelper.geocode.default
 
-  private weatherKey: string;
-  private KakaoKey: string;
+  private weatherKey: string
+  private KakaoKey: string
 
   constructor(weatherKey: string, kakaoKey: string) {
-    this.weatherKey = weatherKey;
-    this.KakaoKey = kakaoKey;
+    this.weatherKey = weatherKey
+    this.KakaoKey = kakaoKey
 
-    this.OpenWeather = new weatherHelper.weather.default(this.weatherKey, "metric", "en");
-    this.KakaoMap = new weatherHelper.geocode.default(this.KakaoKey);
+    this.OpenWeather = new weatherHelper.weather.default(this.weatherKey, "metric", "en")
+    this.KakaoMap = new weatherHelper.geocode.default(this.KakaoKey)
   }
 
   public async getWeatherWithCityName(cityName: string) {
     if (cityName.match(/[ㄱ-ㅎ가-힣]+/) !== null) {
-      return await this.getCityNameFromKakao(cityName);
+      return await this.getCityNameFromKakao(cityName)
     } else {
-      return await this.getCityNameFromOpenWeatherMap(cityName);
+      return await this.getCityNameFromOpenWeatherMap(cityName)
     }
   }
 
   public async getWeatherWithGeograhic(latitude: number, longitude: number) {
     try {
-      const weather = await this.OpenWeather.getByGeographic(latitude, longitude);
+      const weather = await this.OpenWeather.getByGeographic(latitude, longitude)
       if (weather.cod === 200) {
         return {
           success: true,
@@ -34,12 +34,12 @@ export default class Weather {
           humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
           temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
           icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
-        };
+        }
       } else {
         return {
           success: false,
           apiError: true,
-        };
+        }
       }
     } catch (e) {
       if (e.statusCode === 404 &&
@@ -47,28 +47,28 @@ export default class Weather {
           return {
             success: false,
             notFound: true,
-          };
+          }
       } else {
         return {
           success: false,
           apiError: true,
-        };
+        }
       }
     }
   }
 
   private async getCityNameFromKakao(cityName: string) {
     try {
-      const location = await this.KakaoMap.get(cityName);
+      const location = await this.KakaoMap.get(cityName)
 
-      const resultLocation = location.documents![0];
+      const resultLocation = location.documents![0]
 
-      const lat = parseFloat(resultLocation.y);
-      const lon = parseFloat(resultLocation.x);
-      const displayLocation = resultLocation.address_name;
+      const lat = parseFloat(resultLocation.y)
+      const lon = parseFloat(resultLocation.x)
+      const displayLocation = resultLocation.address_name
 
       try {
-        const weather = await this.OpenWeather.getByGeographic(lat, lon);
+        const weather = await this.OpenWeather.getByGeographic(lat, lon)
         if (weather.cod === 200) {
           return {
             success: true,
@@ -78,13 +78,13 @@ export default class Weather {
             humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
             temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
             icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
-          };
+          }
         } else {
           return {
             success: false,
             apiError: true,
             geocodeError: false,
-          };
+          }
         }
       } catch (e) {
         if (e.statusCode === 404 &&
@@ -93,30 +93,30 @@ export default class Weather {
               success: false,
               notFound: true,
               geocodeError: false,
-            };
+            }
         } else {
           return {
             success: false,
             apiError: true,
             geocodeError: false,
-          };
+          }
         }
       }
     } catch (e) {
       return {
         success: false,
         geocodeError: true,
-      };
+      }
     }
   }
 
   private async getCityNameFromOpenWeatherMap(cityName: string) {
     try {
-      const weather = await this.OpenWeather.getByCityName(cityName);
+      const weather = await this.OpenWeather.getByCityName(cityName)
       if (weather.cod === 200) {
         const displayLocation =
           (weather as weatherHelper.weather.responseSuccess).name + "," +
-          (weather as weatherHelper.weather.responseSuccess).sys.country;
+          (weather as weatherHelper.weather.responseSuccess).sys.country
 
         return {
             success: true,
@@ -126,13 +126,13 @@ export default class Weather {
             humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
             temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
             icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
-        };
+        }
       } else {
         return {
           success: false,
           apiError: true,
           geocodeError: false,
-        };
+        }
       }
     } catch (e) {
       if (e.statusCode === 404 &&
@@ -141,13 +141,13 @@ export default class Weather {
             success: false,
             notFound: true,
             geocodeError: false,
-          };
+          }
       } else {
         return {
           success: false,
           apiError: true,
           geocodeError: false,
-        };
+        }
       }
     }
   }

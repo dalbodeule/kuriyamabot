@@ -1,5 +1,5 @@
-import * as Sequelize from "sequelize";
-import sequelize from "../_mysql";
+import * as Sequelize from "sequelize"
+import sequelize from "../_mysql"
 
 class LeaveMessage extends Sequelize.Model {}
 
@@ -19,6 +19,6 @@ LeaveMessage.init({
   sequelize,
   timestamps: false,
   underscored: true,
-});
+})
 
-export default LeaveMessage;
+export default LeaveMessage

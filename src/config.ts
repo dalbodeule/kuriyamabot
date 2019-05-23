@@ -1,28 +1,28 @@
-import * as Telegram from "node-telegram-bot-api";
+import * as Telegram from "node-telegram-bot-api"
 
 export interface Config {
-  readonly dev: string | boolean;
+  readonly dev: string | boolean
   readonly db: {
     readonly database: string,
     readonly username: string,
     readonly password: string,
     readonly host: string,
-    readonly port: number,
-  };
+    readonly port: number
+  }
   readonly redis: {
     readonly database: number,
     readonly password: string,
     readonly host: string,
-    readonly port: number,
-  };
+    readonly port: number
+  }
   readonly apiKey: {
     readonly telegram: string,
     readonly whatanime: string,
     readonly openweather: string,
-    readonly kakao: string,
-  };
-  readonly bot: Telegram.User;
-  readonly homepage: string;
+    readonly kakao: string
+  }
+  readonly bot: Telegram.User
+  readonly homepage: string
 }
 
 export const config: Config = {
@@ -48,4 +48,4 @@ export const config: Config = {
   },
   bot: null as any as Telegram.User,
   homepage: "https://kuriyama.mori.space/",
-};
+}

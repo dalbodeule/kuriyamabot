@@ -1,5 +1,5 @@
-import * as Telegram from "node-telegram-bot-api";
-import Lang from "../lang";
+import * as Telegram from "node-telegram-bot-api"
+import Lang from "../lang"
 
 export default (temp: Lang): Telegram.InlineKeyboardButton[][] => {
   return [
@@ -61,5 +61,5 @@ export default (temp: Lang): Telegram.InlineKeyboardButton[][] => {
       text: "👍 " + temp.inline("command.help.donate"),
       url: "https://liberapay.com/small_sunshine",
     }],
-  ];
-};
+  ]
+}

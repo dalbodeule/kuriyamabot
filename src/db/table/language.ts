@@ -1,5 +1,5 @@
-import * as Sequelize from "sequelize";
-import sequelize from "../_mysql";
+import * as Sequelize from "sequelize"
+import sequelize from "../_mysql"
 
 class Language extends Sequelize.Model {}
 
@@ -11,6 +11,6 @@ Language.init({
   sequelize,
   timestamps: false,
   underscored: true,
-});
+})
 
-export default Language;
+export default Language

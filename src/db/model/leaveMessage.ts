@@ -1,37 +1,37 @@
-import * as types from "../../types";
-import redis from "../_redis";
-import db from "../table";
+import * as types from "../../types"
+import redis from "../_redis"
+import db from "../table"
 
-const SUCCESS = true;
-const PREFIX = "leave:";
-const EXPIRE = 60 * 60 * 24;
+const SUCCESS = true
+const PREFIX = "leave:"
+const EXPIRE = 60 * 60 * 24
 
 class Message {
   public static async find(user_id: number): Promise<types.model.returnLeaveMessage | undefined> {
-    const query = await redis.getAsync(PREFIX + user_id);
+    const query = await redis.getAsync(PREFIX + user_id)
 
     if (query) {
-      const [message, isEnabled] = JSON.parse(query);
+      const [message, isEnabled] = JSON.parse(query)
 
       return {
         user_id,
         message,
         isEnabled,
-      };
+      }
     } else {
       const result = await db.LeaveMessage.findOne({
         where: {
           user_id,
         },
-      });
+      })
 
-      let temp;
+      let temp
       if (result) {
-        temp = (result.toJSON() as types.model.returnLeaveMessage);
-        redis.setAsync(PREFIX + user_id, JSON.stringify([temp.message, temp.isEnabled]), "EX", EXPIRE);
+        temp = (result.toJSON() as types.model.returnLeaveMessage)
+        redis.setAsync(PREFIX + user_id, JSON.stringify([temp.message, temp.isEnabled]), "EX", EXPIRE)
       }
 
-      return temp;
+      return temp
     }
   }
 
@@ -40,7 +40,7 @@ class Message {
       where: {
         id: user_id,
       },
-    });
+    })
 
     await db.LeaveMessage.findOrCreate({
       where: {
@@ -49,28 +49,28 @@ class Message {
       defaults: {
         message,
       },
-    });
+    })
 
-    redis.setAsync(PREFIX + user_id, message, "EX", EXPIRE);
+    redis.setAsync(PREFIX + user_id, message, "EX", EXPIRE)
 
-    return SUCCESS;
+    return SUCCESS
   }
 
   public static async update(user_id: number, message: string|null, isEnabled: boolean|null): Promise<boolean> {
-    let updateData;
+    let updateData
 
-    if ( message && isEnabled ) { updateData = { message, isEnabled }; } else if ( message ) { updateData = { message }; } else if ( isEnabled ) { updateData = { isEnabled }; } else { return false; }
+    if ( message && isEnabled ) { updateData = { message, isEnabled } } else if ( message ) { updateData = { message } } else if ( isEnabled ) { updateData = { isEnabled } } else { return false }
 
     await db.LeaveMessage.update(updateData, {
       where: {
         user_id,
       },
-    });
+    })
 
-    await this.find(user_id);
+    await this.find(user_id)
 
-    return SUCCESS;
+    return SUCCESS
   }
 }
 
-export default Message;
+export default Message

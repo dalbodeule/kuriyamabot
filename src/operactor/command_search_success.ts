@@ -1,48 +1,48 @@
-import * as google from "google-parser";
-import { Logger } from "log4js";
-import * as Telegram from "node-telegram-bot-api";
-import { Config } from "../config";
-import { command as Command } from "../operactorBase";
+import * as google from "google-parser"
+import { Logger } from "log4js"
+import * as Telegram from "node-telegram-bot-api"
+import { Config } from "../config"
+import { command as Command } from "../operactorBase"
 
 export default class CommandSearchSuccess extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
-    super (bot, logger, config);
+    super (bot, logger, config)
     this.regexp = new RegExp("^(?:/(?:검색|google|search|gg)+(?:@" +
-      this.config.bot.username + ")? |/!)(.+)$");
+      this.config.bot.username + ")? |/!)(.+)$")
   }
 
   protected async module(msg: Telegram.Message, match: RegExpExecArray) {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
-      const chatid = msg.chat.id;
-      let temp;
+      const chatid = msg.chat.id
+      let temp
       try {
         this.logger.info("command: search, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +
-          ", command: " + msg.text + ", type: pending");
+          ", command: " + msg.text + ", type: pending")
 
         const [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, "typing"),
           this.helper.getLang(msg, this.logger),
-        ]);
+        ])
 
-        const response = await this.helper.search(match[1]);
+        const response = await this.helper.search(match[1])
 
         if (!response) {
           await this.bot.sendMessage(chatid, "🔍 " +
             temp.text("command.search.not_found"), {
               reply_to_message_id: msg.message_id,
-            });
+            })
           this.logger.info("command: search, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +
-            ", command: " + msg.text + ", type: success, response: not found");
+            ", command: " + msg.text + ", type: success, response: not found")
         } else if ((response as google.error).error) {
           await this.bot.sendMessage(chatid, "🔍 " +
             temp.text("command.search.bot_block"), {
               reply_to_message_id: msg.message_id,
-            });
+            })
           this.logger.info("command: search, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +
-            ", command: " + msg.text + ", type: success, response: google bot block");
+            ", command: " + msg.text + ", type: success, response: google bot block")
         } else {
           try {
             await this.bot.sendMessage(chatid, "🔍 " +
@@ -59,10 +59,10 @@ export default class CommandSearchSuccess extends Command {
                     switch_inline_query_current_chat: "search " + match[1],
                   }]],
                 },
-              });
+              })
             this.logger.info("command: search, chatid: " + chatid +
               ", username: " + this.helper.getUser(msg.from!) +
-              ", command: " + msg.text + ", type: success, response: search success");
+              ", command: " + msg.text + ", type: success, response: search success")
           } catch (e) {
             await this.bot.sendMessage(chatid, "❗️ " +
               temp.text("command.search.error")
@@ -76,18 +76,18 @@ export default class CommandSearchSuccess extends Command {
               },
               reply_to_message_id: msg.message_id,
               parse_mode: "HTML",
-            });
+            })
             this.logger.error("command: search, chatid: " + chatid +
               ", username: " + this.helper.getUser(msg.from!) +
-              ", command: " + msg.text + ", type: error");
-            this.logger.debug(e.stack);
+              ", command: " + msg.text + ", type: error")
+            this.logger.debug(e.stack)
           }
         }
       } catch (e) {
         this.logger.error("command: search, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +
-          ", command: " + msg.text + ", type: error");
-        this.logger.debug(e.stack);
+          ", command: " + msg.text + ", type: error")
+        this.logger.debug(e.stack)
       }
     }
   }

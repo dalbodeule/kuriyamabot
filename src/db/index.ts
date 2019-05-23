@@ -1,6 +1,6 @@
-import language from "./model/language";
-import leaveMessage from "./model/leaveMessage";
-import user from "./model/user";
-import welcomeMessage from "./model/welcomeMessage";
+import language from "./model/language"
+import leaveMessage from "./model/leaveMessage"
+import user from "./model/user"
+import welcomeMessage from "./model/welcomeMessage"
 
-export { language, leaveMessage, welcomeMessage, user };
+export { language, leaveMessage, welcomeMessage, user }
