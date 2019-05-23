@@ -1,8 +1,8 @@
-import * as helper from '../helper'
+import * as weatherHelper from './weatherHelper'
 
 export default class Weather {
-  private OpenWeather: helper.weather.default
-  private KakaoMap: helper.geocode.default
+  private OpenWeather: weatherHelper.weather.default
+  private KakaoMap: weatherHelper.geocode.default
 
   private weatherKey: string
   private KakaoKey: string
@@ -11,8 +11,8 @@ export default class Weather {
     this.weatherKey = weatherKey
     this.KakaoKey = kakaoKey
 
-    this.OpenWeather = new helper.weather.default(this.weatherKey, 'metric', 'en')
-    this.KakaoMap = new helper.geocode.default(this.KakaoKey)
+    this.OpenWeather = new weatherHelper.weather.default(this.weatherKey, 'metric', 'en')
+    this.KakaoMap = new weatherHelper.geocode.default(this.KakaoKey)
   }
 
   public async getWeatherWithCityName (cityName: string) {
@@ -29,11 +29,11 @@ export default class Weather {
       if (weather.cod === 200) {
         return {
           success: true,
-          windSpeed: (<helper.weather.responseSuccess>weather).wind.speed,
-          windDeg: (<helper.weather.responseSuccess>weather).wind.deg.toFixed(2),
-          humidity: (<helper.weather.responseSuccess>weather).main.humidity.toFixed(2),
-          temp: (<helper.weather.responseSuccess>weather).main.temp,
-          icon: (<helper.weather.responseSuccess>weather).weather[0].icon
+          windSpeed: (<weatherHelper.weather.responseSuccess>weather).wind.speed,
+          windDeg: (<weatherHelper.weather.responseSuccess>weather).wind.deg.toFixed(2),
+          humidity: (<weatherHelper.weather.responseSuccess>weather).main.humidity.toFixed(2),
+          temp: (<weatherHelper.weather.responseSuccess>weather).main.temp,
+          icon: (<weatherHelper.weather.responseSuccess>weather).weather[0].icon
         }
       } else {
         return {
@@ -73,11 +73,11 @@ export default class Weather {
           return {
             success: true,
             displayLocation,
-            windSpeed: (<helper.weather.responseSuccess>weather).wind.speed,
-            windDeg: (<helper.weather.responseSuccess>weather).wind.deg.toFixed(2),
-            humidity: (<helper.weather.responseSuccess>weather).main.humidity.toFixed(2),
-            temp: (<helper.weather.responseSuccess>weather).main.temp,
-            icon: (<helper.weather.responseSuccess>weather).weather[0].icon
+            windSpeed: (<weatherHelper.weather.responseSuccess>weather).wind.speed,
+            windDeg: (<weatherHelper.weather.responseSuccess>weather).wind.deg.toFixed(2),
+            humidity: (<weatherHelper.weather.responseSuccess>weather).main.humidity.toFixed(2),
+            temp: (<weatherHelper.weather.responseSuccess>weather).main.temp,
+            icon: (<weatherHelper.weather.responseSuccess>weather).weather[0].icon
           }
         } else {
           return {
@@ -115,17 +115,17 @@ export default class Weather {
       let weather = await this.OpenWeather.getByCityName(cityName)
       if (weather.cod === 200) {
         let displayLocation =
-          (<helper.weather.responseSuccess>weather).name + ',' +
-          (<helper.weather.responseSuccess>weather).sys.country
+          (<weatherHelper.weather.responseSuccess>weather).name + ',' +
+          (<weatherHelper.weather.responseSuccess>weather).sys.country
         
         return {
             success: true,
             displayLocation,
-            windSpeed: (<helper.weather.responseSuccess>weather).wind.speed,
-            windDeg: (<helper.weather.responseSuccess>weather).wind.deg.toFixed(2),
-            humidity: (<helper.weather.responseSuccess>weather).main.humidity.toFixed(2),
-            temp: (<helper.weather.responseSuccess>weather).main.temp,
-            icon: (<helper.weather.responseSuccess>weather).weather[0].icon
+            windSpeed: (<weatherHelper.weather.responseSuccess>weather).wind.speed,
+            windDeg: (<weatherHelper.weather.responseSuccess>weather).wind.deg.toFixed(2),
+            humidity: (<weatherHelper.weather.responseSuccess>weather).main.humidity.toFixed(2),
+            temp: (<weatherHelper.weather.responseSuccess>weather).main.temp,
+            icon: (<weatherHelper.weather.responseSuccess>weather).weather[0].icon
         }
       } else {
         return {
