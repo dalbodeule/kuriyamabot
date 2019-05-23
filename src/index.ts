@@ -29,17 +29,9 @@ try {
     try {
       (config.bot as Partial<Config['bot']>)= await bot.getMe()
 
-      const loadOperactors: {
-        [index: string]:
-        operactorBase.message |
-        operactorBase.inline |
-        operactorBase.command |
-        operactorBase.callback
-      } = {}
-
       for(let key in operactors) {
-        loadOperactors[key] = new operactors[key](bot, logger, config)
-        loadOperactors[key].run()
+        let temp = new operactors[key](bot, logger, config)
+        temp.run()
 
         logger.debug(`module '${key}' successfuly load`)
       }
