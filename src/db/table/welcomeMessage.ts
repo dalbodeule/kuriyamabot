@@ -1,24 +1,24 @@
-import * as Sequelize from 'sequelize'
-import sequelize from '../_mysql'
+import * as Sequelize from "sequelize";
+import sequelize from "../_mysql";
 
-class WelcomeMessage extends Sequelize.Model{}
+class WelcomeMessage extends Sequelize.Model {}
 
 WelcomeMessage.init({
   message: {
     type: Sequelize.TEXT,
     allowNull: true,
-    unique: false
+    unique: false,
   },
   isEnabled: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     unique: false,
-    defaultValue: true
-  }
+    defaultValue: true,
+  },
 }, {
   sequelize,
   timestamps: false,
-  underscored: true
-})
+  underscored: true,
+});
 
-export default WelcomeMessage
+export default WelcomeMessage;

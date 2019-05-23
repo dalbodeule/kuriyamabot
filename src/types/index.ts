@@ -1,2 +1,2 @@
-import * as model from './model'
-export { model }
+import * as model from "./model";
+export { model };

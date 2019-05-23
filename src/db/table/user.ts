@@ -1,7 +1,7 @@
-import * as Sequelize from 'sequelize'
-import sequelize from '../_mysql'
+import * as Sequelize from "sequelize";
+import sequelize from "../_mysql";
 
-class User extends Sequelize.Model{}
+class User extends Sequelize.Model {}
 
 User.init({
   id: {
@@ -10,22 +10,22 @@ User.init({
     unique: true,
     primaryKey: true,
     validate: {
-      isInt: true
-    }
+      isInt: true,
+    },
   },
   title: {
     type: Sequelize.STRING(40),
     allowNull: true,
-    unique: false
+    unique: false,
   },
   type: {
     type: Sequelize.STRING(10),
     allowNull: true,
-    unique: false
-  }
+    unique: false,
+  },
 }, {
   sequelize,
-  timestamps: false
-})
+  timestamps: false,
+});
 
-export default User
+export default User;
