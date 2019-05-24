@@ -5,7 +5,8 @@ class Language extends Sequelize.Model {}
 
 Language.init({
   lang: {
-    type: Sequelize.STRING(2), allowNull: false,
+    allowNull: false,
+    type: Sequelize.STRING(2),
   },
 }, {
   sequelize,

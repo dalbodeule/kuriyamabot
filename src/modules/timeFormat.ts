@@ -1,4 +1,4 @@
-export default class timeFormat {
+export default class TimeFormat {
   public time: number
 
   constructor(time: number) {

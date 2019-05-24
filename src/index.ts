@@ -18,8 +18,8 @@ try {
   logger.debug("Debug Mode!")
 
   const bot = new Telegram(config.apiKey.telegram, {
-    polling: true,
     filepath: false,
+    polling: true,
   })
 
   logger.info("Bot is activated!");
@@ -29,10 +29,12 @@ try {
       (config.bot as Partial<Config["bot"]>) = await bot.getMe()
 
       for (const key in operactors) {
-        const temp = new operactors[key](bot, logger, config)
-        temp.run()
+        if (key) {
+          const temp = new operactors[key](bot, logger, config)
+          temp.run()
 
-        logger.debug(`module '${key}' successfuly load`)
+          logger.debug(`module '${key}' successfuly load`)
+        }
       }
 
       logger.info("Ready!")
@@ -42,5 +44,6 @@ try {
     }
   })()
 } catch (err) {
+// tslint:disable-next-line: no-console
   console.error(err)
 }

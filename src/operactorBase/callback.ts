@@ -25,5 +25,6 @@ export default class Callback {
   }
 
   protected async module(msg: Telegram.CallbackQuery): Promise<void> {
+    return
   }
 }

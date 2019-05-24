@@ -25,5 +25,6 @@ export default class Message {
   }
 
   protected async module(msg: Telegram.Message): Promise<void> {
+    return
   }
 }

@@ -7,11 +7,11 @@ import * as path from "path"
 import { config } from "../config"
 import * as model from "../db"
 
-interface Langs {
+interface ILangs {
   [index: string]: any
 }
 
-const langs: Langs = {}
+const langs: ILangs = {}
 
 export default class Lang {
   public id: number
@@ -116,7 +116,8 @@ export default class Lang {
 
   public inline(code: string): string {
     if (typeof this.lang === "undefined" || typeof langs[language.getLanguageInfo(this.lang).name] === "undefined") {
-      return (objectPath.get(langs.Korean, code) as string) + "(" + (objectPath.get(langs.English, code) as string) + ")"
+      return (objectPath.get(langs.Korean, code) as string)
+        + "(" + (objectPath.get(langs.English, code) as string) + ")"
     } else if (language.getLanguageInfo(this.lang).name === "English") {
       return (objectPath.get(langs.English, code) as string)
     } else {
@@ -136,7 +137,7 @@ export default class Lang {
     return (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) as string)
   }
 
-  public getLangList(): Langs {
+  public getLangList(): ILangs {
     return langs
   }
 

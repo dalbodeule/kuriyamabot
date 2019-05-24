@@ -7,11 +7,11 @@ import user from "./user"
 import welcomeMessage from "./welcomeMessage"
 
 const tables = {
-  User: user,
   Language: language,
   LeaveMessage: leaveMessage,
-  WelcomeMessage: welcomeMessage,
   Options: options,
+  User: user,
+  WelcomeMessage: welcomeMessage,
 }
 
 tables.User.hasOne(tables.Language, {

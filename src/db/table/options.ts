@@ -5,10 +5,12 @@ class Options extends Sequelize.Model {}
 
 Options.init({
   optionName: {
-    type: Sequelize.STRING(2), allowNull: false,
+    allowNull: false,
+    type: Sequelize.STRING(2),
   },
   value: {
-    type: Sequelize.STRING(20), allowNull: true,
+    allowNull: true,
+    type: Sequelize.STRING(20),
   },
 }, {
   sequelize,

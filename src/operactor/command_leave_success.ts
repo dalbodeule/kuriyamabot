@@ -18,7 +18,10 @@ export default class CommandLeaveSuccess extends Command {
           + ", username: " + this.helper.getUser(msg.from!) +
           ", command: " + msg.text + ", type: pending")
 
-        let isAdmin, send, temp, admins: Telegram.ChatMember[]
+        let isAdmin
+        let send
+        let temp
+        let admins: Telegram.ChatMember[]
         [send, temp, admins] = await Promise.all([
           this.bot.sendChatAction(chatid, "typing"),
           this.helper.getLang(msg, this.logger),

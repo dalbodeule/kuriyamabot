@@ -4,16 +4,16 @@ import sequelize from "../_mysql"
 class LeaveMessage extends Sequelize.Model {}
 
 LeaveMessage.init({
-  message: {
-    type: Sequelize.TEXT,
-    allowNull: true,
+  isEnabled: {
+    allowNull: false,
+    defaultValue: true,
+    type: Sequelize.BOOLEAN,
     unique: false,
   },
-  isEnabled: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
+  message: {
+    allowNull: true,
+    type: Sequelize.TEXT,
     unique: false,
-    defaultValue: true,
   },
 }, {
   sequelize,

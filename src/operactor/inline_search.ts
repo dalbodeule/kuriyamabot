@@ -16,7 +16,7 @@ export default class InlineSearch extends Inline {
     }
 
     function getdesc(description: string, url: string, title: string, temp: Lang) {
-      description = description.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '')
+      description = description.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "")
       const shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/)
       if (shot !== null) {
         return "https://youtu.be/" + shot[1]

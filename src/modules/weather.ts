@@ -28,30 +28,30 @@ export default class Weather {
       const weather = await this.OpenWeather.getByGeographic(latitude, longitude)
       if (weather.cod === 200) {
         return {
-          success: true,
-          windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
-          windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
           humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
-          temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
           icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
+          success: true,
+          temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
+          windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
+          windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
         }
       } else {
         return {
-          success: false,
           apiError: true,
+          success: false,
         }
       }
     } catch (e) {
       if (e.statusCode === 404 &&
         e.error.message === "city not found") {
           return {
-            success: false,
             notFound: true,
+            success: false,
           }
       } else {
         return {
-          success: false,
           apiError: true,
+          success: false,
         }
       }
     }
@@ -71,41 +71,41 @@ export default class Weather {
         const weather = await this.OpenWeather.getByGeographic(lat, lon)
         if (weather.cod === 200) {
           return {
-            success: true,
             displayLocation,
-            windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
-            windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
             humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
-            temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
             icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
+            success: true,
+            temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
+            windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
+            windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
           }
         } else {
           return {
-            success: false,
             apiError: true,
             geocodeError: false,
+            success: false,
           }
         }
       } catch (e) {
         if (e.statusCode === 404 &&
           e.error.message === "city not found") {
             return {
-              success: false,
-              notFound: true,
               geocodeError: false,
+              notFound: true,
+              success: false,
             }
         } else {
           return {
-            success: false,
             apiError: true,
             geocodeError: false,
+            success: false,
           }
         }
       }
     } catch (e) {
       return {
-        success: false,
         geocodeError: true,
+        success: false,
       }
     }
   }
@@ -119,34 +119,34 @@ export default class Weather {
           (weather as weatherHelper.weather.responseSuccess).sys.country
 
         return {
-            success: true,
             displayLocation,
-            windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
-            windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
             humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
-            temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
             icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
+            success: true,
+            temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
+            windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
+            windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
         }
       } else {
         return {
-          success: false,
           apiError: true,
           geocodeError: false,
+          success: false,
         }
       }
     } catch (e) {
       if (e.statusCode === 404 &&
         e.error.message === "city not found") {
           return {
-            success: false,
-            notFound: true,
             geocodeError: false,
+            notFound: true,
+            success: false,
           }
       } else {
         return {
-          success: false,
           apiError: true,
           geocodeError: false,
+          success: false,
         }
       }
     }

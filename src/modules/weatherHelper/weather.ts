@@ -6,6 +6,7 @@ export default class OpenWeather {
   private units: units
   private locale: locale
 
+// tslint:disable-next-line: no-shadowed-variable
   constructor(key: string, units: units, locale: locale) {
     this.key = key
     this.uri = "https://api.openweathermap.org/data/2.5/weather",
@@ -13,6 +14,7 @@ export default class OpenWeather {
     this.locale = locale
   }
 
+// tslint:disable-next-line: no-shadowed-variable
   public setLocale(locale: locale): boolean {
     this.locale = locale
 
@@ -24,7 +26,7 @@ export default class OpenWeather {
   }
 
   public async getByCityName(cityName: string, countryCode?: string):
-    Promise<responseSuccess|responseError> {
+    Promise<IresponseSuccess|IresponseError> {
     const options = {
       uri: this.uri,
       qs: {
@@ -42,7 +44,7 @@ export default class OpenWeather {
   }
 
   public async getByGeographic(lat: number, lon: number):
-    Promise<responseSuccess|responseError> {
+    Promise<IresponseSuccess|IresponseError> {
       const options = {
         uri: this.uri,
         qs: {
@@ -58,7 +60,7 @@ export default class OpenWeather {
   }
 }
 
-export interface responseSuccess {
+export interface IresponseSuccess {
   coord: {
     lon: number,
     lat: number
@@ -102,7 +104,7 @@ export interface responseSuccess {
   cod: any
 }
 
-export interface responseError {
+export interface IresponseError {
   cod: number
   message: string
 }

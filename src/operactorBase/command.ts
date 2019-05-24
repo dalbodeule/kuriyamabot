@@ -27,5 +27,6 @@ export default class Command {
   }
 
   protected async module(msg: Telegram.Message, match: RegExpExecArray | null): Promise<void> {
+    return
   }
 }

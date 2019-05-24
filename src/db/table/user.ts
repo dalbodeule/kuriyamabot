@@ -5,22 +5,22 @@ class User extends Sequelize.Model {}
 
 User.init({
   id: {
-    type: Sequelize.BIGINT,
-    allowNull: false,
-    unique: true,
+    allowNull: true,
     primaryKey: true,
+    type: Sequelize.BIGINT,
+    unique: true,
     validate: {
       isInt: true,
     },
   },
   title: {
-    type: Sequelize.STRING(40),
     allowNull: true,
+    type: Sequelize.STRING(40),
     unique: false,
   },
   type: {
-    type: Sequelize.STRING(10),
     allowNull: true,
+    type: Sequelize.STRING(10),
     unique: false,
   },
 }, {

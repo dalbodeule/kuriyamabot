@@ -47,7 +47,15 @@ class User {
   public static async update(id: number, title: string|null, type: string|null): Promise<boolean> {
     let updateData
 
-    if ( title && type ) { updateData = { title, type } } else if ( title ) { updateData = { title } } else if ( type ) { updateData = { type } } else { return false }
+    if ( title && type ) {
+      updateData = { title, type }
+    } else if ( title ) {
+      updateData = { title }
+    } else if ( type ) {
+      updateData = { type }
+    } else {
+      return false
+    }
 
     await db.User.update(updateData, {
       where: {

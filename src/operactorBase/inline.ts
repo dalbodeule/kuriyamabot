@@ -25,5 +25,6 @@ export default class Inline {
   }
 
   protected async module(msg: Telegram.InlineQuery): Promise<void> {
+    return
   }
 }

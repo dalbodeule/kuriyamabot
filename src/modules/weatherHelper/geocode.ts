@@ -10,18 +10,18 @@ export default class Geocode {
   }
 
   public async get(query: string, page?: number,
-                   size?: number): Promise<responseSuccess> {
+                   size?: number): Promise<IresponseSuccess> {
     const options = {
-      uri: this.uri,
-      qs: {
-        query,
-        page,
-        size,
-      },
       headers: {
         Authorization: `KakaoAK ${this.key}`,
       },
       json: true,
+      qs: {
+        page,
+        query,
+        size,
+      },
+      uri: this.uri,
     }
 
     const result = await request(options)
@@ -29,25 +29,25 @@ export default class Geocode {
   }
 }
 
-export interface responseSuccess {
+export interface IresponseSuccess {
   meta: {
     total_count: number,
     pageable_count: number,
     is_end: boolean
   }
-  documents?: document[]
+  documents?: Idocument[]
 }
 
-export interface document {
+export interface Idocument {
   address_name: string
   address_type: "REGION" | "ROAD" | "REGION_ADDR" | "ROAD_ADDR"
   x: string
   y: string
-  address: address
-  road_address: road_address
+  address: Iaddress
+  road_address: Iroad_address
 }
 
-export interface address {
+export interface Iaddress {
   address_name: string
   region_1depth_name: string
   region_2depth_name: string
@@ -63,7 +63,7 @@ export interface address {
   y: string
 }
 
-export interface road_address {
+export interface Iroad_address {
   address_name: string
   region_1depth_name: string
   region_2depth_name: string
