@@ -1,4 +1,3 @@
-export { default as commandList }from "./commandList"
 export { default as getLang } from "./getLang"
 export { default as getUser } from "./getUser"
 export { default as langList } from "./langList"

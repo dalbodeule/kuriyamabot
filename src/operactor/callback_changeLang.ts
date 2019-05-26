@@ -22,7 +22,8 @@ export default class CallbackChangeLang extends Callback {
         if ((msg.message as Telegram.Message).chat.type === "private") {
           temp = await this.helper.getLang(msg, this.logger)
           await temp.langset(test[2])
-          await this.bot.editMessageText(temp.text("command.lang.success"), {chat_id: (msg.message as Telegram.Message).chat.id,
+          await this.bot.editMessageText(temp.text("command.lang.success"), {
+            chat_id: (msg.message as Telegram.Message).chat.id,
             message_id: (msg.message as Telegram.Message).message_id,
             parse_mode: "HTML",
           })
@@ -30,7 +31,8 @@ export default class CallbackChangeLang extends Callback {
             ", username: " + this.helper.getUser(msg.from) +
             ", command: " + msg.data + ", type: success")
         } else {
-          let admins, isAdmin = false;
+          let admins
+          let isAdmin = false;
           [temp, admins] = await Promise.all([
             this.helper.getLang(msg, this.logger),
             this.bot.getChatAdministrators((msg.message as Telegram.Message).chat.id),

@@ -7,7 +7,7 @@ const PREFIX = "leave:"
 const EXPIRE = 60 * 60 * 24
 
 class Message {
-  public static async find(userId: number): Promise<types.model.returnLeaveMessage | undefined> {
+  public static async find(userId: number): Promise<types.model.IreturnLeaveMessage | undefined> {
     const query = await redis.getAsync(PREFIX + userId)
 
     if (query) {
@@ -27,7 +27,7 @@ class Message {
 
       let temp
       if (result) {
-        temp = (result.toJSON() as types.model.returnLeaveMessage)
+        temp = (result.toJSON() as types.model.IreturnLeaveMessage)
         redis.setAsync(PREFIX + userId, JSON.stringify([temp.message, temp.isEnabled]), "EX", EXPIRE)
       }
 

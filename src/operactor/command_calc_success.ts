@@ -26,38 +26,38 @@ export default class CommandCalcSuccess extends Command {
         ])
 
         try {
-          const string = match[1].split("|")
+          const str = match[1].split("|")
 
           let result
-          if (string[1]) {
+          if (str[1]) {
             const scope: {
               [index: string]: string|number
             } = {}
 
-            string[1].split(",").forEach((value, index, array) => {
+            str[1].split(",").forEach((value, index, array) => {
               value = value.replace(/\ /g, "")
               const variable = value.split("=")
-              if (typeof variable[0] != "number") {
+              if (typeof variable[0] !== "number") {
                 scope[variable[0]] = variable[1]
               }
             })
 
-            result = math.eval(string[0], scope)
+            result = math.eval(str[0], scope)
           } else {
             result = math.eval(match[1])
           }
 
           await this.bot.sendMessage(chatid, result, {
-              reply_to_message_id: msg.message_id,
               parse_mode: "HTML",
+              reply_to_message_id: msg.message_id,
             })
           this.logger.info("command: translate, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +
             ", command: " + msg.text + ", type: success")
         } catch (e) {
           await this.bot.sendMessage(chatid, temp.text("command.calc.error"), {
-            reply_to_message_id: msg.message_id,
             parse_mode: "HTML",
+            reply_to_message_id: msg.message_id,
           })
           this.logger.info("command: translate, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +

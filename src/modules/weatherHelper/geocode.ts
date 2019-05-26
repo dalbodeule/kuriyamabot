@@ -43,11 +43,11 @@ export interface Idocument {
   address_type: "REGION" | "ROAD" | "REGION_ADDR" | "ROAD_ADDR"
   x: string
   y: string
-  address: Iaddress
-  road_address: Iroad_address
+  address: IAddress
+  road_address: IRoad_address
 }
 
-export interface Iaddress {
+export interface IAddress {
   address_name: string
   region_1depth_name: string
   region_2depth_name: string
@@ -63,7 +63,8 @@ export interface Iaddress {
   y: string
 }
 
-export interface Iroad_address {
+// tslint:disable-next-line: class-name
+export interface IRoad_address {
   address_name: string
   region_1depth_name: string
   region_2depth_name: string

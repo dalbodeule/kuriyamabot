@@ -126,13 +126,6 @@ export default class Lang {
     }
   }
 
-  public help(code: string): string {
-    return (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + ".name") as string) + "\n\n" +
-      (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + ".description") as string) + "\n\n" +
-      (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code + ".how") as string)
-        .replace(/{botid}/g, "@" + config.bot.username)
-  }
-
   public text(code: string): string {
     return (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) as string)
   }

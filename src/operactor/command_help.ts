@@ -3,6 +3,7 @@ import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
 import { command as Command } from "../operactorBase"
 
+// tslint:disable-next-line: no-var-requires
 const version: string = require("../../package.json").version
 
 export default class CommandHelp extends Command {
@@ -26,13 +27,24 @@ export default class CommandHelp extends Command {
         ])
 
         await this.bot.sendMessage(chatid, "📒 " +
-          temp.help("command.help.help")
+          temp.text("command.help.content")
             .replace(/{version}/, version), {
-              reply_to_message_id: msg.message_id,
               parse_mode: "HTML",
               reply_markup: {
-                inline_keyboard: this.helper.commandList(temp),
+                inline_keyboard: [[{
+                  text: "📃 " + temp.inline("command.homepage.button"),
+                  url: `${this.config.homepage}functions`,
+                }],
+                [{
+                  text: "😁 " + temp.inline("command.help.contact"),
+                  url: "https://t.me/small_sunshine",
+                }],
+                [{
+                  text: "👍 " + temp.inline("command.help.donate"),
+                  url: "https://liberapay.com/small_sunshine",
+                }]],
               },
+              reply_to_message_id: msg.message_id,
             })
         this.logger.info("command: help, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +

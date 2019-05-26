@@ -23,7 +23,8 @@ export default class CommandHomepage extends Command {
           this.helper.getLang(msg, this.logger),
         ])
         await this.bot.sendMessage(chatid, "🌎 " +
-          temp.text("command.homepage.message"), {
+          temp.text("command.homepage.message")
+          .replace(/{botname}/g, this.config.bot.first_name), {
             reply_to_message_id: msg.message_id,
             parse_mode: "Markdown",
             reply_markup: {

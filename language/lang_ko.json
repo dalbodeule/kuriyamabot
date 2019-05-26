@@ -57,7 +57,7 @@
       "alert": "원하시는 메세지에 답장으로 명령어를 쳐주세요!"
     },
     "homepage": {
-      "message": "여기가 모리봇의 홈페이지입니다.",
+      "message": "여기가 {botname}의 홈페이지입니다.",
       "button": "바로가기"
     },
     "weather": {
@@ -82,77 +82,7 @@
     "isnotgroup": "그룹 또는 슈퍼그룹이 아니면 이 행동을 할 수 없습니다.",
     "me": "`유저 아이디: {userid}`\n`이름: {fname}`\n`성: {lname}`\n`아이디: {name}`\n`사용언어: {lang}`\n",
     "help": {
-      "help": {
-        "name": "도움말",
-        "description": "이 봇이 할 수 있는 일들입니다.\n아래의 기능을 누르시면 사용 방법을 알아볼 수 있습니다!\n현재 이 봇의 버전은 {version} 입니다.",
-        "how": "/help{botid}"
-      },
-      "img": {
-        "name": "이미지 검색",
-        "description": "구글에서 이미지를 검색할 수 있습니다.",
-        "how": "/img{botid} (검색어)"
-      },
-      "search": {
-        "name": "구글 검색",
-        "description": "구글에 검색할 수 있습니다.",
-        "how": "/google{botid} (검색어)"
-      },
-      "start": {
-        "name": "시작",
-        "description": "이 봇을 깨우는 명령어입니다.\n이 명령어를 사용하면 당신은 이 봇을 사용할 수 있습니다.",
-        "how": "/start{botid}"
-      },
-      "uptime": {
-        "name": "작동 시간",
-        "description": "이 봇이 작동된 시간을 확인할 수 있습니다.",
-        "how": "/uptime{botid}"
-      },
-      "lang": {
-        "name": "사용언어 변경",
-        "description": "이 봇에서 사용할 언어를 변경합니다.",
-        "how": "/lang{botid}"
-      },
-      "me": {
-        "name": "내 정보",
-        "description": "자신의 정보를 볼 수 있습니다.",
-        "how": "/me{botid}"
-      },
-      "whatanime": {
-        "name": "무슨애니",
-        "description": "애니메이션의 스크린샷으로 무슨 애니메이션인지 찾아볼 수 있습니다.",
-        "how": "/whatanime{botid}"
-      },
-      "welcome": {
-        "name": "커스텀 입장메세지",
-        "description": "이 방의 입장메세지를 정할 수 있습니다.",
-        "how": "/welcome{botid}"
-      },
-      "leave": {
-        "name": "커스텀 퇴장메세지",
-        "description": "이 방의 퇴장메세지를 정할 수 있습니다.",
-        "how": "/leave{botid}"
-      },
-      "msginfo": {
-        "name": "메세지 디버깅 명령어",
-        "description": "메세지의 정보를 볼 수 있습니다.",
-        "how": "/msginfo{botid}"
-      },
-      "homepage": {
-        "name": "홈페이지로 이동하기!",
-        "description": "모리봇의 홈페이지로 이동할 수 있습니다.",
-        "how": "/homepage{botid}"
-      },
-      "weather": {
-        "name": "날씨 알아보기!",
-        "description": "원하는 지역의 날씨를 알아볼 수 있습니다.",
-        "how": "/weather{botid}"
-      },
-      "calc": {
-        "name": "계산하기!",
-        "description": "원하는 식을 계산할 수 있습니다.",
-        "how": "/calc{botid}"
-      },
-      "twice": "이미 보시고 계신 도움말입니다!",
+      "content": "이 봇이 할 수 있는 일이 홈페이지에 설명되어 있습니다.\n현재 이 봇의 버전은 {version} 입니다.",
       "contact": "개발자와 연락",
       "donate": "후원"
     }

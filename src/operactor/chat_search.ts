@@ -44,19 +44,19 @@ export default class ChatSearch extends Command {
       } else {
         try {
           await this.bot.sendMessage(chatid, (response as string), {
-            parse_mode: "HTML",
             disable_web_page_preview: true,
-            reply_to_message_id: msg.message_id,
+            parse_mode: "HTML",
             reply_markup: {
               inline_keyboard: [[{
                 text: temp.text("command.search.visit_google"),
                 url: "https://www.google.com/search?q=" +
                   encodeURIComponent(match[1]) + "&ie=UTF-8",
               }, {
-                text: temp.text("command.img.another"),
                 switch_inline_query_current_chat: "search " + match[1],
+                text: temp.text("command.img.another"),
               }]],
             },
+            reply_to_message_id: msg.message_id,
           })
           this.logger.info("command: chat_search, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +

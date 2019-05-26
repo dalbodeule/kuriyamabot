@@ -27,7 +27,9 @@ export default class ChatImage extends Command {
 
       if (!response) {
         await this.bot.sendChatAction(chatid, "typing")
-        await this.bot.sendMessage(chatid, "🖼 " + temp.text("command.img.not_found"), {reply_to_message_id: msg.message_id})
+        await this.bot.sendMessage(chatid, "🖼 " + temp.text("command.img.not_found"), {
+          reply_to_message_id: msg.message_id,
+        })
         this.logger.info("command: chat_image, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +
           ", command: " + type + ", type: success, response: not found")
@@ -43,8 +45,8 @@ export default class ChatImage extends Command {
                 text: temp.text("command.img.view_image"),
                 url: response.img,
               }], [{
-                text: temp.text("command.img.another"),
                 switch_inline_query_current_chat: "img " + match[1],
+                text: temp.text("command.img.another"),
               }]],
             },
             reply_to_message_id: msg.message_id,
@@ -66,8 +68,8 @@ export default class ChatImage extends Command {
                   text: temp.text("command.img.view_image"),
                   url: response!.img,
                 }], [{
-                  text: temp.text("command.img.another"),
                   switch_inline_query_current_chat: "img " + match[1],
+                  text: temp.text("command.img.another"),
                 }]],
               },
               reply_to_message_id: msg.message_id,

@@ -28,12 +28,12 @@ export default class Weather {
       const weather = await this.OpenWeather.getByGeographic(latitude, longitude)
       if (weather.cod === 200) {
         return {
-          humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
-          icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
+          humidity: (weather as weatherHelper.weather.IresponseSuccess).main.humidity.toFixed(2),
+          icon: (weather as weatherHelper.weather.IresponseSuccess).weather[0].icon,
           success: true,
-          temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
-          windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
-          windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
+          temp: (weather as weatherHelper.weather.IresponseSuccess).main.temp,
+          windDeg: (weather as weatherHelper.weather.IresponseSuccess).wind.deg.toFixed(2),
+          windSpeed: (weather as weatherHelper.weather.IresponseSuccess).wind.speed,
         }
       } else {
         return {
@@ -72,12 +72,12 @@ export default class Weather {
         if (weather.cod === 200) {
           return {
             displayLocation,
-            humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
-            icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
+            humidity: (weather as weatherHelper.weather.IresponseSuccess).main.humidity.toFixed(2),
+            icon: (weather as weatherHelper.weather.IresponseSuccess).weather[0].icon,
             success: true,
-            temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
-            windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
-            windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
+            temp: (weather as weatherHelper.weather.IresponseSuccess).main.temp,
+            windDeg: (weather as weatherHelper.weather.IresponseSuccess).wind.deg.toFixed(2),
+            windSpeed: (weather as weatherHelper.weather.IresponseSuccess).wind.speed,
           }
         } else {
           return {
@@ -115,17 +115,17 @@ export default class Weather {
       const weather = await this.OpenWeather.getByCityName(cityName)
       if (weather.cod === 200) {
         const displayLocation =
-          (weather as weatherHelper.weather.responseSuccess).name + "," +
-          (weather as weatherHelper.weather.responseSuccess).sys.country
+          (weather as weatherHelper.weather.IresponseSuccess).name + "," +
+          (weather as weatherHelper.weather.IresponseSuccess).sys.country
 
         return {
             displayLocation,
-            humidity: (weather as weatherHelper.weather.responseSuccess).main.humidity.toFixed(2),
-            icon: (weather as weatherHelper.weather.responseSuccess).weather[0].icon,
+            humidity: (weather as weatherHelper.weather.IresponseSuccess).main.humidity.toFixed(2),
+            icon: (weather as weatherHelper.weather.IresponseSuccess).weather[0].icon,
             success: true,
-            temp: (weather as weatherHelper.weather.responseSuccess).main.temp,
-            windDeg: (weather as weatherHelper.weather.responseSuccess).wind.deg.toFixed(2),
-            windSpeed: (weather as weatherHelper.weather.responseSuccess).wind.speed,
+            temp: (weather as weatherHelper.weather.IresponseSuccess).main.temp,
+            windDeg: (weather as weatherHelper.weather.IresponseSuccess).wind.deg.toFixed(2),
+            windSpeed: (weather as weatherHelper.weather.IresponseSuccess).wind.speed,
         }
       } else {
         return {

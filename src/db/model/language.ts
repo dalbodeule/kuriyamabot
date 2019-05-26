@@ -7,7 +7,7 @@ const PREFIX = "lang:"
 const EXPIRE = 60 * 60 * 24
 
 class Language {
-  public static async find(userId: number): Promise<types.model.returnLanguage | undefined> {
+  public static async find(userId: number): Promise<types.model.IreturnLanguage | undefined> {
     const query = await redis.getAsync(PREFIX + userId)
 
     if (query) {
@@ -24,7 +24,7 @@ class Language {
 
       let temp
       if (result) {
-        temp = (result.toJSON() as types.model.returnLanguage)
+        temp = (result.toJSON() as types.model.IreturnLanguage)
         redis.setAsync(PREFIX + userId, temp.lang, "EX", EXPIRE)
       }
 

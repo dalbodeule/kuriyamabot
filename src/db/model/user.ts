@@ -17,7 +17,7 @@ class User {
     return SUCCESS
   }
 
-  public static async find(id: number): Promise<types.model.returnUser | undefined> {
+  public static async find(id: number): Promise<types.model.IreturnUser | undefined> {
     const query = await redis.getAsync(PREFIX + id)
 
     if (query) {
@@ -36,7 +36,7 @@ class User {
       })
       let temp
       if (result) {
-        temp = (result.toJSON() as types.model.returnUser)
+        temp = (result.toJSON() as types.model.IreturnUser)
         redis.setAsync(PREFIX + id, JSON.stringify([temp.title, temp.type]), "EX", EXPIRE)
       }
 

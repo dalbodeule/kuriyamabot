@@ -25,11 +25,11 @@ export default class CommandCalcError extends Command {
 
         await this.bot.sendMessage(chatid, "💻❗️ " +
           temp.text("command.calc.info"), {
-            reply_to_message_id: msg.message_id,
             parse_mode: "HTML",
             reply_markup: {
               force_reply: true, selective: true,
             },
+            reply_to_message_id: msg.message_id,
           })
         this.logger.info("command: help, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +

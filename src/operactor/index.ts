@@ -2,20 +2,6 @@
 
 // callback
 import callbackChangeLang from "./callback_changeLang"
-import callbackHelpCalc from "./callback_help_calc"
-import callbackHelpHelp from "./callback_help_help"
-import callbackHelpHomepage from "./callback_help_homepage"
-import callbackHelpImg from "./callback_help_img"
-import callbackHelpLang from "./callback_help_lang"
-import callbackHelpLeave from "./callback_help_leave"
-import callbackHelpMe from "./callback_help_me"
-import callbackHelpMsginfo from "./callback_help_msginfo"
-import callbcakHelpSearch from "./callback_help_search"
-import callbackHelpStart from "./callback_help_start"
-import callbackHelpUptime from "./callback_help_uptime"
-import callbackHelpWeather from "./callback_help_weather"
-import callbackHelpWelcome from "./callback_help_welcome"
-import callbackHelpWhatanime from "./callback_help_whatanime"
 
 // command
 
@@ -69,20 +55,6 @@ const modules: {
   [index: string]: any
 } = {
   callbackChangeLang,
-  callbackHelpCalc,
-  callbackHelpHelp,
-  callbackHelpHomepage,
-  callbackHelpImg,
-  callbackHelpLang,
-  callbackHelpLeave,
-  callbackHelpMe,
-  callbackHelpMsginfo,
-  callbcakHelpSearch,
-  callbackHelpStart,
-  callbackHelpUptime,
-  callbackHelpWeather,
-  callbackHelpWelcome,
-  callbackHelpWhatanime,
 
   chatImage,
   chatSearch,
