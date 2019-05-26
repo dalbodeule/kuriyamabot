@@ -1,4 +1,4 @@
-import * as google from "google-parser"
+import { ISearchError } from "google-parser/dist/operactors/search"
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
@@ -33,7 +33,7 @@ export default class ChatSearch extends Command {
         this.logger.info("command: chat_search, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +
           ", chat command: " + type + ", type: success, response: not found")
-      } else if ((response as google.error).error) {
+      } else if ((response as ISearchError).error) {
         await this.bot.sendMessage(chatid, "🔍 " +
           temp.text("command.search.bot_block"), {
             reply_to_message_id: msg.message_id,

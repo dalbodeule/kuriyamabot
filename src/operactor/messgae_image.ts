@@ -1,4 +1,4 @@
-import * as google from "google-parser"
+import { IImg } from "google-parser/dist/operactors/img"
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
@@ -68,14 +68,14 @@ export default class MessageImage extends Message {
           try {
             await this.bot.sendChatAction(chatid, "upload_photo")
             response = await this.helper.image(msg.text!)
-            await this.bot.sendPhoto(chatid, (response as google.imgReturn).img, {
+            await this.bot.sendPhoto(chatid, (response as IImg).img, {
               reply_markup: {
                 inline_keyboard: [[{
                   text: temp.text("command.img.visit_page"),
-                  url: (response as google.imgReturn).url,
+                  url: (response as IImg).url,
                 }, {
                   text: temp.text("command.img.view_image"),
-                  url: (response as google.imgReturn).img,
+                  url: (response as IImg).img,
                 }],
                 [{
                   text: temp.text("command.img.another"),

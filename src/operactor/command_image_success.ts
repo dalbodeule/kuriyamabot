@@ -1,4 +1,3 @@
-import * as google from "google-parser"
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
@@ -61,25 +60,37 @@ export default class CommandImageSuccess extends Command {
             try {
               await this.bot.sendChatAction(chatid, "upload_photo")
               response = await this.helper.image(match[1])
-              await this.bot.sendPhoto(chatid, (response as google.imgReturn).img, {
-                reply_markup: {
-                  inline_keyboard: [[{
-                    text: temp.text("command.img.visit_page"),
-                    url: (response as google.imgReturn).url,
-                  }, {
-                    text: temp.text("command.img.view_image"),
-                    url: (response as google.imgReturn).img,
-                  }],
-                  [{
-                    text: temp.text("command.img.another"),
-                    switch_inline_query_current_chat: "img " + match[1],
-                  }]],
-                },
-                reply_to_message_id: msg.message_id,
-              })
-              this.logger.info("command: img, chatid: " + chatid +
-                ", username: " + this.helper.getUser(msg.from!) +
-                ", command: " + msg.text + ", type: success, resonse: search success")
+
+              if (!response) {
+                await this.bot.sendChatAction(chatid, "typing")
+                await this.bot.sendMessage(chatid, "🖼 " +
+                  temp.text("command.img.not_found"), {
+                    reply_to_message_id: msg.message_id,
+                  })
+                this.logger.info("command: img, chatid: " + chatid +
+                  ", username: " + this.helper.getUser(msg.from!) +
+                  ", command: " + msg.text + ", type: success, response: not found")
+              } else {
+                await this.bot.sendPhoto(chatid, response.img, {
+                  reply_markup: {
+                    inline_keyboard: [[{
+                      text: temp.text("command.img.visit_page"),
+                      url: response.url,
+                    }, {
+                      text: temp.text("command.img.view_image"),
+                      url: response.img,
+                    }],
+                    [{
+                      text: temp.text("command.img.another"),
+                      switch_inline_query_current_chat: "img " + match[1],
+                    }]],
+                  },
+                  reply_to_message_id: msg.message_id,
+                })
+                this.logger.info("command: img, chatid: " + chatid +
+                  ", username: " + this.helper.getUser(msg.from!) +
+                  ", command: " + msg.text + ", type: success, resonse: search success")
+              }
             } catch (e) {
               this.logger.error("command: img, chatid: " + chatid +
                 ", username: " + this.helper.getUser(msg.from!) +

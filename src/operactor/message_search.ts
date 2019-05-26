@@ -1,10 +1,11 @@
 import * as google from "google-parser"
+import { ISearchError } from "google-parser/dist/operactors/search";
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
 import { message as Message } from "../operactorBase"
 
-export default class messageSearch extends Message {
+export default class MessageSearch extends Message {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
   }
@@ -41,7 +42,7 @@ export default class messageSearch extends Message {
         this.logger.info("message: search, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +
           ", command: " + msg.text + ", type: success, response: not found")
-      } else if ((response as google.error).error) {
+      } else if ((response as ISearchError).error) {
         this.bot.sendMessage(chatid, "🔍 " +
           temp.text("command.search.not_found"), {
             reply_to_message_id: msg.message_id,

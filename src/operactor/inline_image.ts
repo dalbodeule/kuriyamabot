@@ -1,4 +1,5 @@
 import * as google from "google-parser"
+import { IImg } from "google-parser/dist/operactors/img"
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
@@ -79,7 +80,7 @@ export default class InlineImage extends Inline {
                 this.logger.debug(e.stack)
               }
             } else {
-              const middle: google.imgReturn[] = []
+              const middle: IImg[] = []
               res.forEach((value, index, array) => {
                 if (value.img.match(/^(?:https?|data:image\/.*;base64)+.*/)) {
                   middle.push(value)
@@ -90,25 +91,27 @@ export default class InlineImage extends Inline {
 
               const results: Telegram.InlineQueryResult[] = []
               for (const i in middle) {
-                results.push({
-                  type: "photo",
-                  photo_url: middle[i].img,
-                  thumb_url: middle[i].img,
-                  id: q.id + "/photo/" + i,
-                  reply_markup: {
-                    inline_keyboard: [[{
-                      text: temp.inline("command.img.visit_page"),
-                      url: middle[i].url,
-                    }, {
-                      text: temp.inline("command.img.view_image"),
-                      url: middle[i].img,
-                    }],
-                    [{
-                      text: temp.inline("command.img.another"),
-                      switch_inline_query_current_chat: "img " + match[2],
-                    }]],
-                  },
-                })
+                if (i) {
+                  results.push({
+                    type: "photo",
+                    photo_url: middle[i].img,
+                    thumb_url: middle[i].img,
+                    id: q.id + "/photo/" + i,
+                    reply_markup: {
+                      inline_keyboard: [[{
+                        text: temp.inline("command.img.visit_page"),
+                        url: middle[i].url,
+                      }, {
+                        text: temp.inline("command.img.view_image"),
+                        url: middle[i].img,
+                      }],
+                      [{
+                        text: temp.inline("command.img.another"),
+                        switch_inline_query_current_chat: "img " + match[2],
+                      }]],
+                    },
+                  })
+                }
               }
 
               try {

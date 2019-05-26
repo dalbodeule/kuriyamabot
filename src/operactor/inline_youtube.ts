@@ -1,4 +1,5 @@
 import * as google from "google-parser"
+import { ISearch, ISearchError } from "google-parser/dist/operactors/search"
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
@@ -15,7 +16,7 @@ export default class InlineSearch extends Inline {
       id: msg.id, query: msg.query,
     }
 
-    function getdesc(description: string, url: string, title: string, temp: Lang) {
+    function getdesc(description: string, url: string, temp: Lang) {
       const shot = url.toString().match(/^https:\/\/(?:www\.|)youtu[.be|be.com]+\/watch\?v=+([^&]+)/)
       if (shot !== null) {
         return "https://youtu.be/" + shot[1]
@@ -23,7 +24,8 @@ export default class InlineSearch extends Inline {
         return temp.text("command.search.desc_null")
       } else {
         if (description.length > 27) {
-          description = description.substr(0, 30) + "...".replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+          description = description.substr(0, 30) + "..."
+            .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         }
         return description
       }
@@ -44,7 +46,10 @@ export default class InlineSearch extends Inline {
               title: "@" + this.config.bot.username + " (youtube|yt) (keyword)",
               id: "help",
               input_message_content: {
-                message_text: "@" + this.config.bot.username + " (youtube|yt) (keyword)", parse_mode: "HTML", disable_web_page_preview: true,
+                message_text: "@" +
+                  `${this.config.bot.username} (youtube|yt) (keyword)`,
+                parse_mode: "HTML",
+                disable_web_page_preview: true,
               },
               reply_markup: {
                 inline_keyboard: [[{
@@ -67,14 +72,16 @@ export default class InlineSearch extends Inline {
         } else {
           try {
             const response = await google.search(match[2] + " site:youtube.com")
-            if ((response as google.error).reson == "antibot") {
+            if ((response as ISearchError).reson === "antibot") {
               try {
                 await this.bot.answerInlineQuery(q.id, [{
                   type: "article",
                   title: temp.text("command.search.bot_blcok"),
                   id: "google bot block",
                   input_message_content: {
-                    message_text: temp.inline("command.search.bot_blcok"), parse_mode: "HTML", disable_web_page_preview: true,
+                    message_text: temp.inline("command.search.bot_blcok"),
+                    parse_mode: "HTML",
+                    disable_web_page_preview: true,
                   },
                 }], {
                   cache_time: 3,
@@ -88,14 +95,16 @@ export default class InlineSearch extends Inline {
                   ", command: " + msg.query + ", type: error")
                 this.logger.debug(e.stack)
               }
-            } else if (!(response as google.searchReturn[])[0]) {
+            } else if (!(response as ISearch[])[0]) {
               try {
                 await this.bot.answerInlineQuery(q.id, [{
                   type: "article",
                   title: temp.text("command.search.not_found"),
                   id: "not found",
                   input_message_content: {
-                    message_text: temp.inline("command.search.not_found"), parse_mode: "HTML", disable_web_page_preview: true,
+                    message_text: temp.inline("command.search.not_found"),
+                    parse_mode: "HTML",
+                    disable_web_page_preview: true,
                   },
                 }], {
                   cache_time: 3,
@@ -110,28 +119,34 @@ export default class InlineSearch extends Inline {
                 this.logger.debug(e.stack)
               }
             } else {
-              (response as google.searchReturn[]).splice(50)
+              (response as ISearch[]).splice(50)
               const responseults: Telegram.InlineQueryResult[] =  []
               let i: any = 0
               for (i in response) {
-                responseults.push({
-                  type: "article",
-                  title: (response as google.searchReturn[])[i].title,
-                  id: q.id + "/document/" + i,
-                  input_message_content: {
-                    message_text: getdesc((response as google.searchReturn[])[i].description, (response as google.searchReturn[])[i].link, (response as google.searchReturn[])[i].title, temp),
-                    parse_mode: "HTML",
-                  },
-                  reply_markup: {
-                    inline_keyboard: [[{
-                      text: temp.inline("command.search.visit_page"),
-                      url: (response as google.searchReturn[])[i].link,
-                    }, {
-                      text: temp.inline("command.search.another"),
-                      switch_inline_query_current_chat: "search " + match[2],
-                    }]],
-                  },
-                })
+                if (i) {
+                  responseults.push({
+                    type: "article",
+                    title: (response as ISearch[])[i].title,
+                    id: q.id + "/document/" + i,
+                    input_message_content: {
+                      message_text: getdesc(
+                        (response as ISearch[])[i].description,
+                        (response as ISearch[])[i].url,
+                        temp
+                      ),
+                      parse_mode: "HTML",
+                    },
+                    reply_markup: {
+                      inline_keyboard: [[{
+                        text: temp.inline("command.search.visit_page"),
+                        url: (response as ISearch[])[i].url,
+                      }, {
+                        text: temp.inline("command.search.another"),
+                        switch_inline_query_current_chat: "search " + match[2],
+                      }]],
+                    },
+                  })
+                }
               }
               try {
                 await this.bot.answerInlineQuery(q.id, responseults, {
