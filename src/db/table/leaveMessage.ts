@@ -1,18 +1,24 @@
-import * as Sequelize from 'sequelize'
-import sequelize from '../_mysql'
+import * as Sequelize from "sequelize"
+import sequelize from "../_mysql"
 
-class LeaveMessage extends Sequelize.Model{}
+class LeaveMessage extends Sequelize.Model {}
 
 LeaveMessage.init({
+  isEnabled: {
+    allowNull: false,
+    defaultValue: true,
+    type: Sequelize.BOOLEAN,
+    unique: false,
+  },
   message: {
-      type: Sequelize.TEXT,
-      allowNull: true,
-      unique: false
-    }
+    allowNull: true,
+    type: Sequelize.TEXT,
+    unique: false,
+  },
 }, {
   sequelize,
   timestamps: false,
-  underscored: true
+  underscored: true,
 })
 
 export default LeaveMessage

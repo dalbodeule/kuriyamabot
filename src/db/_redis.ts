@@ -1,22 +1,23 @@
-import * as Redis from 'redis'
-import * as bluebird from 'bluebird'
-import { config as global, config } from '../config'
+import * as bluebird from "bluebird"
+import * as Redis from "redis"
+import { config } from "../config"
 
-declare module 'redis' {
+declare module "redis" {
+// tslint:disable-next-line: interface-name
   export interface RedisClient extends NodeJS.EventEmitter {
-    getAsync(key: string): Promise<string|null>;
-    setAsync(key: string, value: string, mode?: string, duration?: number): Promise<any>;
+    getAsync(key: string): Promise<string|null>
+    setAsync(key: string, value: string, mode?: string, duration?: number): Promise<any>
   }
 }
 
-let redisConfig = {
-  host: global.redis.host,
-  port: global.redis.port,
-  password: global.redis.password,
-  db: global.redis.database
+const redisConfig = {
+  db: config.redis.database,
+  host: config.redis.host,
+  password: config.redis.password,
+  port: config.redis.port,
 }
 
-if (redisConfig.password === '') {
+if (redisConfig.password === "") {
   delete redisConfig.password
 }
 

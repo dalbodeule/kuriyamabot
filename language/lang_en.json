@@ -58,7 +58,7 @@
       "alert": "Please reply to the message you want!"
     },
     "homepage": {
-      "message": "Here is Moribot's homepage.",
+      "message": "Here is {botname}'s homepage.",
       "button": "Shortcuts"
     },
     "weather": {
@@ -83,77 +83,7 @@
     "isnotgroup" :"You can not do this unless you are a group or a super group.",
     "me" :"`User ID :{userid}`\n`First name :{fname}`\n`Last name :{lname}`\n`ID :{name}`\n`Use language :{lang}`\n",
     "help" :{
-      "help" :{
-        "name" :"Help",
-        "description" :"Here's what this bot can do:\nClick on one of the features below to learn how to use it!\nThe current version of this bot is {version}.",
-        "how" :"/help{botid}"
-      },
-      "img" :{
-        "name" :"Image search",
-        "description" :"You can search for images in Google.",
-        "how" :"/img{botid} (search word)"
-      },
-      "search" :{
-        "name" :"Google Search",
-        "description" :"You can search on Google.",
-        "how" :"/google{botid} (search word)"
-      },
-      "start" :{
-        "name" :"Start",
-        "description" :"This is a command to wake up the bot.\nYou can use this bot if you use this command.",
-        "how" :"/start{botid}"
-      },
-      "uptime" :{
-        "name" :"Bot Uptime",
-        "description" :"You can see how long this bot has been running.",
-        "how" :"/uptime{botid}"
-      },
-      "lang" :{
-        "name" :"Change your language",
-        "description" :"Change the language to use here.",
-        "how" :"/lang{botid}"
-      },
-      "me" :{
-        "name" :"My Info",
-        "description" :"You can see your own information.",
-        "how" :"/me{botid}"
-      },
-      "whatanime" :{
-        "name" :"whatanime",
-        "description" :"You can find out what animations are in the screenshots of the animation.",
-        "how" :"/whatanime{botid}"
-      },
-      "welcome" :{
-        "name" :"Custom entry message",
-        "description" :"You can set an entry message for this room.",
-        "how" :"/welcome{botid}"
-      },
-      "leave" :{
-        "name" :"Custom exit message",
-        "description" :"You can set a message to leave this room.",
-        "how" :"/leave{botid}"
-      },
-      "msginfo": {
-        "name": "Message Debugging Commands",
-        "description": "You can see the information of the message.",
-        "how": "/msginfo{botid}"
-      },
-      "homepage": {
-        "name": "Go to the homepage!",
-        "description": "You can go to MoriBot's homepage.",
-        "how": "/homepage{botid}"
-      },
-      "weather": {
-        "name": "Browse the weather!",
-        "description": "Find out the weather in your area.",
-        "how": "/weather{botid}"
-      },
-      "calc": {
-        "name": "Calculation!",
-        "description": "You can calculate the expression you want.",
-        "how": "/calc{botid}"
-      },
-      "twice" :"Here are some tips you already have!",
+      "content" :"What this bot can do is described on the homepage.\nThe current version of this bot is {version}.",
       "contact" :"Contact Developer",
       "donate": "Donate"
     }

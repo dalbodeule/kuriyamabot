@@ -1,4 +1,4 @@
-import * as Telegram from 'node-telegram-bot-api'
+import * as Telegram from "node-telegram-bot-api"
 
 export default (user: Telegram.User): string => {
   if (!user.username) {

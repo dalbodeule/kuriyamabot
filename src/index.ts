@@ -1,58 +1,49 @@
-import * as Telegram from 'node-telegram-bot-api'
-import * as log4js from 'log4js'
-import { config as global, Config } from './config'
-import functions from './functions'
-import * as functionBase from './functionBase';
+import * as log4js from "log4js"
+import * as Telegram from "node-telegram-bot-api"
+import { config, Config } from "./config"
+import operactors from "./operactor"
 
 const logger = log4js.getLogger()
 
 try {
-  if (global.dev === false) {
-    logger.level = 'INFO'
-    process.env.NODE_ENV = 'production'
-  } else if (global.dev === true) {
-    logger.level = 'DEBUG'
-    process.env.NODE_ENV = 'development'
+  if (config.dev === false) {
+    logger.level = "INFO"
+    process.env.NODE_ENV = "production"
   } else {
-    logger.level = 'ALL'
-    process.env.NODE_ENV = 'development'
+    logger.level = "DEBUG"
+    process.env.NODE_ENV = "development"
   }
 
-  logger.info('Welcome to telegram bot!')
-  logger.debug('Debug Mode!')
+  logger.info("Welcome to telegram bot!")
+  logger.debug("Debug Mode!")
 
-  const bot = new Telegram(global.apiKey.telegram, {
+  const bot = new Telegram(config.apiKey.telegram, {
+    filepath: false,
     polling: true,
-    filepath: false
   })
 
-  logger.info('Bot is activated!');
+  logger.info("Bot is activated!");
 
   (async () => {
     try {
-      (global.bot as Partial<Config['bot']>)= await bot.getMe()
+      (config.bot as Partial<Config["bot"]>) = await bot.getMe()
 
-      const loadfunctions: {
-        [index: string]:
-        functionBase.message |
-        functionBase.inline |
-        functionBase.command |
-        functionBase.callback
-      } = {}
+      for (const key in operactors) {
+        if (key) {
+          const temp = new operactors[key](bot, logger, config)
+          temp.run()
 
-      for(let key in functions) {
-        loadfunctions[key] = new functions[key](bot, logger, global)
-        loadfunctions[key].run()
-
-        logger.debug(`module '${key}' successfuly load`)
+          logger.debug(`module '${key}' successfuly load`)
+        }
       }
-      
-      logger.info('Ready!')
+
+      logger.info("Ready!")
     } catch (err) {
       logger.error(err)
       process.exit(0)
     }
   })()
 } catch (err) {
+// tslint:disable-next-line: no-console
   console.error(err)
 }

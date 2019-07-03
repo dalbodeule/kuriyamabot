@@ -1,68 +1,68 @@
-import db from '../table'
-import redis from '../_redis'
-import * as types from '../../types'
+import * as types from "../../types"
+import redis from "../_redis"
+import db from "../table"
 
 const SUCCESS = true
-const PREFIX = 'lang:'
-const EXPIRE = 60*60*24
+const PREFIX = "lang:"
+const EXPIRE = 60 * 60 * 24
 
 class Language {
-  static async find (user_id: number): Promise<types.model.returnLanguage | undefined> {
-    let query = await redis.getAsync(PREFIX + user_id)
+  public static async find(userId: number): Promise<types.model.IreturnLanguage | undefined> {
+    const query = await redis.getAsync(PREFIX + userId)
 
     if (query) {
       return {
-        user_id,
-        lang: query
+        lang: query,
+        user_id: userId,
       }
     } else {
-      let result = await db.Language.findOne({
+      const result = await db.Language.findOne({
         where: {
-          user_id
-        }
+          user_id: userId,
+        },
       })
 
       let temp
       if (result) {
-        temp = (<types.model.returnLanguage>result.toJSON())
-        redis.setAsync(PREFIX + user_id, temp.lang, 'EX', EXPIRE)
+        temp = (result.toJSON() as types.model.IreturnLanguage)
+        redis.setAsync(PREFIX + userId, temp.lang, "EX", EXPIRE)
       }
-      
+
       return temp
     }
   }
 
-  static async create (user_id: number, lang: string): Promise<boolean> {
+  public static async create(userId: number, lang: string): Promise<boolean> {
     await db.User.findOrCreate({
       where: {
-        id: user_id
-      }
+        id: userId,
+      },
     })
 
     await db.Language.findOrCreate({
-      where: {
-        user_id
-      },
       defaults: {
-        lang
-      }
+        lang,
+      },
+      where: {
+        user_id: userId,
+      },
     })
 
-    redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + userId, lang, "EX", EXPIRE)
 
     return SUCCESS
   }
 
-  static async update (user_id: number, lang: string): Promise<boolean> {
+  public static async update(userId: number, lang: string): Promise<boolean> {
     await db.Language.update({
-      lang
+      lang,
     }, {
       where: {
-        user_id
-      }
+        user_id: userId,
+      },
     })
 
-    redis.setAsync(PREFIX + user_id, lang, 'EX', EXPIRE)
+    redis.setAsync(PREFIX + userId, lang, "EX", EXPIRE)
 
     return SUCCESS
   }
