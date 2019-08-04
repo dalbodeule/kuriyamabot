@@ -37,11 +37,11 @@ export default class CommandHelp extends Command {
                 }],
                 [{
                   text: "😁 " + temp.inline("command.help.contact"),
-                  url: "https://t.me/small_sunshine",
+                  url: "https://t.me/dalbodeule",
                 }],
                 [{
                   text: "👍 " + temp.inline("command.help.donate"),
-                  url: "https://liberapay.com/small_sunshine",
+                  url: "https://liberapay.com/dalbodeule",
                 }]],
               },
               reply_to_message_id: msg.message_id,
