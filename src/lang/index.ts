@@ -1,10 +1,8 @@
 import * as glob from "glob-promise"
-import * as language from "languages"
 import { Logger } from "log4js"
 import * as Telegram from "node-telegram-bot-api"
 import * as objectPath from "object-path"
 import * as path from "path"
-import { config } from "../config"
 import * as model from "../db"
 
 interface ILangs {
@@ -29,10 +27,10 @@ export default class Lang {
   public async set(msg: Telegram.Message | Telegram.InlineQuery | Telegram.CallbackQuery): Promise<void> {
     if (Object.keys(langs).length === 0) {
       this.logger.info("Language: Language not loaded")
-      const items = await glob(path.join(__dirname, "..", "..", "language", "lang_*.json"))
+      const items = await glob(path.join(__dirname, "..", "..", "language", "lang_*.js"))
       for (const i of items) {
         const temp = require(i)
-        langs[temp.lang.langname] = temp
+        langs[temp.lang.code] = temp
         this.logger.info('Language: "' + temp.lang.langname + '" Load complete')
       }
       this.logger.info("Language: Language load complete")
@@ -115,36 +113,33 @@ export default class Lang {
   }
 
   public inline(code: string): string {
-    if (typeof this.lang === "undefined" || typeof langs[language.getLanguageInfo(this.lang).name] === "undefined") {
-      return (objectPath.get(langs.Korean, code) as string)
-        + "(" + (objectPath.get(langs.English, code) as string) + ")"
-    } else if (language.getLanguageInfo(this.lang).name === "English") {
-      return (objectPath.get(langs.English, code) as string)
+    if (this.lang && this.lang !== "English") {
+      return (objectPath.get(langs[this.lang], code) as string) +
+        "(" + (objectPath.get(langs.en, code) as string) + ")"
     } else {
-      return (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) as string) +
-        "(" + (objectPath.get(langs.English, code) as string) + ")"
+      return (objectPath.get(langs.en, code) as string)
     }
   }
 
   public text(code: string): string {
-    return (objectPath.get(langs[language.getLanguageInfo(this.lang).name], code) as string)
+    return (objectPath.get(langs[this.lang], code) as string)
   }
 
   public getLangList(): ILangs {
     return langs
   }
 
-  private getISOCode(originCode: string|null, defaultCode?: string) {
+  private getISOCode(originCode: string|null) {
     if (originCode) {
       const code = originCode.match(/^([a-z]{2})/)
 
       if (code && code[1]) {
         return code[1]
       } else {
-        return (defaultCode ? defaultCode : "en")
+        return "en"
       }
     } else {
-      return (defaultCode ? defaultCode : "en")
+      return "en"
     }
   }
 }

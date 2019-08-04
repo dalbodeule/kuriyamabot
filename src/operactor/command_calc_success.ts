@@ -42,9 +42,9 @@ export default class CommandCalcSuccess extends Command {
               }
             })
 
-            result = math.eval(str[0], scope)
+            result = math.evaluate(str[0], scope)
           } else {
-            result = math.eval(match[1])
+            result = math.evaluate(match[1])
           }
 
           await this.bot.sendMessage(chatid, result, {

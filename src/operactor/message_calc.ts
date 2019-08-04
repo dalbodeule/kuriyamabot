@@ -49,9 +49,9 @@ export default class messageCalc extends Message {
               }
           })
 
-          result = math.eval(string[0], scope)
+          result = math.evaluate(string[0], scope)
         } else {
-          result = math.eval(msg.text!)
+          result = math.evaluate(msg.text!)
         }
 
         await this.bot.sendMessage(chatid, result, {
