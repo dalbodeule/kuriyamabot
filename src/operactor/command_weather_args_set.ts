@@ -4,7 +4,7 @@ import { Config } from "../config"
 import * as modules from "../modules"
 import { command as Command } from "../operactorBase"
 
-export default class CommandWeatherSuccess extends Command {
+export default class CommandWeatherArgsSet extends Command {
   private Weather: modules.weather
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)

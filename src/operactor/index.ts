@@ -7,27 +7,27 @@ import callbackChangeLang from "./callback_changeLang"
 
 import chatImage from "./chat_image"
 import chatSearch from "./chat_search"
-import commandCalcError from "./command_calc_error"
-import commandCalcSuccess from "./command_calc_success"
+import commandCalcArgsNull from "./command_calc_args_null"
+import commandCalcArgsSet from "./command_calc_args_set"
 import commandHelp from "./command_help"
 import commandHomepage from "./command_homepage"
-import commandImageError from "./command_image_error"
-import commandImageSuccess from "./command_image_success"
+import commandImageArgsNull from "./command_image_args_null"
+import commandImageArgsSet from "./command_image_args_set"
 import commandLang from "./command_lang"
-import commandLeaveError from "./command_leave_error"
-import commandLeaveSuccess from "./command_leave_success"
+import commandLeaveError from "./command_leave_args_null"
+import commandLeaveSuccess from "./command_leave_args_set"
 import commandMe from "./command_me"
 import commandMsginfo from "./command_msginfo"
-import commandSearchError from "./command_search_error"
-import commandSearchSuccess from "./command_search_success"
+import commandSearchArgsNull from "./command_search_args_null"
+import commandSearchArgsSet from "./command_search_args_set"
 import commandStart from "./command_start"
-import commandTranslateError from "./command_translate_error"
-import commandTranslateSuccess from "./command_translate_success"
+import commandTranslateArgsNull from "./command_translate_args_null"
+import commandTranslateArgsSet from "./command_translate_args_set"
 import commandUptime from "./command_uptime"
-import commandWeatherError from "./command_weather_error"
-import commandWeatherSuccess from "./command_weather_success"
-import commandWelcomeError from "./command_welcome_error"
-import commandWelcomeSuccess from "./command_welcome_success"
+import commandWeatherArgsNull from "./command_weather_args_null"
+import commandWeatherArgsSet from "./command_weather_args_set"
+import commandWelcomeArgsNull from "./command_welcome_args_null"
+import commandWelcomeArgsSet from "./command_welcome_args_set"
 import commandWhatanime from "./command_whatanime"
 
 // inline
@@ -58,27 +58,27 @@ const modules: {
 
   chatImage,
   chatSearch,
-  commandCalcSuccess,
-  commandCalcError,
+  commandCalcArgsNull,
+  commandCalcArgsSet,
   commandHelp,
   commandHomepage,
-  commandImageSuccess,
-  commandImageError,
+  commandImageArgsNull,
+  commandImageArgsSet,
   commandLang,
   commandLeaveSuccess,
   commandLeaveError,
   commandMe,
   commandMsginfo,
-  commandSearchSuccess,
-  commandSearchError,
+  commandSearchArgsNull,
+  commandSearchArgsSet,
   commandStart,
-  commandTranslateSuccess,
-  commandTranslateError,
+  commandTranslateArgsNull,
+  commandTranslateArgsSet,
   commandUptime,
-  commandWeatherSuccess,
-  commandWeatherError,
-  commandWelcomeSuccess,
-  commandWelcomeError,
+  commandWeatherArgsNull,
+  commandWeatherArgsSet,
+  commandWelcomeArgsNull,
+  commandWelcomeArgsSet,
   commandWhatanime,
 
   inlineHelp,

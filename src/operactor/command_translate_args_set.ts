@@ -5,7 +5,7 @@ import { command as Command } from "../operactorBase"
 
 import translate = require("google-translate-api")
 
-export default class CommandTranslateSuccess extends Command {
+export default class CommandTranslateArgsSet extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp("^/(?:tr|번역|translate)+(?:@" +
