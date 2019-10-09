@@ -23,12 +23,9 @@ export default class CommandWeatherArgsNull extends Command {
           this.helper.getLang(msg, this.logger),
         ])
 
-        await this.bot.sendMessage(chatid, "☀️❗️ " +
-          temp.text("command.weather.blank"), {
+        await this.bot.sendMessage(chatid, "☀️ " +
+          temp.text("command.weather.command"), {
             reply_to_message_id: msg.message_id,
-            reply_markup: {
-              force_reply: true, selective: true,
-            },
           })
         this.logger.info("command: weather, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +

@@ -24,8 +24,7 @@ import commandStart from "./command_start"
 import commandTranslateArgsNull from "./command_translate_args_null"
 import commandTranslateArgsSet from "./command_translate_args_set"
 import commandUptime from "./command_uptime"
-import commandWeatherArgsNull from "./command_weather_args_null"
-import commandWeatherArgsSet from "./command_weather_args_set"
+import commandWeather from "./command_weather"
 import commandWelcomeArgsNull from "./command_welcome_args_null"
 import commandWelcomeArgsSet from "./command_welcome_args_set"
 import commandWhatanime from "./command_whatanime"
@@ -75,8 +74,7 @@ const modules: {
   commandTranslateArgsNull,
   commandTranslateArgsSet,
   commandUptime,
-  commandWeatherArgsNull,
-  commandWeatherArgsSet,
+  commandWeather,
   commandWelcomeArgsNull,
   commandWelcomeArgsSet,
   commandWhatanime,

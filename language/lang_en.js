@@ -46,12 +46,24 @@ module.exports = {
       not_found: "No search results."
     },
     welcome:{
-      success:"The message is set up well.",
-      help:"How to write an entry message :{roomid} specifies the name of this room, and {userid} is the name of the user. If you turn off, you will not get an entry message.\n Examples :`Welcome to {roomid}, {userid}!`"
+      success_msg:"The message is set up well.",
+      help:
+`
+How to write an entry message: {roomid} specifies the name of this room, and {userid} is the name of the user.
+You can turn the entry message on and off with on/off.
+
+Examples :\`Welcome to {roomid}, {userid}!\`
+`
     },
     leave:{
-      success:"The message is set up well.",
-      help:"How to write an entry message :{roomid} specifies the name of this room, and {userid} is the name of the user. If you turn off, you will not get a message to leave.\n Examples :`{userid} has been removed from {roomid}.`"
+      success_msg:"The message is set up well.",
+      help:
+`
+How to write an leave message: {roomid} specifies the name of this room, and {userid} is the name of the user.
+You can turn the leave message on and off with on/off.
+
+Examples :\`{userid} has been removed from {roomid}.\`
+`
     },
     msginfo: {
       success: "It is the information of the desired message.",
@@ -62,14 +74,9 @@ module.exports = {
       button: "Shortcuts"
     },
     weather: {
-      message: {
-        command: "The weather information for `{location}` you requested.\n\nWind speed: {windSpeed}m/s\nWind direction: {windDeg}\nHumidity: {humidity}%\nCurrent temperature: {tempCur}℃\nCurrent weather: {weather}",
-        map: "The weather information you requested.\n\nWind speed: {windSpeed}m/s\nWind direction: {windDeg}\nHumidity: {humidity}%\nCurrent temperature: {tempCur}℃\nCurrent weather: {weather}"
-      },
+      message: "The weather information of the place you asked.\n\nWind speed: {windSpeed}m/s\nWind direction: {windDeg}\nHumidity: {humidity}%\nCurrent temperature: {tempCur}℃\nCurrent weather: {weather}",
+      command: "Send me where you want to find the weather! Let's find the weather information quickly! In addition, you can't send locations from your PC yet!",
       apierror: "I'm having trouble getting weather information. Please try again in a few minutes.",
-      blank: "Please enter the name of the city you wish!",
-      not_found: "I did not find the area!",
-      geocode_error: "Unable to get location!"
     },
     google: {
       info: "Please send me a message to translate in reply!",

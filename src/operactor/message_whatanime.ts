@@ -11,11 +11,11 @@ export default class MessageWhatanime extends Message {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
 
-    this.TraceMoe = new TraceMoe(this.config.apiKey.whatanime)
+    this.TraceMoe = new TraceMoe(this.config.apiKey.tracemoe)
   }
 
   protected async module(msg: Telegram.Message) {
-    const regex = new RegExp("^(?:(?:무슨 ?애니|whatanime|anime)\\?*|\\/(?:무슨애니|whatanime)+(?:@" +
+    const regex = new RegExp("^(?:(?:무슨 ?애니|whatanime|anime|ㅁㅅㅇㄴ)\\?*|\\/(?:무슨애니|whatanime)+(?:@" +
       this.config.bot.username + ")? ?)$")
     try {
       if (Math.round((new Date()).getTime() / 1000) - msg.date >= 180) { return }

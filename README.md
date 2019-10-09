@@ -2,9 +2,9 @@
  
 telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
 
-## 제작 및 번역도움
+## Maker, Translator
 
-[볕뉘](https://github.com/small-sunshines) [볕뉘(Personal Git)](https://git.mori.space/small-sunshine) [@small_sunshine](https://t.me/small_sunshine)
+github: [달보드레](https://github.com/dalbodeule) telegram: [@dalbodeule](https://t.me/dalbodeule)
 
 ## 구현기능 목록
 
@@ -17,7 +17,7 @@ telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
  - [x] /me - 자신의 정보 확인
  - [x] /lang - 언어 변경
  - [x] /help - 도움말 명령어
- - [x] /whatanime - whatanime.ga 검색
+ - [x] /whatanime - trace.moe 검색
  - [x] /whatanime - GIF/동영상 검색
  - [x] /msginfo - 메세지 디버깅용 명령어
  - [x] /homepage - 홈페이지 명령어
@@ -61,7 +61,7 @@ telegram [https://t.me/kuriyamabot](https://t.me/kuriyamabot)
  - - [x] 구글 이미지검색
 
 ### 제작자 기능
- - [ ] /msginfo - 메세지 정보보기
+ - [x] /msginfo - 메세지 정보보기
 
 ### i18n
  - [x] 한국어
