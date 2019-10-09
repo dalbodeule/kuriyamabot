@@ -7,7 +7,7 @@ export default class CommandWelcomeArgsSet extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp("^/welcome+(?:@" +
-      this.config.bot.username + ")? ([^\r]+)$")
+      this.config.bot.username + ")? (?:(set) ([^\r]+)|(on|off|reset))$")
   }
 
   protected async module(msg: Telegram.Message, match: RegExpExecArray) {
@@ -18,7 +18,10 @@ export default class CommandWelcomeArgsSet extends Command {
           ", username: " + this.helper.getUser(msg.from!) +
           ", command: " + msg.text + ", type: pending")
 
-        let isAdmin, send, temp, admins: Telegram.ChatMember[]
+        let isAdmin
+        let send
+        let temp
+        let admins: Telegram.ChatMember[]
         [send, temp, admins] = await Promise.all([
           this.bot.sendChatAction(chatid, "typing"),
           this.helper.getLang(msg, this.logger),
@@ -43,34 +46,49 @@ export default class CommandWelcomeArgsSet extends Command {
           } else {
             const value = await this.model.welcomeMessage.find(chatid)
             if (!value) {
-              await this.model.welcomeMessage.create(chatid, match[1])
+              await this.model.welcomeMessage.create(chatid, "")
+            }
+
+            if (match[1] === "set") {
+              await this.model.welcomeMessage.update(chatid, match[2], null)
+
               await this.bot.sendMessage(chatid, " " +
                 temp.text("command.welcome.success"), {
                   reply_to_message_id: msg.message_id,
                 })
               this.logger.info("command: welcome, chatid: " + chatid +
                 ", username: " + this.helper.getUser(msg.from!) +
-                ", command: " + msg.text + ", type: create success")
-            } else {
-              if (value && !value.message) {
-                await this.model.welcomeMessage.update(chatid, match[1], null)
-                await this.bot.sendMessage(chatid, " " +
-                  temp.text("command.welcome.success"), {
-                    reply_to_message_id: msg.message_id,
-                  })
-                this.logger.info("command: welcome, chatid: " + chatid +
-                  ", username: " + this.helper.getUser(msg.from!) +
-                  ", command: " + msg.text + ", type: update success")
-              } else {
-                await this.model.welcomeMessage.update(chatid, match[1], null)
-                await this.bot.sendMessage(chatid, " " +
-                  temp.text("command.welcome.success"), {
-                    reply_to_message_id: msg.message_id,
-                  })
-                this.logger.info("command: welcome, chatid: " + chatid +
-                  ", username: " + this.helper.getUser(msg.from!) +
-                  ", command: " + msg.text + ", type: update success")
-              }
+                ", command: " + msg.text + ", type: set success")
+            } else if (match[3] === "on") {
+              await this.model.welcomeMessage.update(chatid, null, true)
+
+              await this.bot.sendMessage(chatid, " " +
+                temp.text("command.welcome.success"), {
+                  reply_to_message_id: msg.message_id,
+                })
+              this.logger.info("command: welcome, chatid: " + chatid +
+                ", username: " + this.helper.getUser(msg.from!) +
+                ", command: " + msg.text + ", type: on success")
+            } else if (match[3] === "off") {
+              await this.model.welcomeMessage.update(chatid, null, false)
+
+              await this.bot.sendMessage(chatid, " " +
+                temp.text("command.welcome.success"), {
+                  reply_to_message_id: msg.message_id,
+                })
+              this.logger.info("command: welcome, chatid: " + chatid +
+                ", username: " + this.helper.getUser(msg.from!) +
+                ", command: " + msg.text + ", type: off success")
+            } else if (match[3] === "reset") {
+              await this.model.welcomeMessage.update(chatid, "", null)
+
+              await this.bot.sendMessage(chatid, " " +
+                temp.text("command.welcome.success"), {
+                  reply_to_message_id: msg.message_id,
+                })
+              this.logger.info("command: welcome, chatid: " + chatid +
+                ", username: " + this.helper.getUser(msg.from!) +
+                ", command: " + msg.text + ", type: reset success")
             }
           }
         }

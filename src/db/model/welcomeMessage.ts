@@ -42,13 +42,9 @@ class Message {
       },
     })
 
-    await db.WelcomeMessage.findOrCreate({
-      defaults: {
-        message,
-      },
-      where: {
-        user_id: userId,
-      },
+    await db.WelcomeMessage.create({
+      message,
+      user_id: userId,
     })
 
     redis.setAsync(PREFIX + userId, message, "EX", EXPIRE)
@@ -61,15 +57,15 @@ class Message {
 
     if ( message && isEnabled ) {
       updateData = { message, isEnabled }
-    } else if ( message ) {
+    } else if (typeof message === "string") {
       updateData = { message }
-    } else if ( isEnabled ) {
+    } else if (typeof isEnabled === "boolean") {
       updateData = { isEnabled }
     } else {
       return false
     }
 
-    await db.LeaveMessage.update(updateData, {
+    await db.WelcomeMessage.update(updateData, {
       where: {
         user_id: userId,
       },

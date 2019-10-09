@@ -13,11 +13,11 @@ export default class CommandLeaveArgsNull extends Command {
   protected async module(msg: Telegram.Message, match: RegExpExecArray) {
     if (Math.round((new Date()).getTime() / 1000) - msg.date <= 180) {
       const chatid = msg.chat.id
-      let temp
       try {
         this.logger.info("command: leave, chatid: " + chatid +
           ", username: " + this.helper.getUser(msg.from!) +
           ", command: " + msg.text + ", type: pending")
+        // tslint:disable-next-line: no-shadowed-variable
         const [send, temp] = await Promise.all([
           this.bot.sendChatAction(chatid, "typing"),
           this.helper.getLang(msg, this.logger),
@@ -30,10 +30,11 @@ export default class CommandLeaveArgsNull extends Command {
             ", command: " + msg.text + ", type: is not group")
         } else {
           await this.bot.sendMessage(chatid, "🔧 " +
-            temp.text("command.leave.help"), {
-              reply_to_message_id: msg.message_id,
-              parse_mode: "Markdown",
-            })
+            temp.text("command.leave.help")
+              .replace(/{botid}/g, this.config.bot.username!!), {
+                reply_to_message_id: msg.message_id,
+                parse_mode: "Markdown",
+              })
           this.logger.info("command: leave, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +
             ", command: " + msg.text + ", type: success")

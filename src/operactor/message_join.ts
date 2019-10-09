@@ -31,9 +31,7 @@ export default class MessageJoin extends Message {
             .replace(/{userid}/g, msg.new_chat_members[0].first_name), {
             reply_to_message_id: msg.message_id,
           })
-        } else if (value.message === "off") {
-
-        } else {
+        } else if (value.isEnabled) {
           const message = value.message || temp.text("message.join")
           await this.bot.sendMessage(chatid, message
             .replace(/{roomid}/g, msg.chat.title!)

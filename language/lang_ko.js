@@ -45,23 +45,27 @@ module.exports = {
       not_found: "검색 결과가 없습니다."
     },
     welcome: {
-      success_msg: "메세지가 잘 설정되었습니다.",
+      success: "메세지가 잘 설정되었습니다.",
       help: 
 `
 입장메세지 작성법: {roomid} 로 이 방의 이름을, {userid} 로 들어온 유저의 이름을 지정합니다.
-on/off로 입장메세지를 키고 끌 수 있습니다.
 
-예시: \`{roomid}에 어서오세요! {userid}님!\`
+설정: \`/welcome@{botid} set {roomid}에 어서오세요! {userid}님!\`
+활성화: \`/welcome@{botid} on\`
+비활성화: \`/welcome@{botid} off\`
+재설정: \`/welcome@{botid} reset\`
 `
     },
     leave: {
-      success_msg: "메세지가 잘 설정되었습니다.",
+      success: "메세지가 잘 설정되었습니다.",
       help: 
 `
 퇴장메세지 작성법: {roomid} 로 이 방의 이름을, {userid} 로 나간 유저의 이름을 지정합니다.
-on/off로 퇴장메세지를 키고 끌 수 있습니다.
 
-예시: \`{roomid}에서 {userid}가 나갔습니다.\`
+설정: \`/leave@{botid} set {roomid}에서 {userid}가 나갔습니다.\`
+활성화: \`/leave@{botid} on\`
+비활성화: \`/leave@{botid} off\`
+재설정: \`/leave@{botid} reset\`
 `
     },
     msginfo: {

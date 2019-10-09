@@ -42,13 +42,9 @@ class Message {
       },
     })
 
-    await db.LeaveMessage.findOrCreate({
-      defaults: {
-        message,
-      },
-      where: {
-        userId,
-      },
+    await db.LeaveMessage.create({
+      message,
+      user_id: userId,
     })
 
     redis.setAsync(PREFIX + userId, message, "EX", EXPIRE)
@@ -59,11 +55,11 @@ class Message {
   public static async update(userId: number, message: string|null, isEnabled: boolean|null): Promise<boolean> {
     let updateData
 
-    if ( message && isEnabled ) {
+    if ( typeof message === "string" && typeof isEnabled === "boolean" ) {
       updateData = { message, isEnabled }
-    } else if ( message ) {
+    } else if ( typeof message === "string" ) {
       updateData = { message }
-    } else if ( isEnabled ) {
+    } else if ( typeof isEnabled === "boolean" ) {
       updateData = { isEnabled }
     } else {
       return false

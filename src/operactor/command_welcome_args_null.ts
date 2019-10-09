@@ -30,10 +30,11 @@ export default class CommandWelcomeArgsNull extends Command {
             ", command: " + msg.text + ", type: is not group")
         } else {
           await this.bot.sendMessage(chatid, "🔧 " +
-            temp.text("command.welcome.help"), {
-              reply_to_message_id: msg.message_id,
-              parse_mode: "Markdown",
-            })
+            temp.text("command.welcome.help")
+              .replace(/{botid}/g, this.config.bot.username!!), {
+                reply_to_message_id: msg.message_id,
+                parse_mode: "Markdown",
+              })
           this.logger.info("command: welcome, chatid: " + chatid +
             ", username: " + this.helper.getUser(msg.from!) +
             ", command: " + msg.text + ", type: success")

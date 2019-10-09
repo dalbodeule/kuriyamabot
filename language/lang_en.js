@@ -46,23 +46,29 @@ module.exports = {
       not_found: "No search results."
     },
     welcome:{
-      success_msg:"The message is set up well.",
+      success:"The message is set up well.",
       help:
 `
 How to write an entry message: {roomid} specifies the name of this room, and {userid} is the name of the user.
 You can turn the entry message on and off with on/off.
 
-Examples :\`Welcome to {roomid}, {userid}!\`
+Setting: \`/welcome@{botid} set Welcome to {roomid}, {userid}!\`
+Activate: \`/welcome@{botid} on\`
+Deactivate: \`/welcome@{botid} off\`
+Reset: \`/welcome@{botid} reset\`
 `
     },
     leave:{
-      success_msg:"The message is set up well.",
+      success: "The message is set up well.",
       help:
 `
 How to write an leave message: {roomid} specifies the name of this room, and {userid} is the name of the user.
 You can turn the leave message on and off with on/off.
 
-Examples :\`{userid} has been removed from {roomid}.\`
+Setting: \`/leave@{botid} set {userid} has been removed from {roomid}.\`
+Activate: \`/leave@{botid} on\`
+Deactivate: \`/leave@{botid} off\`
+Reset: \`/leave@{botid} reset\`
 `
     },
     msginfo: {

@@ -7,7 +7,7 @@ export default class CommandLeaveArgsSet extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp("^/leave+(?:@" +
-      this.config.bot.username + ")? ([^\r]+)$")
+      this.config.bot.username + ")? (?:(set) ([^\r]+)|(on|off|reset))$")
   }
 
   protected async module(msg: Telegram.Message, match: RegExpExecArray) {
@@ -45,36 +45,50 @@ export default class CommandLeaveArgsSet extends Command {
               ", command: " + msg.text + ", type: low Permission")
           } else {
             const value = await this.model.leaveMessage.find(chatid)
-
             if (!value) {
-              await this.model.leaveMessage.create(chatid, match[1])
+              await this.model.leaveMessage.create(chatid, "")
+            }
+
+            if (match[1] === "set") {
+              await this.model.leaveMessage.update(chatid, match[2], null)
+
               await this.bot.sendMessage(chatid, " " +
                 temp.text("command.leave.success"), {
                   reply_to_message_id: msg.message_id,
                 })
               this.logger.info("command: leave, chatid: " + chatid +
                 ", username: " + this.helper.getUser(msg.from!) +
-                ", command: " + msg.text + ", type: create success")
-            } else {
-              if (value && !value.message) {
-                await this.model.leaveMessage.update(chatid, match[1], null)
-                await this.bot.sendMessage(chatid, " " +
-                  temp.text("command.leave.success"), {
-                    reply_to_message_id: msg.message_id,
-                  })
-                this.logger.info("command: leave, chatid: " + chatid +
-                  ", username: " + this.helper.getUser(msg.from!) +
-                  ", command: " + msg.text + ", type: update success")
-              } else {
-                await this.model.leaveMessage.update(chatid, match[1], null)
-                await this.bot.sendMessage(chatid, " " +
-                  temp.text("command.leave.success"), {
-                    reply_to_message_id: msg.message_id,
-                  })
-                this.logger.info("command: leave, chatid: " + chatid +
-                  ", username: " + this.helper.getUser(msg.from!) +
-                  ", command: " + msg.text + ", type: update success")
-              }
+                ", command: " + msg.text + ", type: set success")
+            } else if (match[3] === "on") {
+              await this.model.leaveMessage.update(chatid, null, true)
+
+              await this.bot.sendMessage(chatid, " " +
+                temp.text("command.leave.success"), {
+                  reply_to_message_id: msg.message_id,
+                })
+              this.logger.info("command: leave, chatid: " + chatid +
+                ", username: " + this.helper.getUser(msg.from!) +
+                ", command: " + msg.text + ", type: on success")
+            } else if (match[3] === "off") {
+              await this.model.leaveMessage.update(chatid, null, false)
+
+              await this.bot.sendMessage(chatid, " " +
+                temp.text("command.leave.success"), {
+                  reply_to_message_id: msg.message_id,
+                })
+              this.logger.info("command: leave, chatid: " + chatid +
+                ", username: " + this.helper.getUser(msg.from!) +
+                ", command: " + msg.text + ", type: off success")
+            } else if (match[3] === "reset") {
+              await this.model.leaveMessage.update(chatid, "", null)
+
+              await this.bot.sendMessage(chatid, " " +
+                temp.text("command.leave.success"), {
+                  reply_to_message_id: msg.message_id,
+                })
+              this.logger.info("command: leave, chatid: " + chatid +
+                ", username: " + this.helper.getUser(msg.from!) +
+                ", command: " + msg.text + ", type: reset success")
             }
           }
         }
