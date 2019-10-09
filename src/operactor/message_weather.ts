@@ -76,7 +76,7 @@ export default class MessageWeather extends Message {
             msg.location.latitude, msg.location.longitude)
           if (weather.success) {
             await this.bot.sendMessage(chatid, "🗒 " +
-              temp.text("command.weather.message.map")
+              temp.text("command.weather.message")
               .replace("{windSpeed}", "" + weather.windSpeed!)
               .replace("{windDeg}", "" + weather.windDeg!)
               .replace("{humidity}", "" + weather.humidity!)
