@@ -3,7 +3,7 @@ import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
 import { command as Command } from "../operactorBase"
 
-export default class CommandCalcError extends Command {
+export default class CommandCalcArgsNull extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp("^/(?:calc|계산)+(?:@" +

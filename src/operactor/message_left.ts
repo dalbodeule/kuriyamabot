@@ -38,9 +38,7 @@ export default class MessageLeft extends Message {
             .replace(/{userid}/g, msg.left_chat_member.first_name), {
             reply_to_message_id: msg.message_id,
           })
-        } else if (value.message === "off") {
-
-        } else {
+        } else if (value.isEnabled) {
           const message = value.message || temp.text("message.left")
           await this.bot.sendMessage(chatid, message
             .replace(/{roomid}/g, msg.chat.title!)

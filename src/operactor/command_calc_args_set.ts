@@ -5,7 +5,7 @@ import { command as Command } from "../operactorBase"
 
 import * as math from "mathjs"
 
-export default class CommandCalcSuccess extends Command {
+export default class CommandCalcArgsSet extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp("^/(?:calc|계산)+(?:@" +

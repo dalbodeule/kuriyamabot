@@ -46,11 +46,27 @@ module.exports = {
     },
     welcome: {
       success: "메세지가 잘 설정되었습니다.",
-      help: "입장메세지 작성법: {roomid} 로 이 방의 이름을, {userid} 로 들어온 유저의 이름을 지정합니다. off 로 하실 경우 입장메세지가 나오지 않습니다.\n예시: `{roomid}에 어서오세요! {userid}님!`"
+      help: 
+`
+입장메세지 작성법: {roomid} 로 이 방의 이름을, {userid} 로 들어온 유저의 이름을 지정합니다.
+
+설정: \`/welcome@{botid} set {roomid}에 어서오세요! {userid}님!\`
+활성화: \`/welcome@{botid} on\`
+비활성화: \`/welcome@{botid} off\`
+재설정: \`/welcome@{botid} reset\`
+`
     },
     leave: {
       success: "메세지가 잘 설정되었습니다.",
-      help: "입장메세지 작성법: {roomid} 로 이 방의 이름을, {userid} 로 들어온 유저의 이름을 지정합니다. off 로 하실 경우 퇴장메세지가 나오지 않습니다.\n예시: `{roomid}에서 {userid}가 나갔습니다.`"
+      help: 
+`
+퇴장메세지 작성법: {roomid} 로 이 방의 이름을, {userid} 로 나간 유저의 이름을 지정합니다.
+
+설정: \`/leave@{botid} set {roomid}에서 {userid}가 나갔습니다.\`
+활성화: \`/leave@{botid} on\`
+비활성화: \`/leave@{botid} off\`
+재설정: \`/leave@{botid} reset\`
+`
     },
     msginfo: {
       success: "원하시는 메세지의 정보입니다.",
@@ -61,14 +77,9 @@ module.exports = {
       button: "바로가기"
     },
     weather: {
-      message: {
-        command: "요청하신 `{location}`의 날씨정보입니다.\n\n풍속: {windSpeed}m/s\n풍향: {windDeg}\n습도: {humidity}%\n\n현재기온: {tempCur}℃\n현재날씨: {weather}",
-        map: "요청하신 날씨정보입니다.\n\n풍속: {windSpeed}m/s\n풍향: {windDeg}\n습도: {humidity}%\n\n현재기온: {tempCur}℃\n현재날씨: {weather}"
-      },
+      message: "물어보신 장소의 날씨정보입니다.\n\n풍속: {windSpeed}m/s\n풍향: {windDeg}\n습도: {humidity}%\n\n현재기온: {tempCur}℃\n현재날씨: {weather}",
+      command: "날씨를 알아보고 싶은 위치를 보내주세요! 빨리 날씨정보를 찾아볼게요? 참고로, 아직 PC에서는 위치를 보낼 수 없어요!",
       apierror: "날씨정보를 받아오는 데 문제가 생겼습니다. 잠시 후 다시 시도해주세요.",
-      blank: "원하시는 도시의 이름을 입력해주세요!",
-      not_found: "해당하는 지역을 찾지 못했습니다!",
-      geocode_error: "위치를 찾아올 수 없습니다."
     },
     google: {
       info: "답장으로 번역하실 메세지를 보내주세요!",

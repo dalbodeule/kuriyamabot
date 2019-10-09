@@ -4,7 +4,7 @@ import * as Telegram from "node-telegram-bot-api"
 import { Config } from "../config"
 import { command as Command } from "../operactorBase"
 
-export default class CommandSearchSuccess extends Command {
+export default class CommandSearchArgsSet extends Command {
   constructor(bot: Telegram, logger: Logger, config: Config) {
     super (bot, logger, config)
     this.regexp = new RegExp("^(?:/(?:검색|google|search|gg)+(?:@" +
