@@ -24,7 +24,7 @@
     "google-parser": "^2.1.3",
     "google-translate-api": "github:vitalets/google-translate-api",
     "log4js": "^4.5.1",
-    "mathjs": "^6.0.3",
+    "mathjs": "^7.5.1",
     "mysql2": "^1.6.5",
     "node-telegram-bot-api": "^0.30.0",
     "object-path": "^0.11.4",
